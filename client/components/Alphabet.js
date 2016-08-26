@@ -8,13 +8,14 @@ export default class Alphabet extends React.Component {
 	}
 
 	render() {
-		return ( < div > {
-				this.alphabets.map(function(alphabet) {
-						return ( < span > {
-								alphabet
-							} < /span> )
-						})
-				} < /div>
-			)
-		}
+		return ( 
+			< div > 
+				{
+					this.alphabets.map(function(alphabet) {
+						return ( < span > { alphabet } < /span> )
+					})
+				} 
+			< /div>
+		)
 	}
+}
