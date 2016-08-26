@@ -2,7 +2,7 @@ import React from 'react';
 //import * as Models from '../models/'
 import Alphabet from './Alphabet.js';
 import Gallows from './Gallows.js';
-import Letters from './Letters.js';
+import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';
 
@@ -12,7 +12,7 @@ export default class GameBoard extends React.Component {
 		super(props);
 		this.state = {
 			word: [],
-			letters: [],
+			gussedLetters: [],
 			remainingGuess: 0
 		};
 	}
@@ -24,7 +24,7 @@ export default class GameBoard extends React.Component {
 				<Gallows />
 				<RemainingGuess />
 				<Word />
-				<Letters />
+				<GuessedLetters />
 				<Alphabet />
 			</div>
 			)
