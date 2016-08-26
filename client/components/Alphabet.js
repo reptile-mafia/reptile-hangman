@@ -4,16 +4,17 @@ export default class Alphabet extends React.Component {
 
 	constructor(props) {
 		super(props);
-		var alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+		this.alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 	}
 
 	render() {
-		return(
-			<div>
-				
-			</div>
+		return ( < div > {
+				this.alphabets.map(function(alphabet) {
+						return ( < span > {
+								alphabet
+							} < /span> )
+						})
+				} < /div>
 			)
+		}
 	}
-
-}
-
