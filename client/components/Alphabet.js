@@ -12,7 +12,7 @@ export default class Alphabet extends React.Component {
 			<div>
 				
 			</div>
-			)
+		)
 	}
 
 }

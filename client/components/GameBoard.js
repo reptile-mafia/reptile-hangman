@@ -21,13 +21,13 @@ export default class GameBoard extends React.Component {
 		return(
 			<div>
 				Hello!
-				<Gallows />
-				<RemainingGuess />
-				<Word />
+				<Gallows remainingGuess={this.state.remainingGuess} />
+				<RemainingGuess remainingGuess={this.state.remainingGuess} />
+				<Word word={this.state.word} letters={this.state.letters} />
 				<Letters />
 				<Alphabet />
 			</div>
-			)
+		)
 	}
 
 }
