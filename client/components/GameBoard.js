@@ -22,6 +22,7 @@ export default class GameBoard extends React.Component {
 			<div>
 				<Gallows remainingGuess={this.state.remainingGuess} />
 				<RemainingGuess remainingGuess={this.state.remainingGuess} />
+				<Outcome />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={this.state.guessedLetters} />
 				<Alphabet guessedLetters={this.state.guessedLetters} />
