@@ -87,4 +87,14 @@ describe('HangmanGame', function() {
 
   });
 
+  it('should report remainingGuesses', function () {
+    var solution = 'test';
+    var game = HangmanGame.create(solution);
+    expect(game).to.have.property('getRemainingGuesses');
+    expect(game.getRemainingGuesses).to.be.a('function');
+    expect(game.getRemainingGuesses()).to.equal(6);
+    game.guessLetter('z');
+    expect(game.getRemainingGuesses()).to.equal(5);
+  });
+
 });
