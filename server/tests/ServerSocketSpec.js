@@ -14,6 +14,7 @@ describe('HangmangGameServer', function () {
   var client;
 
   before('Start Server', function (done) {
+    // Each connection will start a new game with word 'monday'
     server_io.on('connection', function (socket) {
       controller(socket, game.create('monday'));
     });
@@ -22,7 +23,7 @@ describe('HangmangGameServer', function () {
     });
   });
 
-  before('Start Client', function () {
+  beforeEach('Start Client', function () {
     client = io.connect('http://127.0.0.1:4000');
   });
 
@@ -58,19 +59,35 @@ describe('HangmangGameServer', function () {
       expect(data.guessedLetters).to.deep.equal(['z', 'm']);
       done();
     });
+    client.emit('guessLetter', { letter: 'z' });
     client.emit('guessLetter', { letter: 'm' });
   });
 
-  // it('should emit won event on a victory', function (done) {
-  //   client.on('won', function (data) {
-  //     expect(true);
-  //     done();
-  //   })
-  //   client.emit('guessLetter', { letter: 'o' });
-  //   client.emit('guessLetter', { letter: 'n' });
-  //   client.emit('guessLetter', { letter: 'd' });
-  //   client.emit('guessLetter', { letter: 'a' });
-  //   client.emit('guessLetter', { letter: 'y' });
-  // });
+  it('should emit win event on a victory', function (done) {
+    client.on('win', function (data) {
+      expect(true);
+      done();
+    })
+    client.emit('guessLetter', { letter: 'm' });
+    client.emit('guessLetter', { letter: 'o' });
+    client.emit('guessLetter', { letter: 'n' });
+    client.emit('guessLetter', { letter: 'd' });
+    client.emit('guessLetter', { letter: 'a' });
+    client.emit('guessLetter', { letter: 'y' });
+  });
+
+
+  it('should emit loss event on a loss', function (done) {
+    client.on('loss', function (data) {
+      expect(true);
+      done();
+    })
+    client.emit('guessLetter', { letter: 'q' });
+    client.emit('guessLetter', { letter: 'w' });
+    client.emit('guessLetter', { letter: 'e' });
+    client.emit('guessLetter', { letter: 'r' });
+    client.emit('guessLetter', { letter: 't' });
+    client.emit('guessLetter', { letter: 'z' });
+  });
 
 });

@@ -1,19 +1,24 @@
 module.exports = function (io, game) {
-  // io.on('event', function () {
-  //
-  // });
 
   io.on('guessLetter', function (data) {
     if (game.guessLetter(data.letter)) {
-      io.emit('correctGuess', {
-        remainingGuesses: game.getRemainingGuesses(),
-        guessedLetters: game.getGuessedLetters()
-      });
+      if (game.isWon()) {
+        io.emit('win');
+      } else {
+        io.emit('correctGuess', {
+          remainingGuesses: game.getRemainingGuesses(),
+          guessedLetters: game.getGuessedLetters()
+        });
+      }
     } else {
-      io.emit('incorrectGuess', {
-        remainingGuesses: game.getRemainingGuesses(),
-        guessedLetters: game.getGuessedLetters()
-      });
+      if (game.isLoss()) {
+        io.emit('loss');
+      } else {
+        io.emit('incorrectGuess', {
+          remainingGuesses: game.getRemainingGuesses(),
+          guessedLetters: game.getGuessedLetters()
+        });
+      }
     }
   });
 
