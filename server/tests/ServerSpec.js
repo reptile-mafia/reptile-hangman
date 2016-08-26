@@ -75,5 +75,16 @@ describe('HangmanGame', function() {
     expect(game.isLoss()).to.equal(true);
   });
 
+  it('should lowercase everything internally', function() {
+    var solution = 'TeSt';
+    var game = HangmanGame.create(solution);
+    game.guessLetter('t');
+    expect(game.getWord()).to.deep.equal(['t', null, null, 't']);
+    game.guessLetter('s');
+    expect(game.getWord()).to.deep.equal(['t', null, 's', 't']);
+    game.guessLetter('E');
+    expect(game.getWord()).to.deep.equal(['t', 'e', 's', 't']);
+
+  });
 
 });
