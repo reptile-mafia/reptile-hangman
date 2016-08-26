@@ -12,7 +12,7 @@ export default class GameBoard extends React.Component {
 		super(props);
 		this.state = {
 			word: [],
-			gussedLetters: [],
+			guessedLetters: [],
 			remainingGuess: 0
 		};
 	}
@@ -22,9 +22,9 @@ export default class GameBoard extends React.Component {
 			<div>
 				<Gallows remainingGuess={this.state.remainingGuess} />
 				<RemainingGuess remainingGuess={this.state.remainingGuess} />
-				<Word word={this.state.word} letters={this.state.letters} />
-				<GuessedLetters />
-				<Alphabet />
+				<Word word={this.state.word} />
+				<GuessedLetters guessedLetters={this.state.guessedLetters} />
+				<Alphabet guessedLetters={this.state.guessedLetters} />
 			</div>
 		)
 	}

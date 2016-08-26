@@ -10,7 +10,7 @@ export default class Gallows extends React.Component {
 	render() {
 		return(
 			<div>
-				<img src="http://placehold.it/500x500">
+				<img src="http://placehold.it/500x500" />
 			</div>
 		)
 	}
