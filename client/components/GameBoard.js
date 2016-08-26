@@ -2,6 +2,7 @@ import React from 'react';
 //import * as Models from '../models/'
 import Alphabet from './Alphabet.js';
 import Gallows from './Gallows.js';
+import Outcome from './Outcome.js'
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';
