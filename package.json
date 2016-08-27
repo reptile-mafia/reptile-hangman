@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "Hangman game.",
   "main": "index.js",
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
   "scripts": {
     "start": "nodemon ./server/main.js --ignore client/",
     "test": "./node_modules/.bin/mocha --bail server/tests/ServerSpec.js",
-    "fe-test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require client/test/ClientSpec.js"
+    "fe-test": "mocha --reporter=nyan"
   },
   "repository": {
     "type": "git",
@@ -36,6 +42,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "enzyme": "^2.4.1",
+    "chai-enzyme": "^0.5.0",
+    "jsdom": "^9.4.1",
     "mocha": "^3.0.2"
   }
 }
