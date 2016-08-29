@@ -7,10 +7,15 @@ export default class Alphabet extends React.Component {
 		super(props);
 	}
 
+	isActive:function(value){
+		return 'alphabet '+((value===this.state.guessed) ?'alphabet-guessed':'alphabet-active');
+	}
+
 	onAlphabetClick(e){
-		//target
-		console.log(e.target);
-		//Models.guesses(e.target.text())
+		console.log(this.props.guessed, this.props.alphabet);
+		if(!this.props.guessed){
+			//Models.guesses(this.props.alphabet);
+		}
 	}
 
 	render() {
