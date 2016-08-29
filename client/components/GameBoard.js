@@ -43,8 +43,6 @@ export default class GameBoard extends React.Component {
 		})
 	}
 
-
-
 	render() {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
