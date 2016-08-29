@@ -1,6 +1,6 @@
 import React from 'react';
 //import * as Models from '../models/'
-import Alphabet from './Alphabet.js';
+import Alphabets from './Alphabets.js';
 import Gallows from './Gallows.js';
 import Outcome from './Outcome.js'
 import GuessedLetters from './GuessedLetters.js';
@@ -26,7 +26,7 @@ export default class GameBoard extends React.Component {
 				<Outcome />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={this.state.guessedLetters} />
-				<Alphabet guessedLetters={this.state.guessedLetters} />
+				<Alphabets guessedLetters={this.state.guessedLetters} />
 			</div>
 		)
 	}
