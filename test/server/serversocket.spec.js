@@ -1,11 +1,11 @@
 var chai = require('chai');
 var expect = chai.expect;
-var app = require('../main.js');
+var app = require('../../server/main.js');
 var io = require('socket.io-client');
 var server = require('http').createServer();
 var server_io = require('socket.io')(server);
-var game = require('../models/hangmangame.js');
-var controller = require('../controllers/hangmancontroller.js');
+var game = require('../../server/models/hangmangame.js');
+var controller = require('../../server/controllers/hangmancontroller.js');
 
 var port = process.env.PORT || 4000;
 

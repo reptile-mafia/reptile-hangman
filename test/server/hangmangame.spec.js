@@ -2,7 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 
 
-var HangmanGame = require('../models/hangmangame.js');
+var HangmanGame = require('../../server/models/hangmangame.js');
 
 describe('HangmanGame', function() {
   it('should have a create method', function() {
@@ -85,6 +85,16 @@ describe('HangmanGame', function() {
     game.guessLetter('E');
     expect(game.getWord()).to.deep.equal(['t', 'e', 's', 't']);
 
+  });
+
+  it('should report remainingGuesses', function () {
+    var solution = 'test';
+    var game = HangmanGame.create(solution);
+    expect(game).to.have.property('getRemainingGuesses');
+    expect(game.getRemainingGuesses).to.be.a('function');
+    expect(game.getRemainingGuesses()).to.equal(6);
+    game.guessLetter('z');
+    expect(game.getRemainingGuesses()).to.equal(5);
   });
 
 });

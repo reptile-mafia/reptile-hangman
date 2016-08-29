@@ -11,9 +11,9 @@
   },
   "scripts": {
     "start": "nodemon ./server/main.js --ignore client/",
-    "test": "./node_modules/.bin/mocha --bail server/tests/ServerSpec.js",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha",
     "fe-test": "mocha --reporter=nyan",
-    "testgame": "NODE_ENV=test ./node_modules/.bin/mocha --bail server/tests/ServerSpec.js"
+    "testgame": "NODE_ENV=test ./node_modules/.bin/mocha --bail test/server/ServerSpec.js"
   },
   "repository": {
     "type": "git",
