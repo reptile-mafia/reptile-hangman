@@ -9,7 +9,7 @@ export default class GuessedLetters extends React.Component {
 			return ( 
 				< div className = "guessedLetters" > {
 					this.props.guessedLetters.map(function(letter) {
-						return ( < span className = "guessedLetter" > { letter.toUpperCase() } < /span> )
+						return ( < span className = "guessedLetter" > { letter } < /span> )
 						})
 					} 
 				< /div>)

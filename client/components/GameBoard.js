@@ -27,14 +27,15 @@ export default class GameBoard extends React.Component {
 	}
 
 	render() {
+		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
 			<div>
 				<Gallows remainingGuess={this.state.remainingGuess} />
 				<RemainingGuess remainingGuess={this.state.remainingGuess} />
 				<Outcome />
 				<Word word={this.state.word} />
-				<GuessedLetters guessedLetters={this.state.guessedLetters} />
-				<Alphabets guessedLetters={this.state.guessedLetters} />
+				<GuessedLetters guessedLetters={guessedLettersUpper} />
+				<Alphabets guessedLetters={guessedLettersUpper} />
 			</div>
 		)
 	}

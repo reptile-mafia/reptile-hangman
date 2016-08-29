@@ -7,8 +7,8 @@ export default class Alphabet extends React.Component {
 		super(props);
 	}
 
-	isActive:function(value){
-		return 'alphabet '+((value===this.state.guessed) ?'alphabet-guessed':'alphabet-active');
+	isActive(){
+		return 'alphabet '+ ((this.props.guessed) ? 'alphabet-guessed':'alphabet-active');
 	}
 
 	onAlphabetClick(e){
@@ -20,7 +20,7 @@ export default class Alphabet extends React.Component {
 
 	render() {
 		return ( 
-			< div className = "alphabet" onClick = {(e)=>{this.onAlphabetClick(e)}}> 
+			< div className = {this.isActive()} onClick = {(e)=>{this.onAlphabetClick(e)}}> 
 				{ this.props.alphabet} 
 			< /div>
 		)

@@ -1,5 +1,6 @@
 div {
 	border: 1px solid grey;
+	border-radius: 3px;
 	padding: 10px; 
 }
 
@@ -10,4 +11,8 @@ div {
     padding: 10px; 
     width: 30px;
     height: 20px; 
+}
+
+.alphabet-guessed{
+	background: #222222;
 }
