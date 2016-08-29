@@ -8,7 +8,7 @@ export default class Outcome extends React.Component {
 
 	render() {
 		return ( 
-			< div id="displayOutcome"> You Win! or You Lose!< /div>
+			< div id="displayOutcome">< /div>
 		)
 	}
 }
