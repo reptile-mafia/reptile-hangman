@@ -12,7 +12,7 @@ export default class ServerAPI {
   }
 
   connect() {
-    
+
   }
 
   // Registers a callback to be invoked when game begins
@@ -22,7 +22,7 @@ export default class ServerAPI {
   }
 
   // Sends a letter to the server that represents a guess
-  makeGuess() {
+  makeGuess(letter) {
 
   }
 
