@@ -1,5 +1,5 @@
 import React from 'react';
-//import * as Models from '../models/'
+import ServerAPI from '../models/ServerAPI'
 import Alphabets from './Alphabets.js';
 import Gallows from './Gallows.js';
 import Outcome from './Outcome.js'
@@ -17,7 +17,7 @@ export default class GameBoard extends React.Component {
 			guessedLetters: [],
 			remainingGuess: 0
 		};
-
+		
 		this.api = new ServerAPI(4000);
 		this.api.connect();
 		this.api.onStartGame(function (res) {
@@ -35,7 +35,7 @@ export default class GameBoard extends React.Component {
 				<Outcome />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} />
+				<Alphabets guessedLetters={guessedLettersUpper} mode = {this.model}/>
 			</div>
 		)
 	}

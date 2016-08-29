@@ -1,5 +1,4 @@
 import React from 'react';
-import Models from '../models/ServerAPI'
 
 export default class Alphabet extends React.Component {
 
@@ -12,8 +11,10 @@ export default class Alphabet extends React.Component {
 	}
 
 	onAlphabetClick(e){
+		console.log(this.props.alphabet);
 		if(!this.props.guessed){
-			//Models.guesses(this.props.alphabet);
+			console.log(Models);
+			this.props.model.makeGuess(this.props.alphabet);
 		}
 	}
 
