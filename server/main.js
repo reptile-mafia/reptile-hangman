@@ -18,7 +18,7 @@ app.get('/bundle.js',
 
 io.on('connection', function (socket) {
   console.log('Client has connected');
-  controller(io, game.create('monday'));
+  controller(socket, game.create('monday'));
   // socket.emit('start', { word: [null, null, null] });
 });
 

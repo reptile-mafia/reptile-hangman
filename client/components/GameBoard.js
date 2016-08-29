@@ -18,11 +18,22 @@ export default class GameBoard extends React.Component {
 			remainingGuess: 0
 		};
 
-		this.api = new ServerAPI(4000);
-		this.api.connect();
-		this.api.onStartGame(function (res) {
-			console.log(res)
+		var api = new ServerAPI(4000);
+		api.connect();
+		api.onStartGame(function (res) {
+			console.log('onStartGame: ', res)
+			api.makeGuess('o');
 		});
+
+		api.onCorrectGuess(function (res) {
+			console.log('onCorrectGuess', res);
+		});
+
+		api.onIncorrectGuess(function (res) {
+			console.log('onIncorrectGuess', res)
+		});
+
+		this.api = api;
 
 	}
 
