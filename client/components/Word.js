@@ -4,16 +4,20 @@ export default class Word extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			length: this.props.word.length
-		}
-		
 	}
 
 	render() {
 		return(
 			<div>
-				<h1 id="theWord">H A N G M A N</h1>
+				{	
+					this.props.word.map((elem)=>{
+						var result = "_";
+						if(elem!==null){
+							result = elem;
+						} 
+						return (<span className = "wordLetter"> {result} </span>)
+					})
+				}
 			</div>
 		)
 	}

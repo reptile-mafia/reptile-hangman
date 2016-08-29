@@ -1,4 +1,5 @@
 import React from 'react';
+import Alphabet from './alphabet'
 
 export default class Alphabets extends React.Component {
 
@@ -7,19 +8,15 @@ export default class Alphabets extends React.Component {
 		this.alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 	}
 
-	onAlphabetClick(e, target){
-		target
-	}
-
 	render() {
 		return ( 
 			< div className = "alphabets"> 
 				{
-					this.alphabets.map(function(alphabet) {
+					this.alphabets.map((alphabet) => {
+						var guessed = this.props.guessedLetters.includes(alphabet);
 						return ( 
-							< span className = "alphabet" key = {alphabet} onClick = {(e)=>{onAlphabetClick(e, this)}}> 
-								{ alphabet } 
-							< /span> )
+							<Alphabet alphabet = { alphabet } guessed = { guessed } models = {this.props.models} />
+							)
 					})
 				} 
 			< /div>

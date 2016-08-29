@@ -1,3 +1,28 @@
 div {
 	border: 1px solid grey;
+	border-radius: 3px;
+	padding: 10px; 
+}
+
+.alphabet{
+	display: inline-block;
+    border-radius: 5px;
+    border: 2px solid #8888FF;
+    padding: 10px; 
+    width: 30px;
+    height: 20px; 
+}
+
+.alphabet-guessed{
+	background: #222222;
+}
+
+.wordLetter{
+	display: inline-block;
+    border-radius: 5px;
+    border: 2px solid #88FF88;
+    padding: 10px; 
+    width: 30px;
+    height: 20px; 
+
 }
