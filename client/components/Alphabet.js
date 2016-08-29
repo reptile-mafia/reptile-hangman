@@ -12,7 +12,6 @@ export default class Alphabet extends React.Component {
 	}
 
 	onAlphabetClick(e){
-		console.log(this.props.guessed, this.props.alphabet);
 		if(!this.props.guessed){
 			//Models.guesses(this.props.alphabet);
 		}

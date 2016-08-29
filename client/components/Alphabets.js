@@ -8,12 +8,6 @@ export default class Alphabets extends React.Component {
 		this.alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 	}
 
-	onAlphabetClick(e){
-		//target
-		console.log(e.target);
-		//Models.guesses(e.target.text())
-	}
-
 	render() {
 		return ( 
 			< div className = "alphabets"> 
