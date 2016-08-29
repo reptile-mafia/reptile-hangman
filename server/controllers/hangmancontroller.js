@@ -7,7 +7,8 @@ module.exports = function (io, game) {
       } else {
         io.emit('correctGuess', {
           remainingGuesses: game.getRemainingGuesses(),
-          guessedLetters: game.getGuessedLetters()
+          guessedLetters: game.getGuessedLetters(),
+          word: game.getWord()
         });
       }
     } else {
