@@ -9,14 +9,14 @@ import ServerAPI from '../../client/models/ServerAPI.js';
 var port = process.env.PORT || 4001;
 
 
-describe('HangmangGameServer', function () {
+describe('ServerAPI', function () {
   this.timeout(2000);
-  var client;
+  var api;
 
   before('Start Server', function (done) {
     // Each connection will start a new game with word 'monday'
     server_io.on('connection', function (socket) {
-      controller(socket, game.create('monday'));
+      controller(socket, game.create('flood'));
     });
     server.listen(port, function () {
       done();
@@ -24,15 +24,22 @@ describe('HangmangGameServer', function () {
   });
 
   beforeEach('Start Client', function () {
-    // client = io.connect('http://127.0.0.1:4000');
+    api = new ServerAPI(port);
+    api.connect();
   });
 
   afterEach('Disconnect Client', function () {
-    // client.disconnect();
+    api.disconnect();
   });
 
-  it('should create a new game on connection', function (done) {
-    expect(false).to.equal(true);
+  it('should fire callback registered via onStartGame on connection', function (done) {
+    // callback will receive object { word: [ ..array of nulls or strings ] }
+    api.onStartGame(function (res) {
+      expect(res).to.be.defined;
+      expect(res.word).to.be.defined;
+      expect(res.word).to.deep.equal([null, null, null, null, null]);
+      done();
+    });
   });
 
 });
