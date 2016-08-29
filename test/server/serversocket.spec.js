@@ -1,6 +1,5 @@
 var chai = require('chai');
 var expect = chai.expect;
-var app = require('../../server/main.js');
 var io = require('socket.io-client');
 var server = require('http').createServer();
 var server_io = require('socket.io')(server);
