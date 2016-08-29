@@ -50,12 +50,14 @@ describe('HangmangGameServer', function () {
     client.emit('guessLetter', { letter: 'z' });
   });
 
-  it('should emit correctGuess and send remainingGuesses and guessedLetters on correct guess', function (done) {
+  it('should emit correctGuess and send remainingGuesses, guessedLetters, and word on correct guess', function (done) {
     client.on('correctGuess', function (data) {
       expect(data).to.have.property('remainingGuesses');
       expect(data.remainingGuesses).to.be.equal(5);
       expect(data).to.have.property('guessedLetters');
       expect(data.guessedLetters).to.deep.equal(['z', 'm']);
+      expect(data).to.have.property('word');
+      expect(data.word).to.deep.equal(['m', null, null, null, null, null]);
       done();
     });
     client.emit('guessLetter', { letter: 'z' });
