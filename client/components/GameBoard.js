@@ -24,10 +24,27 @@ export default class GameBoard extends React.Component {
 			this.setState({
 				word: res.word
 			})
+			this.models.makeGuess('o');
 		});
 
+		this.models.onIncorrectGuess((res)=>{
+			console.log("Start game", res);
+			this.setState({
+				remainingGuess: res.remainingGuess,
+				guessedLetters: res.guessedLetters
+			})
+		})
 
+		this.models.onCorrectGuess((res)=>{
+			console.log("Correct Guess", res);
+			this.setState({
+				word: res.word,
+				guessedLetters: res.guessedLetters
+			})
+		})
 	}
+
+
 
 	render() {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
