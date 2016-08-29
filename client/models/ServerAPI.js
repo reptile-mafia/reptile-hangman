@@ -13,7 +13,7 @@ export default class ServerAPI {
   }
 
   connect() {
-    this.client = io.connect('http://127.0.0.1:' + this.port);
+    this.client = io.connect('http://localhost:' + this.port);
   }
 
   // Registers a callback to be invoked when game begins

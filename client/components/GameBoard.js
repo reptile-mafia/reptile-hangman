@@ -6,6 +6,7 @@ import Outcome from './Outcome.js'
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';
+import ServerAPI from '../models/ServerAPI';
 
 export default class GameBoard extends React.Component {
 
@@ -16,6 +17,13 @@ export default class GameBoard extends React.Component {
 			guessedLetters: [],
 			remainingGuess: 0
 		};
+
+		this.api = new ServerAPI(4000);
+		this.api.connect();
+		this.api.onStartGame(function (res) {
+			console.log(res)
+		});
+
 	}
 
 	render() {
@@ -32,4 +40,3 @@ export default class GameBoard extends React.Component {
 	}
 
 }
-
