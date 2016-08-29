@@ -42,7 +42,7 @@ describe('ServerAPI', function () {
     });
   });
 
-  xit('should fire callback registered via onCorrectGuess when a correct guess is made', function (done) {
+  it('should fire callback registered via onCorrectGuess when a correct guess is made', function (done) {
     api.onCorrectGuess(function (res) {
       expect(res).to.be.defined;
       expect(res.guessedLetters).to.deep.equal(['o']);
@@ -53,7 +53,7 @@ describe('ServerAPI', function () {
     api.makeGuess('o');
   });
 
-  xit('should fire callback registered via onIncorrectGuess when an incorrect guess is made', function (done) {
+  it('should fire callback registered via onIncorrectGuess when an incorrect guess is made', function (done) {
     api.onIncorrectGuess(function (res) {
       expect(res).to.be.defined;
       expect(res.guessedLetters).to.deep.equal(['z']);
@@ -63,7 +63,7 @@ describe('ServerAPI', function () {
     api.makeGuess('z');
   });
 
-  xit('should fire callback registered via onWin when a game is won', function (done) {
+  it('should fire callback registered via onWin when a game is won', function (done) {
     api.onWin(function () {
       expect(true);
       done();
@@ -76,15 +76,17 @@ describe('ServerAPI', function () {
   });
 
   it('should fire callback registered via onLose when a game is lost', function (done) {
-    api.onWin(function () {
+    api.onLose(function () {
       expect(true);
       done();
     });
 
-    api.makeGuess('f');
-    api.makeGuess('l');
-    api.makeGuess('o');
-    api.makeGuess('d');
+    api.makeGuess('z');
+    api.makeGuess('y');
+    api.makeGuess('n');
+    api.makeGuess('q');
+    api.makeGuess('p');
+    api.makeGuess('x');
   });
 
 });
