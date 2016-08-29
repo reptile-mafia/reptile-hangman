@@ -34,6 +34,9 @@ HangmanGame.create = function( solution ) {
     },
     isLoss: function() {
       return remainingGuesses <= 0;
+    },
+    getRemainingGuesses: function () {
+        return remainingGuesses;
     }
   }
 
