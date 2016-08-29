@@ -15,7 +15,7 @@ export default class Alphabets extends React.Component {
 					this.alphabets.map((alphabet) => {
 						var guessed = this.props.guessedLetters.includes(alphabet);
 						return ( 
-							<Alphabet alphabet = { alphabet } guessed = { guessed } model = {this.props.model} />
+							<Alphabet alphabet = { alphabet } guessed = { guessed } models = {this.props.models} />
 							)
 					})
 				} 

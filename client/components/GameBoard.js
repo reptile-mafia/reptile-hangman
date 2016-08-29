@@ -6,7 +6,6 @@ import Outcome from './Outcome.js'
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';
-import ServerAPI from '../models/ServerAPI';
 
 export default class GameBoard extends React.Component {
 
@@ -15,14 +14,18 @@ export default class GameBoard extends React.Component {
 		this.state = {
 			word: [],
 			guessedLetters: [],
-			remainingGuess: 0
+			remainingGuess: 6
 		};
-		
-		this.api = new ServerAPI(4000);
-		this.api.connect();
-		this.api.onStartGame(function (res) {
-			console.log(res)
+
+		this.models = new ServerAPI(4000);
+		this.models.connect();
+		this.models.onStartGame( (res) => {
+			console.log("Start game", res);
+			this.setState({
+				word: res.word
+			})
 		});
+
 
 	}
 
@@ -31,11 +34,11 @@ export default class GameBoard extends React.Component {
 		return(
 			<div>
 				<Gallows remainingGuess={this.state.remainingGuess} />
-				<RemainingGuess remainingGuess={this.state.remainingGuess} />
+				<RemainingGuess RemainingGuess={this.state.remainingGuess} />
 				<Outcome />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} mode = {this.model}/>
+				<Alphabets guessedLetters={guessedLettersUpper} model = {this.models}/>
 			</div>
 		)
 	}
