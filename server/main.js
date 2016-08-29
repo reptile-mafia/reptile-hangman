@@ -17,6 +17,7 @@ app.get('/bundle.js',
 );
 
 io.on('connection', function (socket) {
+  console.log('Client has connected');
   controller(io, game.create('monday'));
   // socket.emit('start', { word: [null, null, null] });
 });
@@ -24,7 +25,8 @@ io.on('connection', function (socket) {
 // If not in test environment start server
 if (process.env.NODE_ENV !== 'test') {
   var port = process.env.PORT || 4000;
-  app.listen(port);
+  //app.listen(port);
+  server.listen(port);
   console.log("Listening on localhost:" + port);
 }
 // Export server for use in tests
