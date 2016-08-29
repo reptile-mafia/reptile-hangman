@@ -24,7 +24,6 @@ export default class GameBoard extends React.Component {
 			this.setState({
 				word: res.word
 			})
-			this.models.makeGuess('o');
 		});
 
 		this.models.onIncorrectGuess((res)=>{
