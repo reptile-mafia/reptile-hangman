@@ -3,10 +3,17 @@
   "version": "1.0.0",
   "description": "Hangman game.",
   "main": "index.js",
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
   "scripts": {
     "start": "nodemon ./server/main.js --ignore client/",
-    "test": "./node_modules/.bin/mocha --bail server/tests/ServerSpec.js",
-    "fe-test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require client/test/ClientSpec.js"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha",
+    "fe-test": "mocha --reporter=nyan",
+    "testgame": "NODE_ENV=test ./node_modules/.bin/mocha --bail test/server/ServerSpec.js"
   },
   "repository": {
     "type": "git",
@@ -22,20 +29,23 @@
   },
   "homepage": "https://github.com/reptile-mafia/reptile-hangman#readme",
   "dependencies": {
-    "nodemon": "^1.10.2",
-    "socket.io": "^1.4.8",
     "babel-core": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
     "browserify-middleware": "^7.0.0",
     "express": "^4.13.4",
+    "nodemon": "^1.10.2",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "socket.io": "^1.4.8",
+    "socket.io-client": "^1.4.8"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "enzyme": "^2.4.1",
+    "chai-enzyme": "^0.5.0",
+    "jsdom": "^9.4.1",
     "mocha": "^3.0.2"
   }
 }
