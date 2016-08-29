@@ -38,7 +38,7 @@ export default class GameBoard extends React.Component {
 				<Outcome />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} model = {this.models}/>
+				<Alphabets guessedLetters={guessedLettersUpper} models = {this.models}/>
 			</div>
 		)
 	}
