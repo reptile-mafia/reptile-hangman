@@ -26,8 +26,24 @@ export default class GameBoard extends React.Component {
 			})
 		});
 
+		this.models.onIncorrectGuess((res)=>{
+			console.log("Start game", res);
+			this.setState({
+				remainingGuess: res.remainingGuess,
+				guessedLetters: res.guessedLetters
+			})
+		})
 
+		this.models.onCorrectGuess((res)=>{
+			console.log("Correct Guess", res);
+			this.setState({
+				word: res.word,
+				guessedLetters: res.guessedLetters
+			})
+		})
 	}
+
+
 
 	render() {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
@@ -38,7 +54,7 @@ export default class GameBoard extends React.Component {
 				<Outcome />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} model = {this.models}/>
+				<Alphabets guessedLetters={guessedLettersUpper} models = {this.models}/>
 			</div>
 		)
 	}
