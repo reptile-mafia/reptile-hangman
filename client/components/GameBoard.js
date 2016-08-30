@@ -14,7 +14,8 @@ export default class GameBoard extends React.Component {
 		this.state = {
 			word: [],
 			guessedLetters: [],
-			remainingGuess: 6
+			remainingGuesses: 6,
+			gameState: false
 		};
 
 		this.models = new ServerAPI(4000);
@@ -22,14 +23,15 @@ export default class GameBoard extends React.Component {
 		this.models.onStartGame( (res) => {
 			console.log("Start game", res);
 			this.setState({
-				word: res.word
+				word: res.word,
+				gameState: 'play'
 			})
 		});
 
 		this.models.onIncorrectGuess((res)=>{
 			console.log("Start game", res);
 			this.setState({
-				remainingGuess: res.remainingGuess,
+				remainingGuesses: res.remainingGuesses,
 				guessedLetters: res.guessedLetters
 			})
 		})
@@ -41,20 +43,40 @@ export default class GameBoard extends React.Component {
 				guessedLetters: res.guessedLetters
 			})
 		})
+
+		this.models.onWin((res)=>{
+			console.log("win!")
+			this.setState({
+				gameState: 'win'
+			})
+		})
+
+		this.models.onLose((res)=>{
+			console.log("lose!")
+			this.setState({
+				gameState: 'lose'
+			})
+		})
 	}
 
-
+	renderOutcome(){
+		if(this.state.gameState !== 'play'){
+			return (<Outcome gameState={this.state.gameState}/>)
+		}
+	}
 
 	render() {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
 			<div>
-				<Gallows remainingGuess={this.state.remainingGuess} />
-				<RemainingGuess RemainingGuess={this.state.remainingGuess} />
-				<Outcome />
+				{
+					this.renderOutcome()			
+				}	
+				<Gallows remainingGuesses={this.state.remainingGuesses} />
+				<RemainingGuess remainingGuesses={this.state.remainingGuesses} />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} models = {this.models}/>
+				<Alphabets guessedLetters={guessedLettersUpper} models = {this.models}/>	
 			</div>
 		)
 	}

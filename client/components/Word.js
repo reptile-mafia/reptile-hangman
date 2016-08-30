@@ -13,7 +13,7 @@ export default class Word extends React.Component {
 					this.props.word.map((elem)=>{
 						var result = "_";
 						if(elem!==null){
-							result = elem;
+							result = elem.toUpperCase();
 						} 
 						return (<span className = "wordLetter"> {result} </span>)
 					})
