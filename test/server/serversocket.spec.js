@@ -81,6 +81,8 @@ describe('HangmangGameServer', function () {
   it('should emit loss event on a loss', function (done) {
     client.on('loss', function (data) {
       expect(true);
+      expect(data).to.have.property('showSolution');
+      expect(data.showSolution).to.deep.equal('monday');
       done();
     })
     client.emit('guessLetter', { letter: 'q' });
@@ -89,6 +91,8 @@ describe('HangmangGameServer', function () {
     client.emit('guessLetter', { letter: 'r' });
     client.emit('guessLetter', { letter: 't' });
     client.emit('guessLetter', { letter: 'z' });
+    client.emit('showSolution', {solution: 'monday'});
+    
   });
 
 });

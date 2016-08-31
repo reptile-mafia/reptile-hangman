@@ -97,4 +97,14 @@ describe('HangmanGame', function() {
     expect(game.getRemainingGuesses()).to.equal(5);
   });
 
+  it('should display solution', function(){
+    var solution = 'random'
+    var game = HangmanGame.create(solution);
+    expect(game).to.have.property('getSolution');
+    expect(game.getSolution).to.be.a('function');
+    expect(game.getRemainingGuesses()).to.equal(0);
+    expect(game.isLoss()).to.equal(true);
+    expect(game.getSolution()).to.deep.equal('random');
+  });
+
 });

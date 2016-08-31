@@ -13,7 +13,9 @@ module.exports = function (io, game) {
       }
     } else {
       if (game.isLoss()) {
-        io.emit('loss');
+        io.emit('loss', {
+          showSolution: game.displaySolution()
+        });
       } else {
         io.emit('incorrectGuess', {
           remainingGuesses: game.getRemainingGuesses(),

@@ -1,7 +1,10 @@
+var randomWord = require("random-word-by-length")
+
 var HangmanGame = {};
 
 HangmanGame.create = function( solution ) {
-  solution = solution.toLowerCase().split('');
+  //Set solution equal to randomWord limited to up to 6 letters
+  solution = randomWord(6).toLowerCase().split('');
   var word = Array(solution.length).fill(null);
   var guessedLetters = [];
   var remainingGuesses = 6;
@@ -37,6 +40,9 @@ HangmanGame.create = function( solution ) {
     },
     getRemainingGuesses: function () {
         return remainingGuesses;
+    },
+    displaySolution: function() {
+        return solution.join('')
     }
   }
 
