@@ -1,12 +1,18 @@
-div {
+body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+div {
 	border: 1px solid grey;
+    margin: auto;
 	border-radius: 3px;
 	padding: 10px; 
     margin: 10px;
+    text-align: center;
 }
 
 .alphabet{
+    text-align: center;
 	display: inline-block;
     border-radius: 5px;
     border: 2px solid #8888FF;
@@ -19,14 +25,28 @@ div {
 	background: #222222;
 }
 
+.remainingGuess{
+
+}
+.wordLetters{
+    text-align: center;
+}
+
 .wordLetter{
+    text-align: center;
 	display: inline-block;
     border-radius: 5px;
     border: 2px solid #888888;
     padding: 10px; 
     width: 30px;
     height: 20px; 
+    margin: auto;
+}
 
+.guessedLetters{
+    text-align: center;
+    padding: 10px; 
+    height: 20px; 
 }
 
 .outcome-outline{
@@ -41,6 +61,7 @@ div {
 }
 
 .outcome{
+    text-align: center;
     display: block;
     font-size: 20em;
     position: relative;
