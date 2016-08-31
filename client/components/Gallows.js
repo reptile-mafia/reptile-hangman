@@ -11,18 +11,36 @@ export default class Gallows extends React.Component {
 		return(
 			<div>
 				<svg width="500" height="500" >
-					<line x1="50" y1="450" x2="450" y2="450" stroke="#666" stroke-width="20"/>
-					<line x1="100" y1="450" x2="100" y2="50" stroke="#666" stroke-width="20"/>
-					<line x1="90" y1="60" x2="300" y2="60" stroke="#666" stroke-width="20"/>
-					<line x1="100" y1="110" x2="150" y2="60" stroke="#666" stroke-width="20"/>
-					<line x1="275" y1="55" x2="275" y2="170" stroke="#666" stroke-width="5"/>
-					<circle cx="275" cy="180" r="10" fill="white" stroke="#666" stroke-width="5"/>
-					<circle class="head miss1" cx="275" cy="158" r="30" fill="#c33" opacity="1" />
-					<line class="torso miss2" x1="275" y1="190" x2="275" y2="290" stroke="#c33" stroke-width="12" opacity="1" />
-					<line class="arm-left miss3" x1="275" y1="220" x2="220" y2="250" stroke="#c33" stroke-width="12" opacity="1" />
-					<line class="arm-right miss4" x1="275" y1="220" x2="330" y2="250" stroke="#c33" stroke-width="12" opacity="1" />
-					<line class="leg-left miss5" x1="275" y1="285" x2="230" y2="350" stroke="#c33" stroke-width="12" opacity="1" />
-					<line class="leg-right miss6" x1="275" y1="285" x2="320" y2="350" stroke="#c33" stroke-width="12" opacity="1" />
+					<g id="gallowStructure">
+						<line x1="50" y1="450" x2="450" y2="450" />
+						<line x1="100" y1="450" x2="100" y2="50" />
+						<line x1="90" y1="60" x2="300" y2="60" />
+						<line x1="100" y1="110" x2="150" y2="60" />
+					</g>
+					<g id="gallowRope">
+						<line x1="275" y1="55" x2="275" y2="170" />
+						<circle cx="275" cy="180" r="10" />
+					</g>
+					<g id="gallowMan">
+						<circle id="noggin" 
+							className={this.props.remainingGuesses < 6 ? "op-on" : "op-off"}
+							cx="275" cy="158" r="30" />
+						<line id="torso" 
+							className={this.props.remainingGuesses < 5 ? "op-on" : "op-off"}
+							x1="275" y1="190" x2="275" y2="290" />
+						<line id="arm-left" 
+							className={this.props.remainingGuesses < 4 ? "op-on" : "op-off"}
+							x1="275" y1="220" x2="220" y2="250" />
+						<line id="arm-right" 
+							className={this.props.remainingGuesses < 3 ? "op-on" : "op-off"}
+							x1="275" y1="220" x2="330" y2="250" />
+						<line id="leg-left" 
+							className={this.props.remainingGuesses < 2 ? "op-on" : "op-off"}
+							x1="275" y1="285" x2="230" y2="350" />
+						<line id="leg-right" 
+							className={this.props.remainingGuesses < 1 ? "op-on" : "op-off"}
+							x1="275" y1="285" x2="320" y2="350" />
+					</g>
 				</svg>
 			</div>
 		)
