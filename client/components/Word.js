@@ -8,7 +8,7 @@ export default class Word extends React.Component {
 
 	render() {
 		return(
-			<div>
+			<div className = "wordLetters">
 				{	
 					this.props.word.map((elem)=>{
 						var result = "_";
