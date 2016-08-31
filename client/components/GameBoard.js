@@ -17,46 +17,6 @@ export default class GameBoard extends React.Component {
 			remainingGuesses: 6,
 			gameState: false
 		};
-
-		this.models = new ServerAPI(4000);
-		this.models.connect();
-		this.models.onStartGame( (res) => {
-			console.log("Start game", res);
-			this.setState({
-				word: res.word,
-				gameState: 'play'
-			})
-		});
-
-		this.models.onIncorrectGuess((res)=>{
-			console.log("Start game", res);
-			this.setState({
-				remainingGuesses: res.remainingGuesses,
-				guessedLetters: res.guessedLetters
-			})
-		})
-
-		this.models.onCorrectGuess((res)=>{
-			console.log("Correct Guess", res);
-			this.setState({
-				word: res.word,
-				guessedLetters: res.guessedLetters
-			})
-		})
-
-		this.models.onWin((res)=>{
-			console.log("win!")
-			this.setState({
-				gameState: 'win'
-			})
-		})
-
-		this.models.onLose((res)=>{
-			console.log("lose!")
-			this.setState({
-				gameState: 'lose'
-			})
-		})
 	}
 
 	renderOutcome(){
@@ -72,7 +32,7 @@ export default class GameBoard extends React.Component {
 				{
 					this.renderOutcome()			
 				}	
-				<Gallows remainingGuesses={this.state.remainingGuesses} />
+				//<Gallows remainingGuesses={this.state.remainingGuesses} />
 				<RemainingGuess remainingGuesses={this.state.remainingGuesses} />
 				<Word word={this.state.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />

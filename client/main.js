@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 // Import React component from GameBoard
-import GameBoard from './components/GameBoard';
+import Room from './components/Room';
 
 // Render that component to the DOM!
-ReactDOM.render(<GameBoard />, document.getElementById('app'));
+ReactDOM.render(<Room />, document.getElementById('app'));
