@@ -23,22 +23,22 @@ export default class Gallows extends React.Component {
 					</g>
 					<g id="gallowMan">
 						<circle id="noggin" 
-							className={this.props.remainingGuess < 6 ? "op-on" : "op-off"}
+							className={this.props.remainingGuesses < 6 ? "op-on" : "op-off"}
 							cx="275" cy="158" r="30" />
 						<line id="torso" 
-							className={this.props.remainingGuess < 5 ? "op-on" : "op-off"}
+							className={this.props.remainingGuesses < 5 ? "op-on" : "op-off"}
 							x1="275" y1="190" x2="275" y2="290" />
 						<line id="arm-left" 
-							className={this.props.remainingGuess < 4 ? "op-on" : "op-off"}
+							className={this.props.remainingGuesses < 4 ? "op-on" : "op-off"}
 							x1="275" y1="220" x2="220" y2="250" />
 						<line id="arm-right" 
-							className={this.props.remainingGuess < 3 ? "op-on" : "op-off"}
+							className={this.props.remainingGuesses < 3 ? "op-on" : "op-off"}
 							x1="275" y1="220" x2="330" y2="250" />
 						<line id="leg-left" 
-							className={this.props.remainingGuess < 2 ? "op-on" : "op-off"}
+							className={this.props.remainingGuesses < 2 ? "op-on" : "op-off"}
 							x1="275" y1="285" x2="230" y2="350" />
 						<line id="leg-right" 
-							className={this.props.remainingGuess < 1 ? "op-on" : "op-off"}
+							className={this.props.remainingGuesses < 1 ? "op-on" : "op-off"}
 							x1="275" y1="285" x2="320" y2="350" />
 					</g>
 				</svg>
