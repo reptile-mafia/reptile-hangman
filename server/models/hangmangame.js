@@ -42,7 +42,8 @@ HangmanGame.create = function( solution ) {
       return {
         word: game.getWord(), // keep state immutable
         guessedLetters: game.getGuessedLetters(),
-        remainingGuesses: game.getRemainingGuesses()
+        remainingGuesses: game.getRemainingGuesses(),
+        isDone: game.isLoss() || game.isWon()
       }
     }
   }
