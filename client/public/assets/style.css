@@ -26,3 +26,26 @@ div {
     height: 20px; 
 
 }
+
+#gallowStructure {
+    stroke: #666;
+    stroke-width: 20;
+}
+
+#gallowRope {
+    stroke: #666;
+    stroke-width: 5;
+}
+
+#gallowRope circle {
+    fill: white;
+}
+
+#gallowMan line {
+    stroke: #c33;
+    stroke-width: 12;
+}
+
+#gallowMan line {
+    fill: #c33;
+}
