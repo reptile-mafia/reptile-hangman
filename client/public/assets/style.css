@@ -46,6 +46,14 @@ div {
     stroke-width: 12;
 }
 
-#gallowMan line {
+#gallowMan circle {
     fill: #c33;
+}
+
+#gallowMan .op-on {
+    opacity: 1;
+}
+
+#gallowMan .op-off {
+    opacity: 0;
 }
