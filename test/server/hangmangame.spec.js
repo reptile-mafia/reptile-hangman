@@ -97,4 +97,21 @@ describe('HangmanGame', function() {
     expect(game.getRemainingGuesses()).to.equal(5);
   });
 
+
+  describe('getState', function () {
+    it('should return an object with remainingGuesses, letters and word', function () {
+      var solution = 'cool';
+      game.guessLetter('t');
+      game.guessLetter('o');
+      var game = HangmanGame.create(solution);
+      var state = game.getState();
+      expect(state).to.have.property('word');
+      expect(state.word).to.deepEqual([null, 'o', 'o', null]);
+      expect(state).to.have.property('remainingGuesses');
+      expect(state.remainingGuesses).to.equal(5);
+      expect(state).to.have.property('letters');
+      expect(state.letters).to.deepEqual(['t', 'o']);
+    });
+  });
+
 });

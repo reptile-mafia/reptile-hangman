@@ -43,8 +43,4 @@ HangmanGame.create = function( solution ) {
   return game;
 };
 
-
-
-
-
 module.exports = HangmanGame;
