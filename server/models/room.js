@@ -11,6 +11,7 @@ Room.create = function () {
   var game = null; // current game
   var onCorrectGuessCallback = null;
   var onIncorrectGuessCallback = null;
+  var onCooldownCallback = null;
 
   var room = {
     getId: function () {
@@ -30,16 +31,26 @@ Room.create = function () {
       game = Game.create(solution);
     },
     guessLetter: function (player, letter) {
+      // Invoke onCooldownCallback if cooldown hasn't expired
+      if (cooldowns[player.getId()] > Date.now()) {
+        if (onCooldownCallback !== null) {
+          onCooldownCallback(player, cooldowns[player.getId()]);
+        }
+        return;
+      }
+      // Return early if letter has already been guessed
+      if (game.hasBeenGuessed(letter)) {
+        return;
+      }
+      cooldowns[player.getId()] = Date.now() + cooldownDuration;
       if (game.guessLetter(letter)) {
         if (onCorrectGuessCallback !== null) {
           onCorrectGuessCallback(player, letter);
         }
-        return true;
       } else {
         if (onIncorrectGuessCallback !== null) {
           onIncorrectGuessCallback(player, letter);
         }
-        return false;
       }
     },
     onCorrectGuess: function (callback) {
@@ -49,10 +60,10 @@ Room.create = function () {
       onIncorrectGuessCallback = callback;
     },
     getCooldownByPlayerId: function (playerId) {
-      if (playerId in cooldowns) {
-        return cooldowns[playerId];
-      }
-      return null;
+      return cooldowns[playerId];
+    },
+    onCooldown: function (callback) {
+      onCooldownCallback = callback;
     }
   };
   return room;

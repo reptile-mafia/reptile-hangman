@@ -65,7 +65,7 @@ describe("Room", function () {
     });
 
     it("should allow a player to guess a letter", function () {
-      expect(room.guessLetter(player, 'o')).to.equal(true); // a Player guesses a letter
+      room.guessLetter(player, 'o');
       expect(room.getGame().getWord()).to.deep.equal([null, 'o', 'o', null]);
     });
 
@@ -78,6 +78,18 @@ describe("Room", function () {
       room.guessLetter(player, 'f');
     });
 
+    it("should not fire onCorrectGuess callback if letter already guessed", function () {
+      var player2 = Player.create();
+      room.join(player2);
+      var ncalls = 0;
+      room.onCorrectGuess(function (guessingPlayer, guessedLetter) {
+        ncalls += 1;
+      });
+      room.guessLetter(player, 'f');
+      room.guessLetter(player2, 'f'); // guess the same letter
+      expect(ncalls).to.equal(1);
+    });
+
     it("should fire onIncorrectGuess callback with player and letter on an incorrect guess", function (done) {
       room.onIncorrectGuess(function (guessingPlayer, guessedLetter) {
         expect(guessingPlayer).to.equal(player);
@@ -87,13 +99,16 @@ describe("Room", function () {
       room.guessLetter(player, 'x');
     });
 
-    xit("should set cooldown timestamp for a player on guess", function () {
+    it("should fire onCooldown callback with player and timestamp when player guesses before cooldown has expired", function (done) {
+      room.onCooldown(function (coolingPlayer, cooldown) {
+        expect(coolingPlayer).to.be.equal(player);
+        expect(cooldown).to.be.above(Date.now());
+        done();
+      });
       room.guessLetter(player, 'f');
-      room.getCooldownByPlayerId(player.getId());
+      room.guessLetter(player, 'x');
+
     });
-    // it("should fire onInCooldown callback when player guesses before cooldown has expired", function () {
-    //   room.onCool
-    // });
   });
 
   describe("getCooldownByPlayerId", function () {
@@ -105,10 +120,17 @@ describe("Room", function () {
       room.join(player);
       room.newGame('food');
     });
-    it("cooldown should be a timestamp before now if player has not guessed", function () {
+
+    it("should return a timestamp before now if player has not guessed", function () {
       var cooldown = room.getCooldownByPlayerId(player.getId());
       expect(cooldown).to.be.a('number');
       expect(cooldown).to.be.below(Date.now());
+    });
+
+    it("should return a timestamp after now right after a player's guess", function () {
+      room.guessLetter(player, 'f');
+      var cooldown = room.getCooldownByPlayerId(player.getId());
+      expect(cooldown).to.be.above(Date.now());
     });
   });
 
