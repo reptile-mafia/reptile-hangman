@@ -1,6 +1,10 @@
 var Game = require('./hangmangame.js');
 var uuid = require('node-uuid');
 
+function nullCallback () {
+  return;
+}
+
 var Room = {};
 
 Room.create = function () {
@@ -9,11 +13,11 @@ Room.create = function () {
   var cooldownDuration = 3000;
   var cooldowns = {}; // stores cooldowns by player id
   var game = null; // current game
-  var onCorrectGuessCallback = null;
-  var onIncorrectGuessCallback = null;
-  var onCooldownCallback = null;
-  var onWinCallback = null;
-  var onLoseCallback = null;
+  var onCorrectGuessCallback = nullCallback;
+  var onIncorrectGuessCallback = nullCallback;
+  var onCooldownCallback = nullCallback;
+  var onWinCallback = nullCallback;
+  var onLoseCallback = nullCallback;
   var room = {
     getId: function () {
       return id;
@@ -34,9 +38,7 @@ Room.create = function () {
     guessLetter: function (player, letter) {
       // Invoke onCooldownCallback and return early if cooldown hasn't expired
       if (cooldowns[player.getId()] > Date.now()) {
-        if (onCooldownCallback !== null) {
-          onCooldownCallback(player, cooldowns[player.getId()]);
-        }
+        onCooldownCallback(player, cooldowns[player.getId()]);
         return;
       }
       // Return early if letter has already been guessed
@@ -47,21 +49,14 @@ Room.create = function () {
       cooldowns[player.getId()] = Date.now() + cooldownDuration;
       if (game.guessLetter(letter)) {
         if (game.isWon()) {
-          if (onWinCallback !== null) {
-            onWinCallback(player);
-          }
+          onWinCallback(player);
         } else {
-          if (onCorrectGuessCallback !== null) {
-            onCorrectGuessCallback(player, letter);
-          }
+          onCorrectGuessCallback(player, letter);
         }
       } else {
         if (game.isLoss()) {
-          if (onLoseCallback !== null) {
-            onLoseCallback(player);
-          }
-        }
-        if (onIncorrectGuessCallback !== null) {
+          onLoseCallback(player);
+        } else {
           onIncorrectGuessCallback(player, letter);
         }
       }
