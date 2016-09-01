@@ -134,4 +134,48 @@ describe("Room", function () {
     });
   });
 
+  describe("End of game", function () {
+    var room;
+    var player;
+    beforeEach(function () {
+      room = Room.create();
+      player = Player.create();
+      room.join(player);
+      room.newGame('a');
+    });
+    describe("onWin", function () {
+      it("should fire onWinCallback when game is won with winning player", function (done) {
+        room.onWin(function (winner) {
+          expect(winner).to.equal(player);
+          done();
+        });
+        room.guessLetter(player, 'a');
+      });
+    });
+    describe("onLose", function () {
+      it("should fire onLoseCallback when a game is lost with losing player", function (done) {
+        room.onLose(function (loser) {
+          expect(loser).to.equal(player6);
+          done();
+        });
+        var player2 = Player.create();
+        room.join(player2);
+        var player3 = Player.create();
+        room.join(player3);
+        var player4 = Player.create();
+        room.join(player4);
+        var player5 = Player.create();
+        room.join(player5);
+        var player6 = Player.create();
+        room.join(player6);
+        room.guessLetter(player,  'q');
+        room.guessLetter(player2, 'w');
+        room.guessLetter(player3, 'e');
+        room.guessLetter(player4, 'r');
+        room.guessLetter(player5, 't');
+        room.guessLetter(player6, 'y');
+      });
+    });
+  });
+
 });
