@@ -34,16 +34,6 @@ describe('HangmanGame', function() {
 
   });
 
-  it('should keep track of which player guessed', function () {
-    var solution = 'monday';
-    var game = HangmanGame.create(solution);
-
-    var player = Player
-
-    expect(game.guessLetter('m', player)).to.equal(true);
-
-  });
-
   it('should add correctly guessed letters to word', function() {
     var solution = 'flood';
     var game = HangmanGame.create(solution);
