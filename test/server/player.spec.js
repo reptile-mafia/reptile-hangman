@@ -11,4 +11,10 @@ describe("Player", function () {
       expect(player).to.be.an('object');
     });
   });
+  describe("getId", function () {
+    it("should return the player's Id", function () {
+      var player = Player.create();
+      expect(player.getId()).to.be.a('string');
+    });
+  });
 });

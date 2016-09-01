@@ -3,6 +3,7 @@ var expect = chai.expect;
 
 
 var HangmanGame = require('../../server/models/hangmangame.js');
+var Player = require('../../server/models/player.js');
 
 describe('HangmanGame', function() {
   it('should have a create method', function() {
@@ -30,6 +31,16 @@ describe('HangmanGame', function() {
     expect(game.getGuessedLetters()).to.deep.equal(['m', 'z']);
     expect(game.guessLetter('z')).to.equal(false);
     expect(game.getGuessedLetters()).to.deep.equal(['m', 'z']);
+
+  });
+
+  it('should keep track of which player guessed', function () {
+    var solution = 'monday';
+    var game = HangmanGame.create(solution);
+
+    var player = Player
+
+    expect(game.guessLetter('m', player)).to.equal(true);
 
   });
 
