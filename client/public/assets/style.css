@@ -3,12 +3,25 @@ body {
 }
 
 div {
-	border: 1px solid grey;
-    margin: auto;
-	border-radius: 3px;
-	padding: 10px; 
-    margin: 10px;
     text-align: center;
+    background: #EEEEEE;
+    border-radius:10px;
+}
+
+.room{
+}
+
+.gameBoard{
+    float:left;
+    width:75%;
+    overflow:hidden;
+}
+
+.players{
+
+    float:right;
+    width:25%;
+    overflow:hidden;
 }
 
 .alphabet{
@@ -71,6 +84,10 @@ div {
     border-radius: .3rem;
     outline: 0;
     opacity: 1;
+}
+
+.gallows{
+    height: 500px;
 }
 
 #gallowStructure {

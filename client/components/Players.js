@@ -1,4 +1,5 @@
 import React from 'react';
+import Player from './Player'
 
 export default class Players extends React.Component {
 
@@ -9,13 +10,10 @@ export default class Players extends React.Component {
 	render() {
 		return ( 
 			< div className = "players"> 
-				{
-					this.players.map((player) => {
-						return ( 
-							<Player player={player} />
-							)
-					})
-				} 
+				PLAYERS
+				{this.props.players.map((player)=>{
+					return <Player player={player} />
+				})}
 			< /div>
 		)
 	}

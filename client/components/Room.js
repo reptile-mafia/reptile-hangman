@@ -1,6 +1,7 @@
 import React from 'react';
 import ServerAPI from '../models/ServerAPI';
 import GameBoard from './GameBoard';
+import Outcome from './Outcome.js';
 import Players from './Players';
 
 
@@ -8,26 +9,34 @@ export default class Room extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = {		
 			word: [],
 			guessedLetters: [],
 			remainingGuesses: 6,
+			players:[1,2,3,4],
 			timeUntilNextGame: -1,
 			isDone: true
 		};
 
+		this.outcome = {
+			win: true,
+			winner: "CC",
+		}
+
 		this.models = new ServerAPI(4000);
-		this.models.connect();
+		this.models.connect();	
+
+		//this.models.enterRomm()
+
 		this.models.onStartGame( (res) => {
 			console.log("Start game", res);
 			this.setState({
 				word: res.word,
-				gameState: 'play'
+				isDone: false
 			})
 		});
 
 		this.models.onIncorrectGuess((res)=>{
-			console.log("Start game", res);
 			this.setState({
 				remainingGuesses: res.remainingGuesses,
 				guessedLetters: res.guessedLetters
@@ -45,14 +54,20 @@ export default class Room extends React.Component {
 		this.models.onWin((res)=>{
 			console.log("win!")
 			this.setState({
-				gameState: 'win'
+				word: res.word,
+				isDone: true
 			})
 		})
 
 		this.models.onLose((res)=>{
 			console.log("lose!")
+			this.outcome = {
+
+			}
+
 			this.setState({
-				gameState: 'lose'
+				remainingGuesses: 0,
+				isDone: true
 			})
 		})
 	}
@@ -60,10 +75,17 @@ export default class Room extends React.Component {
 	render() {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
-			<div>
-				<GameBoard />
-				XXXXX
-				<Players />
+			<div className="room">
+				{
+					(this.state.isDone)?<Outcome gameState={this.state.gameState} />: null
+				}	
+				<GameBoard 
+					word={this.state.word} 
+					guessedLetters={guessedLettersUpper} 
+					remainingGuesses={this.state.remainingGuesses} 
+					models = {this.models}/>
+				<Players players={this.state.players}/>
+
 			</div>
 		)
 	}
