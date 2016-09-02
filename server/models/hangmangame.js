@@ -41,16 +41,22 @@ HangmanGame.create = function( solution ) {
     getRemainingGuesses: function () {
         return remainingGuesses;
     },
+<<<<<<< HEAD
     displaySolution: function() {
         return solution.join('')
+=======
+    getState: function () {
+      return {
+        word: game.getWord(), // keep state immutable
+        guessedLetters: game.getGuessedLetters(),
+        remainingGuesses: game.getRemainingGuesses(),
+        isDone: game.isLoss() || game.isWon()
+      }
+>>>>>>> origin/master
     }
   }
 
   return game;
 };
-
-
-
-
 
 module.exports = HangmanGame;

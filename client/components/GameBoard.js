@@ -2,7 +2,6 @@ import React from 'react';
 import ServerAPI from '../models/ServerAPI'
 import Alphabets from './Alphabets.js';
 import Gallows from './Gallows.js';
-import Outcome from './Outcome.js'
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';
@@ -11,50 +10,23 @@ export default class GameBoard extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			word: [],
-			guessedLetters: [],
-			remainingGuess: 6
-		};
-
-		this.models = new ServerAPI(4000);
-		this.models.connect();
-		this.models.onStartGame( (res) => {
-			console.log("Start game", res);
-			this.setState({
-				word: res.word
-			})
-		});
-
-		this.models.onIncorrectGuess((res)=>{
-			console.log("Start game", res);
-			this.setState({
-				remainingGuess: res.remainingGuess,
-				guessedLetters: res.guessedLetters
-			})
-		})
-
-		this.models.onCorrectGuess((res)=>{
-			console.log("Correct Guess", res);
-			this.setState({
-				word: res.word,
-				guessedLetters: res.guessedLetters
-			})
-		})
+		// this.state = {
+		// 	word: [],
+		// 	guessedLetters: [],
+		// 	remainingGuesses: 6,
+		// 	gameState: false
+		// };
 	}
 
-
-
 	render() {
-		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
+		var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
-			<div>
-				<Gallows remainingGuess={this.state.remainingGuess} />
-				<RemainingGuess RemainingGuess={this.state.remainingGuess} />
-				<Outcome />
-				<Word word={this.state.word} />
+			<div className ='gameBoard'>	
+				<Gallows remainingGuesses={this.props.remainingGuesses} />
+				<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
+				<Word word={this.props.word} />
 				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} models = {this.models}/>
+				<Alphabets guessedLetters={guessedLettersUpper} models = {this.props.models}/>	
 			</div>
 		)
 	}

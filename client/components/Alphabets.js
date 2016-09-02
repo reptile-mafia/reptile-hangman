@@ -9,17 +9,17 @@ export default class Alphabets extends React.Component {
 	}
 
 	render() {
-		return ( 
-			< div className = "alphabets"> 
-				{
-					this.alphabets.map((alphabet) => {
-						var guessed = this.props.guessedLetters.includes(alphabet);
-						return ( 
-							<Alphabet alphabet = { alphabet } guessed = { guessed } models = {this.props.models} />
-							)
-					})
-				} 
-			< /div>
-		)
+		// return ( 
+		// 	< div className = "alphabets"> 
+		// 		// {
+		// 		// 	this.alphabets.map((alphabet) => {
+		// 		// 		var guessed = this.props.guessedLetters.includes(alphabet);
+		// 		// 		return ( 
+		// 		// 			<Alphabet alphabet = { alphabet } guessed = { guessed } models = {this.props.models} />
+		// 		// 			)
+		// 		// 	})
+		// 		// } 
+		// 	< /div>
+		// )
 	}
 }

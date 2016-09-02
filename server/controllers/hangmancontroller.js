@@ -5,11 +5,7 @@ module.exports = function (io, game) {
       if (game.isWon()) {
         io.emit('win');
       } else {
-        io.emit('correctGuess', {
-          remainingGuesses: game.getRemainingGuesses(),
-          guessedLetters: game.getGuessedLetters(),
-          word: game.getWord()
-        });
+        io.emit('correctGuess', game.getState());
       }
     } else {
       if (game.isLoss()) {
@@ -17,14 +13,11 @@ module.exports = function (io, game) {
           showSolution: game.displaySolution()
         });
       } else {
-        io.emit('incorrectGuess', {
-          remainingGuesses: game.getRemainingGuesses(),
-          guessedLetters: game.getGuessedLetters()
-        });
+        io.emit('incorrectGuess', game.getState());
       }
     }
   });
 
-  io.emit('startGame', { word: game.getWord() });
+  io.emit('startGame', game.getState() );
 
 }

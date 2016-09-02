@@ -97,6 +97,7 @@ describe('HangmanGame', function() {
     expect(game.getRemainingGuesses()).to.equal(5);
   });
 
+<<<<<<< HEAD
   it('should display solution', function(){
     var solution = 'random'
     var game = HangmanGame.create(solution);
@@ -105,6 +106,25 @@ describe('HangmanGame', function() {
     expect(game.getRemainingGuesses()).to.equal(0);
     expect(game.isLoss()).to.equal(true);
     expect(game.getSolution()).to.deep.equal('random');
+=======
+
+  describe('getState', function () {
+    it('should return an object with remainingGuesses, guessedLetters, word and isDone', function () {
+      var solution = 'cool';
+      var game = HangmanGame.create(solution);
+      game.guessLetter('t');
+      game.guessLetter('o');
+      var state = game.getState();
+      expect(state).to.have.property('word');
+      expect(state.word).to.deep.equal([null, 'o', 'o', null]);
+      expect(state).to.have.property('remainingGuesses');
+      expect(state.remainingGuesses).to.equal(5);
+      expect(state).to.have.property('guessedLetters');
+      expect(state.guessedLetters).to.deep.equal(['t', 'o']);
+      expect(state).to.have.property('isDone');
+      expect(state.isDone).to.be.false;
+    });
+>>>>>>> origin/master
   });
 
 });
