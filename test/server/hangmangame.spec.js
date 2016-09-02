@@ -3,6 +3,7 @@ var expect = chai.expect;
 
 
 var HangmanGame = require('../../server/models/hangmangame.js');
+var Player = require('../../server/models/player.js');
 
 describe('HangmanGame', function() {
   it('should have a create method', function() {
@@ -97,6 +98,19 @@ describe('HangmanGame', function() {
     expect(game.getRemainingGuesses()).to.equal(5);
   });
 
+  describe("hasBeenGuessed", function () {
+      it("should return false if a letter hasn't been guessed yet", function () {
+        var solution = 'cool';
+        var game = HangmanGame.create(solution);
+        expect(game.hasBeenGuessed('o')).to.equal(false);
+      });
+      it("should return true if a letter has been guessed before", function () {
+        var solution = 'cool';
+        var game = HangmanGame.create(solution);
+        game.guessLetter('o');
+        expect(game.hasBeenGuessed('o')).to.equal(true);
+      });
+  });
 
   describe('getState', function () {
     it('should return an object with remainingGuesses, guessedLetters, word and isDone', function () {

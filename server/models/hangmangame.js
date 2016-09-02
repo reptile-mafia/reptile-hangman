@@ -16,7 +16,7 @@ HangmanGame.create = function( solution ) {
     guessLetter: function(letter) {
       letter = letter.toLowerCase();
       // If letter has not been guessed before then add it to guessedLetters
-      if (guessedLetters.indexOf(letter) === -1) {
+      if (!game.hasBeenGuessed(letter)) {
         guessedLetters.push(letter);
       }
       // If letter is not in solution then reduce remaining guesses by one
@@ -28,6 +28,9 @@ HangmanGame.create = function( solution ) {
     },
     getGuessedLetters: function() {
       return guessedLetters.slice();
+    },
+    hasBeenGuessed: function (letter) {
+      return (guessedLetters.indexOf(letter) !== -1);
     },
     isWon: function() {
       return game.getWord().indexOf(null) === -1;
