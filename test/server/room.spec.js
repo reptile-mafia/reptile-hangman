@@ -36,6 +36,16 @@ describe("Room", function () {
     });
   });
 
+  describe("leave", function () {
+    it("should remove a Player with given socket Id from Room", function () {
+      var room = Room.create();
+      var player = Player.create({ id: 1 });
+      room.join(player);
+      room.leave(1);
+      expect(room.getPlayers()).to.deep.equal([]);
+    });
+  });
+
   describe("getGame", function () {
     it("should return null if no game has started", function () {
       var room = Room.create();
@@ -70,9 +80,10 @@ describe("Room", function () {
     });
 
     it("should fire onCorrectGuess callback with player and letter on a good guess", function (done) {
-      room.onCorrectGuess(function (guessingPlayer, guessedLetter) {
+      room.onCorrectGuess(function (guessingPlayer, guessedLetter, cooldown) {
         expect(guessingPlayer).to.equal(player);
         expect(guessedLetter).to.equal('f');
+        expect(cooldown).to.be.above(Date.now());
         done();
       });
       room.guessLetter(player, 'f');
@@ -82,7 +93,7 @@ describe("Room", function () {
       var player2 = Player.create();
       room.join(player2);
       var ncalls = 0;
-      room.onCorrectGuess(function (guessingPlayer, guessedLetter) {
+      room.onCorrectGuess(function (guessingPlayer, guessedLetter, cooldown) {
         ncalls += 1;
       });
       room.guessLetter(player, 'f');
@@ -144,7 +155,7 @@ describe("Room", function () {
       room.newGame('a');
     });
     describe("onWin", function () {
-      it("should fire onWinCallback when game is won with winning player", function (done) {
+      it("should fire onWinCallback with winning player when game is won", function (done) {
         room.onWin(function (winner) {
           expect(winner).to.equal(player);
           done();
@@ -153,7 +164,7 @@ describe("Room", function () {
       });
     });
     describe("onLose", function () {
-      it("should fire onLoseCallback when a game is lost with losing player", function (done) {
+      it("should fire onLoseCallback with losing player when a game is lost", function (done) {
         room.onLose(function (loser) {
           expect(loser).to.equal(player6);
           done();

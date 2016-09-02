@@ -29,6 +29,13 @@ Room.create = function () {
       playersById[player.getId()] = player;
       cooldowns[player.getId()] = 0;
     },
+    leave: function (socketId) {
+      for (var id in playersById) {
+        if (playersById[id].id = socketId) {
+          delete playersById[id];
+        }
+      }
+    },
     getGame: function () {
       return game;
     },
@@ -46,12 +53,13 @@ Room.create = function () {
         return;
       }
       // Update cooldown
-      cooldowns[player.getId()] = Date.now() + cooldownDuration;
+      var cooldown = Date.now() + cooldownDuration;
+      cooldowns[player.getId()] = cooldown;
       if (game.guessLetter(letter)) {
         if (game.isWon()) {
           onWinCallback(player);
         } else {
-          onCorrectGuessCallback(player, letter);
+          onCorrectGuessCallback(player, letter, cooldown);
         }
       } else {
         if (game.isLoss()) {
@@ -61,14 +69,18 @@ Room.create = function () {
         }
       }
     },
+    getCooldownByPlayerId: function (playerId) {
+      return cooldowns[playerId];
+    },
+    // Event Listeners
+    onPlayerJoin: function (callback) {
+      onPlayerJoinCallback
+    },
     onCorrectGuess: function (callback) {
       onCorrectGuessCallback = callback;
     },
     onIncorrectGuess: function (callback) {
       onIncorrectGuessCallback = callback;
-    },
-    getCooldownByPlayerId: function (playerId) {
-      return cooldowns[playerId];
     },
     onCooldown: function (callback) {
       onCooldownCallback = callback;

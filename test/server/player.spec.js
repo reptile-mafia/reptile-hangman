@@ -17,4 +17,11 @@ describe("Player", function () {
       expect(player.getId()).to.be.a('string');
     });
   });
+  describe("getSocket", function () {
+    it("should return socket set in create", function () {
+      var pretendSocket = Player.create();
+      var player = Player.create(pretendSocket);
+      expect(player.getSocket()).to.equal(pretendSocket);
+    });
+  });
 });
