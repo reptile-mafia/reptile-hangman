@@ -35,9 +35,10 @@ RoomController.create = function (io) {
     });
   })
 
+  // Setup Controller's Public API
   var controller = {
     newGame: function (solution) {
-      room.newGame(solution)
+      room.newGame(solution);
     },
     getRoom: function () {
       return room;
@@ -60,14 +61,15 @@ RoomController.create = function (io) {
 
       // Send initial Events
       socket.emit('enterRoom', {
+        playerId: player.getId(),
+        gamestate: room.getGame().getState(),
         players: room.getPlayers()
       });
+      
       socket.broadcast.to(room.getId())
         .emit('playerEnterRoom', { playerId: player.getId() });
     }
   }
-
-
 
   return controller;
 }

@@ -84,6 +84,10 @@ describe("RoomController Client/Server Interaction", function () {
       client = io.connect(url);
     });
 
+    beforeEach('Create Game', function () {
+      controller.newGame('a');
+    });
+
     afterEach('Disconnect Client', function () {
       client.disconnect();
     });
@@ -98,8 +102,14 @@ describe("RoomController Client/Server Interaction", function () {
     });
 
     it("should emit enterRoom event to connecting client", function (done) {
+
       client.on('enterRoom', function (data) {
         expect(data.players).to.be.an('array');
+        expect(data.playerId).to.be.a('string');
+        expect(data.gamestate).to.be.an('object');
+        expect(data.gamestate.word).to.deep.equal([null]);
+        expect(data.gamestate.guessedLetters).to.deep.equal([]);
+        expect(data.gamestate.remainingGuesses).to.deep.equal(6);
         expect(data.players.length).to.equal(1);
         done();
       });
@@ -260,6 +270,5 @@ describe("RoomController Client/Server Interaction", function () {
       client5.emit('guessLetter', {letter: 't'});
       client6.emit('guessLetter', {letter: 'y'});
     });
-
   });
 });
