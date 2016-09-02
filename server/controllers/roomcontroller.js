@@ -15,6 +15,26 @@ RoomController.create = function (io) {
     });
   });
 
+  room.onIncorrectGuess(function (player, letter, cooldown) {
+    io.in(room.getId()).emit('incorrectGuess', {
+      playerId: player.getId(),
+      coolDown: cooldown,
+      gamestate: room.getGame().getState(),
+    });
+  });
+
+  room.onWin(function (player) {
+    io.in(room.getId()).emit('win', {
+      playerId: player.getId()
+    });
+  });
+
+  room.onLose(function (player) {
+    io.in(room.getId()).emit('loss', {
+      playerId: player.getId()
+    });
+  })
+
   var controller = {
     newGame: function (solution) {
       room.newGame(solution)

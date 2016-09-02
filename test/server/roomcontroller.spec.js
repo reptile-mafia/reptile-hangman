@@ -143,27 +143,45 @@ describe("RoomController Client/Server Interaction", function () {
   describe("guessLetter", function () {
     var client1;
     var client2;
+    var client3;
+    var client4;
+    var client5;
+    var client6;
 
     beforeEach('Start Client and Reset Game', function (done) {
       // Reset game on server
       controller.newGame('food');
-      // Make sure both clients are connected before test
-      var count = 2;
-      var doBoth = function () {
+      // Make sure all clients are connected before test
+      var count = 6;
+      var doAll = function () {
         count -= 1;
         if (count === 0) {
           done();
         }
       };
+
       client1 = io.connect(url);
       client2 = io.connect(url);
-      client1.on('connect', doBoth);
-      client2.on('connect', doBoth);
+      client3 = io.connect(url);
+      client4 = io.connect(url);
+      client5 = io.connect(url);
+      client6 = io.connect(url);
+
+      client1.on('connect', doAll);
+      client2.on('connect', doAll);
+      client3.on('connect', doAll);
+      client4.on('connect', doAll);
+      client5.on('connect', doAll);
+      client6.on('connect', doAll);
     });
 
     afterEach('Disconnect Client', function () {
       client1.disconnect();
       client2.disconnect();
+      client3.disconnect();
+      client4.disconnect();
+      client5.disconnect();
+      client6.disconnect();
     });
 
     it('should emit gamestate, cooldown and playerId on correct guess', function (done) {
@@ -200,6 +218,47 @@ describe("RoomController Client/Server Interaction", function () {
       client1.on('incorrectGuess', test);
       client2.on('incorrectGuess', test);
       client2.emit('guessLetter', { letter: 'z' });
+    });
+
+    it("should emit win event with winning playerId on victory", function (done) {
+      controller.newGame('an');
+      var counter = 2;
+      var test = function (data) {
+        expect(data.playerId).to.be.a('string');
+        counter -= 1;
+        if (counter === 0) {
+          done();
+        }
+      };
+      client1.on('win', test);
+      client2.on('win', test);
+      client1.emit('guessLetter', {letter: 'a'});
+      client2.emit('guessLetter', {letter: 'n'});
+    });
+
+    it("should emit loss event with losing playerId on defeat", function (done) {
+      controller.newGame('an');
+      var counter = 6;
+      var test = function (data) {
+        expect(data.playerId).to.be.a('string');
+        counter -= 1;
+        if (counter === 0) {
+          done();
+        }
+      };
+      client1.on('loss', test);
+      client2.on('loss', test);
+      client3.on('loss', test);
+      client4.on('loss', test);
+      client5.on('loss', test);
+      client6.on('loss', test);
+
+      client1.emit('guessLetter', {letter: 'q'});
+      client2.emit('guessLetter', {letter: 'w'});
+      client3.emit('guessLetter', {letter: 'e'});
+      client4.emit('guessLetter', {letter: 'r'});
+      client5.emit('guessLetter', {letter: 't'});
+      client6.emit('guessLetter', {letter: 'y'});
     });
 
   });

@@ -79,7 +79,7 @@ describe("Room", function () {
       expect(room.getGame().getWord()).to.deep.equal([null, 'o', 'o', null]);
     });
 
-    it("should fire onCorrectGuess callback with player and letter on a good guess", function (done) {
+    it("should fire onCorrectGuess callback with player, letter, and cooldown on a good guess", function (done) {
       room.onCorrectGuess(function (guessingPlayer, guessedLetter, cooldown) {
         expect(guessingPlayer).to.equal(player);
         expect(guessedLetter).to.equal('f');
@@ -101,10 +101,11 @@ describe("Room", function () {
       expect(ncalls).to.equal(1);
     });
 
-    it("should fire onIncorrectGuess callback with player and letter on an incorrect guess", function (done) {
-      room.onIncorrectGuess(function (guessingPlayer, guessedLetter) {
+    it("should fire onIncorrectGuess callback with player, letter, and cooldown on an incorrect guess", function (done) {
+      room.onIncorrectGuess(function (guessingPlayer, guessedLetter, cooldown) {
         expect(guessingPlayer).to.equal(player);
         expect(guessedLetter).to.equal('x');
+        expect(cooldown).to.be.above(Date.now());
         done();
       });
       room.guessLetter(player, 'x');

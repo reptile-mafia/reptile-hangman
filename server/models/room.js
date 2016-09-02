@@ -65,7 +65,7 @@ Room.create = function () {
         if (game.isLoss()) {
           onLoseCallback(player);
         } else {
-          onIncorrectGuessCallback(player, letter);
+          onIncorrectGuessCallback(player, letter, cooldown);
         }
       }
     },
