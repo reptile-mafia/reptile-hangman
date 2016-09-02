@@ -41,10 +41,11 @@ HangmanGame.create = function( solution ) {
     getRemainingGuesses: function () {
         return remainingGuesses;
     },
-<<<<<<< HEAD
+//<<<<<<< HEAD
     displaySolution: function() {
         return solution.join('')
-=======
+    },
+//=======
     getState: function () {
       return {
         word: game.getWord(), // keep state immutable
@@ -52,7 +53,7 @@ HangmanGame.create = function( solution ) {
         remainingGuesses: game.getRemainingGuesses(),
         isDone: game.isLoss() || game.isWon()
       }
->>>>>>> origin/master
+//>>>>>>> origin/master
     }
   }
 

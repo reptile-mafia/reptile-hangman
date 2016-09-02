@@ -62,7 +62,7 @@ export default class Room extends React.Component {
 		this.models.onLose((res)=>{
 			console.log("lose!")
 			this.outcome = {
-
+				solution: res.showSolution
 			}
 
 			this.setState({
