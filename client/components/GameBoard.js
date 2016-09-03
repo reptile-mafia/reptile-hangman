@@ -10,12 +10,6 @@ export default class GameBoard extends React.Component {
 
 	constructor(props) {
 		super(props);
-		// this.state = {
-		// 	word: [],
-		// 	guessedLetters: [],
-		// 	remainingGuesses: 6,
-		// 	gameState: false
-		// };
 	}
 
 	render() {
