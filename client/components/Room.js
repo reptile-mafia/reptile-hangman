@@ -35,7 +35,6 @@ export default class Room extends React.Component {
 		// enter room
 		this.serverAPI.onEnterRoom((res)=>{
 			console.log("Enter Room", res.gameState);
-
 			this.setState({
 				'player' : res.players,
 				'playerId' : res.playerId,
@@ -118,7 +117,6 @@ export default class Room extends React.Component {
 					remainingGuesses={this.state.remainingGuesses} 
 					models = {this.serverAPI}/>
 				<Players players={this.state.players}/>
-
 			</div>
 		)
 	}
