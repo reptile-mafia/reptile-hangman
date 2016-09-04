@@ -1,6 +1,7 @@
 import React from 'react';
 import ServerAPI from '../models/ServerAPI';
 import GameBoard from './GameBoard';
+import Gallows from './Gallows.js';
 import Outcome from './Outcome.js';
 import Players from './Players';
 
@@ -110,16 +111,26 @@ export default class Room extends React.Component {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
 			<div className="room">
-				{
-					(this.state.isDone)?<Outcome outcome={this.outcome} models={this.serverAPI} />: null
-				}	
-				<GameBoard 
-					word={this.state.word} 
-					guessedLetters={guessedLettersUpper} 
-					remainingGuesses={this.state.remainingGuesses} 
-					models = {this.serverAPI}/>
-				<Players players={this.state.players}/>
-
+			<div className="container">
+			<div className="row">
+				<div className="col-xs-2" id="playerCol">
+					<Players players={this.state.players}/>
+				</div>
+				<div className="col-xs-5" id="boardCol">
+					{
+						(this.state.isDone)?<Outcome gameState={this.state.gameState} />: null
+					}
+					<GameBoard 
+						word={this.state.word} 
+						guessedLetters={guessedLettersUpper} 
+						remainingGuesses={this.state.remainingGuesses} 
+						models = {this.models}/>
+				</div>
+				<div className="col-xs-5" id="gallowsCol">
+					<Gallows remainingGuesses={this.state.remainingGuesses} />
+				</div>
+			</div>
+			</div>
 			</div>
 		)
 	}

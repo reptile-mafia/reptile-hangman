@@ -27,10 +27,7 @@ export default class GameBoard extends React.Component {
 			<div className="container">
 				<div className ='gameBoard'>
 					<div className="row">
-						<div className="col-xs-8" id="gallows">
-							<Gallows remainingGuesses={this.props.remainingGuesses} />
-						</div>
-						<div className="col-xs-4" id ="guessed">
+						<div className="col-xs-12" id="guessed">
 							<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
 							<GuessedLetters guessedLetters={guessedLettersUpper} />
 						</div>
