@@ -1,6 +1,15 @@
+//  _______________________________________
+// / I am a simple server with support for \
+// \ only one room!                        /
+//  ---------------------------------------
+//        \   ^__^
+//         \  (oo)\_______
+//            (__)\       )\/\
+//                ||----w |
+//                ||     ||
 var Player = require('../models/player.js');
 var RoomController = require('../roomcontroller.js');
-
+var randomWords = require('random-words');
 // Simple server for socket.io on 'connection' events
 // Server will:
 // 1.) Create a new RoomController
@@ -19,6 +28,12 @@ var RoomController = require('../roomcontroller.js');
 module.exports = function (io, firstGameSolution) {
   // Create RoomController to manage Room and Game
   var controller = RoomController.create(io);
+  // Configure RoomController to use a random word for each new Game
+  controller.setWordGenerator(function () {
+    return randomWords(1)[0];
+  });
+  // Initialize RoomController to restart games after a 30 second delay
+  controller.setRestartDelay(30000);
   // initialize with provided word for testing
   controller.newGame(firstGameSolution);
   // Return our connection handler
