@@ -83,14 +83,16 @@ RoomController.create = function (io) {
 
   room.onWin(function (player) {
     io.in(room.getId()).emit('win', {
-      playerId: player.getId()
+      playerId: player.getId(),
+      gameState: room.getGame().getState()
     });
     startGameAfterRestartDelay();
   });
 
   room.onLose(function (player) {
     io.in(room.getId()).emit('loss', {
-      playerId: player.getId()
+      playerId: player.getId(),
+      gameState: room.getGame().getState()
     });
     startGameAfterRestartDelay();
   })
