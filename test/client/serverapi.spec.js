@@ -11,9 +11,10 @@ import ServerAPI from '../../client/models/ServerAPI.js';
 var port = process.env.PORT || 4001;
 
 describe('ServerAPI', function () {
-  this.timeout(2000);
+  this.timeout(50000);
   var api;
   var server;
+  var apis;
 
   beforeEach('Start Server', function (done) {
     server = http.createServer();
@@ -28,6 +29,7 @@ describe('ServerAPI', function () {
   });
 
   afterEach(function (done) {
+    console.log('spin server DOWN')
     server.close(function () {
       done();
     });
@@ -38,9 +40,31 @@ describe('ServerAPI', function () {
     api.connect();
   });
 
-  afterEach('Disconnect Client', function () {
-    api.disconnect();
+  // afterEach('Disconnect Client', function () {
+  //   api.disconnect();
+  // });
+
+  beforeEach(function () {
+    var count = 10;
+    apis = [];
+    for (var i = 0; i < 6; i++) {
+      var a = new ServerAPI(port);
+      apis.push(a);
+      a.connect();
+      // a.connect(function () {
+      //   count -= 1;
+      //   if (count === 0) {
+      //     done();
+      //   }
+      // });
+    }
   });
+
+  // afterEach('Disconnect Client', function () {
+  //   for (var i = 0; i < 6; i++) {
+  //     var a = new ServerAPI(port);
+  //   }
+  // });
 
   xit('should fire callback registered via onStartGame on connection', function (done) {
     // callback will receive object { word: [ ..array of nulls or strings ] }
@@ -84,30 +108,30 @@ describe('ServerAPI', function () {
     api.makeGuess('z');
   });
 
-  xit('should fire callback registered via onWin when a game is won', function (done) {
+  it('should fire callback registered via onWin when a game is won', function (done) {
     api.onWin(function () {
       expect(true);
       done();
     });
 
-    api.makeGuess('f');
-    api.makeGuess('l');
-    api.makeGuess('o');
-    api.makeGuess('d');
+    apis[0].makeGuess('f');
+    apis[1].makeGuess('l');
+    apis[2].makeGuess('o');
+    apis[3].makeGuess('d');
   });
 
-  xit('should fire callback registered via onLose when a game is lost', function (done) {
+  it('should fire callback registered via onLose when a game is lost', function (done) {
     api.onLose(function () {
       expect(true);
       done();
     });
 
-    api.makeGuess('z');
-    api.makeGuess('y');
-    api.makeGuess('n');
-    api.makeGuess('q');
-    api.makeGuess('p');
-    api.makeGuess('x');
+    apis[0].makeGuess('z');
+    apis[1].makeGuess('y');
+    apis[2].makeGuess('n');
+    apis[3].makeGuess('q');
+    apis[4].makeGuess('p');
+    apis[5].makeGuess('x');
   });
 
 });

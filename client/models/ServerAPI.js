@@ -8,12 +8,19 @@ export default class ServerAPI {
     this.client = null;
   }
 
-  disconnect() {
+  disconnect(callback) {
+    if (callback) {
+      this.client.on('disconnect', callback)
+    }
     this.client.disconnect();
+
   }
 
-  connect() {
+  connect(callback) {
     this.client = io.connect('http://localhost:' + this.port);
+    if (callback) {
+      this.client.on('connect', callback);
+    }
   }
 
   // Registers a callback to be invoked when game begins
