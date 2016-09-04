@@ -11,7 +11,7 @@ RoomController.create = function (io) {
     io.in(room.getId()).emit('correctGuess', {
       playerId: player.getId(),
       coolDown: cooldown,
-      gamestate: room.getGame().getState(),
+      gameState: room.getGame().getState(),
     });
   });
 
@@ -19,19 +19,21 @@ RoomController.create = function (io) {
     io.in(room.getId()).emit('incorrectGuess', {
       playerId: player.getId(),
       coolDown: cooldown,
-      gamestate: room.getGame().getState(),
+      gameState: room.getGame().getState(),
     });
   });
 
   room.onWin(function (player) {
     io.in(room.getId()).emit('win', {
-      playerId: player.getId()
+      playerId: player.getId(),
+      gameState: room.getGame().getState(),
     });
   });
 
   room.onLose(function (player) {
     io.in(room.getId()).emit('loss', {
-      playerId: player.getId()
+      playerId: player.getId(),
+      gameState: room.getGame().getState(),
     });
   })
 
@@ -62,12 +64,12 @@ RoomController.create = function (io) {
       // Send initial Events
       socket.emit('enterRoom', {
         playerId: player.getId(),
-        gamestate: room.getGame().getState(),
+        gameState: room.getGame().getState(),
         players: room.getPlayers()
       });
-      
-      socket.broadcast.to(room.getId())
-        .emit('playerEnterRoom', { playerId: player.getId() });
+      // socket.broadcast.to(room.getId())
+      //   .emit('playerEnterRoom', { playerId: player.getId() });
+      io.emit('playerEnterRoom', { playerId: player.getId() })
     }
   }
 

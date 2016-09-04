@@ -24,7 +24,14 @@ export default class ServerAPI {
 
   // Sends a letter to the server that represents a guess
   makeGuess(letter) {
+    console.log("client make guess", letter)
     this.client.emit('guessLetter', { letter: letter })
+  }
+
+  // Sends a letter to the server that represents a guess
+  playAgain() {
+    console.log("client play again")
+    this.client.emit('playAgain')
   }
 
   // Registers a callback to be invoked on an incorrect guess
@@ -49,4 +56,15 @@ export default class ServerAPI {
     this.client.on('loss', callback);
   }
 
+  onPlayerLeaveRoom(callback){
+    this.client.on('playerLeaveRoom', callback);
+  }
+
+  onPlayerEnterRoom(callback){
+    this.client.on('playerEnterRoom', callback)
+  }
+
+  onEnterRoom(callback){
+    this.client.on('enterRoom', callback)
+  }
 }

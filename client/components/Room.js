@@ -9,81 +9,114 @@ export default class Room extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {		
-			word: [],
-			guessedLetters: [],
-			remainingGuesses: 6,
-			players:[1,2,3,4],
-			timeUntilNextGame: -1,
-			isDone: true
+		this.state = {	
+	        word: [], // keep state immutable
+    		guessedLetters: [],
+    		remainingGuesses: 6,
+    		isDone: false,
+			players:[]
 		};
 
 		this.outcome = {
 			win: true,
-			winner: "CC",
+			player: "",
 		}
 
-		this.models = new ServerAPI(4000);
-		this.models.connect();	
+		// player = {
+		// 	playerId: null,
+		// 	guessedLetters: [],
+		// 	correctLetters: 0,
+		// 	incorrectLetters:0
+		// }
 
-		//this.models.enterRomm()
+		// setup socket
+		this.serverAPI = new ServerAPI(4000);
+		this.serverAPI.connect();	
+		// enter room
+		this.serverAPI.onEnterRoom((res)=>{
+			console.log("Enter Room", res.gameState);
 
-		this.models.onStartGame( (res) => {
-			console.log("Start game", res);
 			this.setState({
-				word: res.word,
-				isDone: false
+				'player' : res.players,
+				'playerId' : res.playerId,
+		        'word':  res.gameState.word, // keep state immutable
+	    		'guessedLetters': res.gameState.guessedLetters,
+	    		'remainingGuesses': res.gameState.remainingGuesses,
+	    		'isDone': res.gameState.isDone
+			});
+		})
+
+		this.serverAPI.onPlayerEnterRoom((res)=>{
+			console.log("Player enter room", res);
+			var playerList = this.state.players;
+			playerList.push(res.playerId);
+			this.setState({
+				players: playerList
 			})
 		});
 
-		this.models.onIncorrectGuess((res)=>{
+		this.serverAPI.onPlayerLeaveRoom((res)=>{
+			console.log("Player Leave room", res);
+			var playerList = this.state.players;
+			playerList.splice(playerList.indexOf(res.playerId), 1);
 			this.setState({
-				remainingGuesses: res.remainingGuesses,
-				guessedLetters: res.guessedLetters
+				players: playerList
 			})
+		});
+
+		this.serverAPI.onStartGame( (res) => {
+			console.log("Start game", res);
+			this.setGameState(res);
+		});
+
+		this.serverAPI.onIncorrectGuess((res)=>{
+			console.log("Incorrect Guess", res);
+			this.setGameState(res.gameState);
 		})
 
-		this.models.onCorrectGuess((res)=>{
+		this.serverAPI.onCorrectGuess((res)=>{
 			console.log("Correct Guess", res);
-			this.setState({
-				word: res.word,
-				guessedLetters: res.guessedLetters
-			})
+			this.setGameState(res.gameState);
 		})
 
-		this.models.onWin((res)=>{
-			console.log("win!")
-			this.setState({
-				word: res.word,
-				isDone: true
-			})
+		this.serverAPI.onWin((res)=>{
+			console.log("win!", res)
+			this.outcome.win = true;
+			this.outcome.player = res.playerId;
+			this.setGameState(res.gameState);
 		})
 
-		this.models.onLose((res)=>{
-			console.log("lose!")
-			this.outcome = {
-
-			}
-
-			this.setState({
-				remainingGuesses: 0,
-				isDone: true
-			})
+		this.serverAPI.onLose((res)=>{
+			console.log("lose!", res)
+			this.outcome.win = false;
+			this.outcome.player = res.playerId;
+			this.setGameState(res.gameState);
 		})
 	}
 
+	setGameState(gameState){
+		console.log("setting game state: ", gameState)
+		this.setState({
+	        'word':  gameState.word, // keep state immutable
+    		'guessedLetters': gameState.guessedLetters,
+    		'remainingGuesses': gameState.remainingGuesses,
+    		'isDone': gameState.isDone
+		});
+	}
+
 	render() {
+		console.log("render", this.state)
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
 			<div className="room">
 				{
-					(this.state.isDone)?<Outcome gameState={this.state.gameState} />: null
+					(this.state.isDone)?<Outcome outcome={this.outcome} models={this.serverAPI} />: null
 				}	
 				<GameBoard 
 					word={this.state.word} 
 					guessedLetters={guessedLettersUpper} 
 					remainingGuesses={this.state.remainingGuesses} 
-					models = {this.models}/>
+					models = {this.serverAPI}/>
 				<Players players={this.state.players}/>
 
 			</div>

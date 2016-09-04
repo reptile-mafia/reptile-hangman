@@ -37,6 +37,9 @@ Room.create = function () {
       }
     },
     getGame: function () {
+      if(!game){
+        this.newGame("SATURDAY")
+      }
       return game;
     },
     newGame: function (solution) {
