@@ -4,7 +4,6 @@ export default class Gallows extends React.Component {
 
 	constructor(props) {
 		super(props);
-		
 	}
 
 	render() {

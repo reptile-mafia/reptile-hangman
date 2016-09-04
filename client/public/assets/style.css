@@ -6,6 +6,10 @@ div {
     text-align: center;
 }
 
+.container {
+    max-width: 1050px;
+}
+
 .room{
 }
 
@@ -23,7 +27,7 @@ div {
 }
 
 .alphabets {
-    max-width: 420px;
+    max-width: 330px;
     margin: 40px auto;
 }
 
@@ -33,8 +37,8 @@ div {
     border-radius: 5px;
     background-color: #8888FF;
     color: white;
-    padding: 5px; 
-    width: 40px;
+    padding: 4px 1px; 
+    width: 30px;
     height: 30px;
     margin: 3px; 
 }
@@ -42,10 +46,6 @@ div {
 .alphabet-guessed{
 	background-color: #666666;
     color: #999999;
-}
-
-.remainingGuess{
-    text-align: left;
 }
 
 #theword-row {
@@ -65,10 +65,10 @@ div {
 	display: inline-block;
     font-size: 300%;
     width: 1em;
-    margin: 0px 5px;
+    margin: 0px;
 }
 
-.guessedLetters{
+.guessedLetters, .remainingGuess, .navcon {
     text-align: left;
 /*    text-align: center;
     padding: 10px; 
@@ -137,10 +137,15 @@ div {
 
 .navbar {
     background-color: #666;
+    margin-bottom: 0px;
 }
 
 h1.game-title {
 
     background-color: #666;
     color: white;
+}
+
+#player-col, #board-col {
+    padding-top: 25px;
 }

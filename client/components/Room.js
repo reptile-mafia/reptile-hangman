@@ -105,14 +105,15 @@ export default class Room extends React.Component {
 		});
 	}
 
+
 	render() {
 		console.log("render", this.state)
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
-
 			<div className="room">
+			{ (this.state.isDone)?<Outcome gameState={this.state.gameState} />: null }
 			<nav className="navbar navbar-default navbar-static-top">
-			  <div className="container">
+			  <div className="container navcon">
 			    <h1 className="game-title">HANGMAN</h1>
 			  </div>
 			</nav>
@@ -120,18 +121,15 @@ export default class Room extends React.Component {
 			<div className="row">
 				<div className="col-xs-2" id="player-col">
 					<Players players={this.state.players}/>
-				</div>
-				<div className="col-xs-7" id="board-col">
-					{
-						(this.state.isDone)?<Outcome gameState={this.state.gameState} />: null
-					}
+				</div>	
+				<div className="col-xs-8" id="board-col">
 					<GameBoard 
 						word={this.state.word} 
 						guessedLetters={guessedLettersUpper} 
 						remainingGuesses={this.state.remainingGuesses} 
 						models = {this.models}/>
 				</div>
-				<div className="col-xs-3" id="gallows-col">
+				<div className="col-xs-2" id="gallows-col">
 					<Gallows remainingGuesses={this.state.remainingGuesses} />
 				</div>
 			</div>

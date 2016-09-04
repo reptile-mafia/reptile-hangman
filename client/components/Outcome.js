@@ -20,6 +20,7 @@ export default class Outcome extends React.Component {
 					<div onClick = {this.onPlayAgain.bind(this)}>Play Again?</div>
 				</div>
 			< /div>
+
 		)
 	}
 }
