@@ -73,7 +73,6 @@ describe("Room", function () {
       room.newGame('tuesday');
       var cooldown2 = room.getCooldownByPlayerId(player.getId());
       expect(cooldown2).to.not.equal(cooldown);
-
     });
   });
 
