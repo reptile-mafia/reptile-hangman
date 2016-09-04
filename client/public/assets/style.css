@@ -22,42 +22,58 @@ div {
     overflow:hidden;
 }
 
+.alphabets {
+    max-width: 420px;
+    margin: 40px auto;
+}
+
 .alphabet{
     text-align: center;
 	display: inline-block;
     border-radius: 5px;
-    border: 2px solid #8888FF;
-    padding: 10px; 
-    width: 30px;
-    height: 20px; 
+    background-color: #8888FF;
+    color: white;
+    padding: 5px; 
+    width: 40px;
+    height: 30px;
+    margin: 3px; 
 }
 
 .alphabet-guessed{
-	background: #222222;
+	background-color: #666666;
+    color: #999999;
 }
 
 .remainingGuess{
-
+    text-align: left;
 }
+
+#theword-row {
+    margin: 100px auto 60px;
+}
+
+#guessed-row {
+    text-align: left;
+    margin-left: 30%;
+}
+
 .wordLetters{
     text-align: center;
 }
 
 .wordLetter{
-    text-align: center;
 	display: inline-block;
-    border-radius: 5px;
-    border: 2px solid #888888;
-    padding: 10px; 
-    width: 30px;
-    height: 20px; 
-    margin: auto;
+    font-size: 300%;
+    width: 1em;
+    margin: 0px 5px;
 }
 
 .guessedLetters{
-    text-align: center;
+    text-align: left;
+/*    text-align: center;
     padding: 10px; 
     height: 20px; 
+*/
 }
 
 .outcome-outline{
@@ -95,7 +111,7 @@ div {
 
 #gallowRope {
     stroke: #666;
-    stroke-width: 5;
+    stroke-width: 8;
 }
 
 #gallowRope circle {

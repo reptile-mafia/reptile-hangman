@@ -16,7 +16,6 @@ export default class Room extends React.Component {
     		remainingGuesses: 6,
     		isDone: false,
 			players:[]
-
 		};
 
 		this.outcome = {
@@ -122,7 +121,7 @@ export default class Room extends React.Component {
 				<div className="col-xs-2" id="player-col">
 					<Players players={this.state.players}/>
 				</div>
-				<div className="col-xs-5" id="board-col">
+				<div className="col-xs-7" id="board-col">
 					{
 						(this.state.isDone)?<Outcome gameState={this.state.gameState} />: null
 					}
@@ -132,7 +131,7 @@ export default class Room extends React.Component {
 						remainingGuesses={this.state.remainingGuesses} 
 						models = {this.models}/>
 				</div>
-				<div className="col-xs-5" id="gallows-col">
+				<div className="col-xs-3" id="gallows-col">
 					<Gallows remainingGuesses={this.state.remainingGuesses} />
 				</div>
 			</div>
