@@ -19,7 +19,7 @@ export default class Room extends React.Component {
 
 		this.outcome = {
 			win: true,
-			winner: "CC",
+			player: "",
 		}
 
 		// player = {
@@ -29,14 +29,21 @@ export default class Room extends React.Component {
 		// 	incorrectLetters:0
 		// }
 
-		// init room
+		// setup socket
 		this.serverAPI = new ServerAPI(4000);
 		this.serverAPI.connect();	
+		// enter room
 		this.serverAPI.onEnterRoom((res)=>{
-			console.log("Enter Room");
-			this.state.players = res.players;
-			this.state.playerId = res.playerId;
-			this.setGameState(res.gameState);
+			console.log("Enter Room", res.gameState);
+
+			this.setState({
+				'player' : res.players,
+				'playerId' : res.playerId,
+		        'word':  res.gameState.word, // keep state immutable
+	    		'guessedLetters': res.gameState.guessedLetters,
+	    		'remainingGuesses': res.gameState.remainingGuesses,
+	    		'isDone': res.gameState.isDone
+			});
 		})
 
 		this.serverAPI.onPlayerEnterRoom((res)=>{
@@ -63,49 +70,38 @@ export default class Room extends React.Component {
 		});
 
 		this.serverAPI.onIncorrectGuess((res)=>{
-			this.setState({
-				remainingGuesses: res.remainingGuesses,
-				guessedLetters: res.guessedLetters
-			})
+			console.log("Incorrect Guess", res);
 			this.setGameState(res.gameState);
 		})
 
 		this.serverAPI.onCorrectGuess((res)=>{
 			console.log("Correct Guess", res);
-			this.setState({
-				word: res.word,
-				guessedLetters: res.guessedLetters
-			})
+			this.setGameState(res.gameState);
 		})
 
 		this.serverAPI.onWin((res)=>{
-			console.log("win!")
-			this.setState({
-				word: res.word,
-				isDone: true
-			})
+			console.log("win!", res)
+			this.outcome.win = true;
+			this.outcome.player = res.playerId;
+			this.setGameState(res.gameState);
 		})
 
 		this.serverAPI.onLose((res)=>{
-			console.log("lose!")
-			this.outcome = {
-
-			}
-
-			this.setState({
-				remainingGuesses: 0,
-				isDone: true
-			})
+			console.log("lose!", res)
+			this.outcome.win = true;
+			this.outcome.player = res.playerId;
+			this.setGameState(res.gameState);
 		})
 	}
 
 	setGameState(gameState){
+		console.log("setting game state: ", gameState)
 		this.setState({
-	        word:  gameState.word, // keep state immutable
-    		guessedLetters: gameState.guessedLetters,
-    		remainingGuesses: gameState.remainingGuesses,
-    		isDone: gameState.isDone
-		})
+	        'word':  gameState.word, // keep state immutable
+    		'guessedLetters': gameState.guessedLetters,
+    		'remainingGuesses': gameState.remainingGuesses,
+    		'isDone': gameState.isDone
+		});
 	}
 
 	render() {
@@ -114,7 +110,7 @@ export default class Room extends React.Component {
 		return(
 			<div className="room">
 				{
-					(this.state.isDone)?<Outcome gameState={this.state.gameState} />: null
+					(this.state.isDone)?<Outcome outcome={this.outcome} models = {this.serverAPI}/>: null
 				}	
 				<GameBoard 
 					word={this.state.word} 

@@ -25,13 +25,15 @@ RoomController.create = function (io) {
 
   room.onWin(function (player) {
     io.in(room.getId()).emit('win', {
-      playerId: player.getId()
+      playerId: player.getId(),
+      gameState: room.getGame().getState(),
     });
   });
 
   room.onLose(function (player) {
     io.in(room.getId()).emit('loss', {
-      playerId: player.getId()
+      playerId: player.getId(),
+      gameState: room.getGame().getState(),
     });
   })
 
@@ -65,9 +67,9 @@ RoomController.create = function (io) {
         gamestate: room.getGame().getState(),
         players: room.getPlayers()
       });
-      
-      socket.broadcast.to(room.getId())
-        .emit('playerEnterRoom', { playerId: player.getId() });
+      // socket.broadcast.to(room.getId())
+      //   .emit('playerEnterRoom', { playerId: player.getId() });
+      io.emit('playerEnterRoom', { playerId: player.getId() })
     }
   }
 

@@ -6,7 +6,11 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var game = require('./models/hangmangame.js');
-var controller = require('./controllers/hangmancontroller.js');
+var player = require('./models/player.js');
+
+//var controller = require('./controllers/hangmancontroller.js');
+var controller = require('./controllers/roomcontroller.js');
+var room = controller.create(io);
 
 app.use(express.static(path.join(__dirname, "../client/public")));
 
@@ -18,8 +22,8 @@ app.get('/bundle.js',
 
 io.on('connection', function (socket) {
   console.log('Client has connected');
-  controller(socket, game.create('monday'));
-  // socket.emit('start', { word: [null, null, null] });
+  var newPlayer = player.create(socket);
+  room.join(newPlayer);
 });
 
 // If not in test environment start server
