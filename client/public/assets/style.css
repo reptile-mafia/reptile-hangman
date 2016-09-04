@@ -4,8 +4,6 @@ body {
 
 div {
     text-align: center;
-    background: #EEEEEE;
-    border-radius:10px;
 }
 
 .room{
@@ -121,3 +119,12 @@ div {
     opacity: 0;
 }
 
+.navbar {
+    background-color: #666;
+}
+
+h1.game-title {
+
+    background-color: #666;
+    color: white;
+}
