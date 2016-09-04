@@ -34,9 +34,14 @@ export default class Room extends React.Component {
 		this.serverAPI.connect();	
 		// enter room
 		this.serverAPI.onEnterRoom((res)=>{
-			console.log("Enter Room", res.gameState);
+			console.log("Enter Room", res);
+			var playerList = res.players.slice();
+			console.log("XXXXX", res.players[0].getId())
+			playerList.push(res.playerId);
+
+			console.log("PLAYERLIST: ", res.players.playerId, playerList)
 			this.setState({
-				'player' : res.players,
+				'players' : playerList,
 				'playerId' : res.playerId,
 		        'word':  res.gameState.word, // keep state immutable
 	    		'guessedLetters': res.gameState.guessedLetters,
