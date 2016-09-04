@@ -23,9 +23,7 @@ var randomWords = require('random-words');
 // To Use:
 // Invoke exported function with server's socket io
 // this will create a new handler that can be used in io.on('connection')
-
-// Takes an optional firstGameSolution for testing purposes
-module.exports = function (io, firstGameSolution) {
+module.exports = function (io) {
   // Create RoomController to manage Room and Game
   var controller = RoomController.create(io);
   // Configure RoomController to use a random word for each new Game
