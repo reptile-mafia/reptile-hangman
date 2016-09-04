@@ -1,24 +1,34 @@
 var chai = require('chai');
 var expect = chai.expect;
-var server = require('http').createServer();
-var server_io = require('socket.io')(server);
+var http = require('http');
+var server_io = require('socket.io');
 var game = require('../../server/models/hangmangame.js');
-var controller = require('../../server/controllers/hangmancontroller.js');
+// var controller = require('../../server/controllers/hangmancontroller.js');
+// Refactored to use our singleRoomServer
+var singleRoomServer = require('../../server/controllers/singleroomserver.js');
 import ServerAPI from '../../client/models/ServerAPI.js';
 
 var port = process.env.PORT || 4001;
 
-
 describe('ServerAPI', function () {
   this.timeout(2000);
   var api;
+  var server;
 
-  before('Start Server', function (done) {
+  beforeEach('Start Server', function (done) {
+    server = http.createServer();
+    var io = server_io(server);
     // Each connection will start a new game with word 'monday'
-    server_io.on('connection', function (socket) {
-      controller(socket, game.create('flood'));
-    });
+    io.on('connection', singleRoomServer(io, function () {
+      return 'flood'; // Word will be flood for every game
+    }) );
     server.listen(port, function () {
+      done();
+    });
+  });
+
+  afterEach(function (done) {
+    server.close(function () {
       done();
     });
   });
@@ -32,7 +42,7 @@ describe('ServerAPI', function () {
     api.disconnect();
   });
 
-  it('should fire callback registered via onStartGame on connection', function (done) {
+  xit('should fire callback registered via onStartGame on connection', function (done) {
     // callback will receive object { word: [ ..array of nulls or strings ] }
     api.onStartGame(function (res) {
       expect(res).to.be.defined;
@@ -42,11 +52,22 @@ describe('ServerAPI', function () {
     });
   });
 
+  it('should fire callback registered via onEnterRoom on connection', function (done) {
+    // callback will receive object { word: [ ..array of nulls or strings ] }
+    api.onEnterRoom(function (res) {
+      expect(res).to.be.defined;
+      expect(res.gameState).to.be.defined;
+      expect(res.gameState.word).to.deep.equal([null, null, null, null, null]);
+
+      done();
+    });
+  });
+
   it('should fire callback registered via onCorrectGuess when a correct guess is made', function (done) {
     api.onCorrectGuess(function (res) {
       expect(res).to.be.defined;
-      expect(res.guessedLetters).to.deep.equal(['o']);
-      expect(res.word).to.deep.equal([null, null, 'o', 'o', null]);
+      expect(res.gameState.guessedLetters).to.deep.equal(['o']);
+      expect(res.gameState.word).to.deep.equal([null, null, 'o', 'o', null]);
       done();
     });
 
@@ -56,14 +77,14 @@ describe('ServerAPI', function () {
   it('should fire callback registered via onIncorrectGuess when an incorrect guess is made', function (done) {
     api.onIncorrectGuess(function (res) {
       expect(res).to.be.defined;
-      expect(res.guessedLetters).to.deep.equal(['z']);
+        expect(res.gameState.guessedLetters).to.deep.equal(['z']);
       done();
     });
 
     api.makeGuess('z');
   });
 
-  it('should fire callback registered via onWin when a game is won', function (done) {
+  xit('should fire callback registered via onWin when a game is won', function (done) {
     api.onWin(function () {
       expect(true);
       done();
@@ -75,7 +96,7 @@ describe('ServerAPI', function () {
     api.makeGuess('d');
   });
 
-  it('should fire callback registered via onLose when a game is lost', function (done) {
+  xit('should fire callback registered via onLose when a game is lost', function (done) {
     api.onLose(function () {
       expect(true);
       done();
