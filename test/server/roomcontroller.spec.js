@@ -242,6 +242,8 @@ describe("RoomController Client/Server Interaction", function () {
       var counter = 2;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
+        expect(data.gameState).to.be.defined;
+        expect(data.gameState.isDone).to.equal(true);
         counter -= 1;
         if (counter === 0) {
           done();
@@ -275,6 +277,9 @@ describe("RoomController Client/Server Interaction", function () {
       var counter = 6;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
+        expect(data.gameState).to.be.defined;
+        expect(data.gameState.isDone).to.equal(true);
+        expect(data.gameState.remainingGuesses).to.equal(0);
         counter -= 1;
         if (counter === 0) {
           done();
