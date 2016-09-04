@@ -23,7 +23,7 @@ var randomWords = require('random-words');
 // To Use:
 // Invoke exported function with server's socket io
 // this will create a new handler that can be used in io.on('connection')
-module.exports = function (io, wordGenerator) {
+module.exports = function (io, wordGenerator, restartDelay) {
   // Create RoomController to manage Room and Game
   var controller = RoomController.create(io);
   if (wordGenerator === undefined) {
@@ -32,9 +32,13 @@ module.exports = function (io, wordGenerator) {
       return randomWords(1)[0];
     };
   }
-  controller.setWordGenerator(wordGenerator);
+  if (restartDelay === undefined) {
   // Initialize RoomController to restart games after a 30 second delay
-  controller.setRestartDelay(30000);
+    restartDelay = 30000;
+  }
+  // Configure controller with above options
+  controller.setWordGenerator(wordGenerator);
+  controller.setRestartDelay(restartDelay);
   controller.newGame();
   // Return our connection handler
   return function onConnectionHandler (socket) {

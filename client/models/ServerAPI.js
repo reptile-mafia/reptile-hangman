@@ -10,6 +10,7 @@ export default class ServerAPI {
 
   disconnect() {
     this.client.disconnect();
+
   }
 
   connect() {
