@@ -1,14 +1,14 @@
 var HangmanGame = {};
 
 HangmanGame.create = function( solution ) {
-  solution = solution.toLowerCase().split('');
+  var splitSolution = solution.toLowerCase().split('');
   var word = Array(solution.length).fill(null);
   var guessedLetters = [];
   var remainingGuesses = 6;
 
   var game = {
     getWord: function() {
-      return solution.map(function(letter) {
+      return splitSolution.map(function(letter) {
         return guessedLetters.indexOf(letter) === -1 ? null : letter;
        });
     },
@@ -37,6 +37,9 @@ HangmanGame.create = function( solution ) {
     },
     isLoss: function() {
       return remainingGuesses <= 0;
+    },
+    getSolution: function () {
+      return solution;
     },
     getRemainingGuesses: function () {
         return remainingGuesses;

@@ -76,6 +76,7 @@ describe("Room", function () {
     });
   });
 
+
   describe("guessLetter", function () {
     var room;
     var player;

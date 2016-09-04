@@ -130,4 +130,12 @@ describe('HangmanGame', function() {
     });
   });
 
+  describe("getSolution", function () {
+    it("should return the solution as a string", function () {
+      var solution = 'test';
+      var game = HangmanGame.create(solution);
+      expect(game.getSolution()).to.equal(solution);
+    });
+  });
+
 });
