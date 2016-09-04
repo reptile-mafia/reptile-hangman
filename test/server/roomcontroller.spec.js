@@ -7,7 +7,6 @@ var server_io = require('socket.io')(server);
 var Room = require('../../server/models/room.js');
 var Player = require('../../server/models/player.js');
 var RoomController = require('../../server/controllers/roomcontroller.js');
-
 var port = process.env.PORT || 4002;
 
 describe('RoomController Basic Features', function () {
@@ -37,7 +36,15 @@ describe('RoomController Basic Features', function () {
       controller.newGame(solution);
       expect(controller.getRoom().getGame().getWord()).to.deep.equal([null]);
     });
+    it("should use function set by setWordGenerator to choose solution if none given", function () {
+      controller.setWordGenerator(function () {
+        return 'test';
+      });
+      controller.newGame();
+      expect(controller.getRoom().getGame().getSolution()).to.equal('test');
+    });
   });
+
   // Need to refactor tests to use mock socket or something similar
   xdescribe("join", function () {
     it("should call Room.join with Player for associated room", function () {
@@ -106,10 +113,10 @@ describe("RoomController Client/Server Interaction", function () {
       client.on('enterRoom', function (data) {
         expect(data.players).to.be.an('array');
         expect(data.playerId).to.be.a('string');
-        expect(data.gamestate).to.be.an('object');
-        expect(data.gamestate.word).to.deep.equal([null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal([]);
-        expect(data.gamestate.remainingGuesses).to.deep.equal(6);
+        expect(data.gameState).to.be.an('object');
+        expect(data.gameState.word).to.deep.equal([null]);
+        expect(data.gameState.guessedLetters).to.deep.equal([]);
+        expect(data.gameState.remainingGuesses).to.deep.equal(6);
         expect(data.players.length).to.equal(1);
         done();
       });
@@ -194,14 +201,14 @@ describe("RoomController Client/Server Interaction", function () {
       client6.disconnect();
     });
 
-    it('should emit gamestate, cooldown and playerId on correct guess', function (done) {
+    it('should emit gameState, cooldown and playerId on correct guess', function (done) {
       var counter = 2;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
         expect(data.coolDown).to.be.above(Date.now());
-        expect(data.gamestate.word).to.deep.equal([null, 'o', 'o', null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal(['o']);
-        expect(data.gamestate.remainingGuesses).to.equal(6);
+        expect(data.gameState.word).to.deep.equal([null, 'o', 'o', null]);
+        expect(data.gameState.guessedLetters).to.deep.equal(['o']);
+        expect(data.gameState.remainingGuesses).to.equal(6);
         counter -= 1;
         if (counter === 0) {
           done();
@@ -212,14 +219,14 @@ describe("RoomController Client/Server Interaction", function () {
       client2.emit('guessLetter', { letter: 'o' });
     });
 
-    it('should emit gamestate, cooldown and playerId on incorrect guess', function (done) {
+    it('should emit gameState, cooldown and playerId on incorrect guess', function (done) {
       var counter = 2;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
         expect(data.coolDown).to.be.above(Date.now());
-        expect(data.gamestate.word).to.deep.equal([null, null, null, null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal(['z']);
-        expect(data.gamestate.remainingGuesses).to.equal(5);
+        expect(data.gameState.word).to.deep.equal([null, null, null, null]);
+        expect(data.gameState.guessedLetters).to.deep.equal(['z']);
+        expect(data.gameState.remainingGuesses).to.equal(5);
         counter -= 1;
         if (counter === 0) {
           done();
@@ -246,6 +253,23 @@ describe("RoomController Client/Server Interaction", function () {
       client2.emit('guessLetter', {letter: 'n'});
     });
 
+    it("should create a new Game on a win after restartDelay has expired", function (done) {
+      controller.newGame('a');
+      // setWordGenerator so that new Game will contain what we expect
+      controller.setWordGenerator(function () {
+        return 'b';
+      });
+      controller.setRestartDelay(0);
+      client1.on('startGame', function (data) {
+        expect(controller.getRoom().getGame().getSolution()).to.equal('b');
+        expect(data.gameState.word).to.deep.equal([null]);
+        expect(data.gameState.guessedLetters).to.deep.equal([]);
+        expect(data.gameState.remainingGuesses).to.equal(6);
+        done();
+      });
+      client1.emit('guessLetter', {letter: 'a'});
+    });
+
     it("should emit loss event with losing playerId on defeat", function (done) {
       controller.newGame('an');
       var counter = 6;
@@ -263,6 +287,28 @@ describe("RoomController Client/Server Interaction", function () {
       client5.on('loss', test);
       client6.on('loss', test);
 
+      client1.emit('guessLetter', {letter: 'q'});
+      client2.emit('guessLetter', {letter: 'w'});
+      client3.emit('guessLetter', {letter: 'e'});
+      client4.emit('guessLetter', {letter: 'r'});
+      client5.emit('guessLetter', {letter: 't'});
+      client6.emit('guessLetter', {letter: 'y'});
+    });
+
+    it("should create a new Game on a loss after restartDelay has expired", function (done) {
+      controller.newGame('a');
+      // setWordGenerator so that new Game will contain what we expect
+      controller.setWordGenerator(function () {
+        return 'b';
+      });
+      controller.setRestartDelay(0);
+      client1.on('startGame', function (data) {
+        expect(controller.getRoom().getGame().getSolution()).to.equal('b');
+        expect(data.gameState.word).to.deep.equal([null]);
+        expect(data.gameState.guessedLetters).to.deep.equal([]);
+        expect(data.gameState.remainingGuesses).to.equal(6);
+        done();
+      });
       client1.emit('guessLetter', {letter: 'q'});
       client2.emit('guessLetter', {letter: 'w'});
       client3.emit('guessLetter', {letter: 'e'});

@@ -1,6 +1,4 @@
--t 5000 
---compilers js:babel-core/register 
+-t 5000
+--compilers js:babel-core/register
 --require ./test/client/test_helper.js
-test/**/*.spec.js
-
-
+test/server/*.spec.js test/client/serverapi.spec.js
