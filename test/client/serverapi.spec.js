@@ -11,25 +11,24 @@ import ServerAPI from '../../client/models/ServerAPI.js';
 var port = process.env.PORT || 4001;
 
 describe('ServerAPI', function () {
-  this.timeout(50000);
+  this.timeout(2000);
   var api;
   var server;
   var apis;
-
+  var restartDelay = 50; // set low restartDelay so tests are fast
   beforeEach('Start Server', function (done) {
     server = http.createServer();
     var io = server_io(server);
     // Each connection will start a new game with word 'monday'
     io.on('connection', singleRoomServer(io, function () {
       return 'flood'; // Word will be flood for every game
-    }) );
+    }, restartDelay));
     server.listen(port, function () {
       done();
     });
   });
 
   afterEach(function (done) {
-    console.log('spin server DOWN')
     server.close(function () {
       done();
     });
@@ -40,9 +39,9 @@ describe('ServerAPI', function () {
     api.connect();
   });
 
-  // afterEach('Disconnect Client', function () {
-  //   api.disconnect();
-  // });
+  afterEach('Disconnect Client', function () {
+    api.disconnect();
+  });
 
   beforeEach(function () {
     var count = 10;
@@ -51,29 +50,13 @@ describe('ServerAPI', function () {
       var a = new ServerAPI(port);
       apis.push(a);
       a.connect();
-      // a.connect(function () {
-      //   count -= 1;
-      //   if (count === 0) {
-      //     done();
-      //   }
-      // });
     }
   });
 
-  // afterEach('Disconnect Client', function () {
-  //   for (var i = 0; i < 6; i++) {
-  //     var a = new ServerAPI(port);
-  //   }
-  // });
-
-  xit('should fire callback registered via onStartGame on connection', function (done) {
-    // callback will receive object { word: [ ..array of nulls or strings ] }
-    api.onStartGame(function (res) {
-      expect(res).to.be.defined;
-      expect(res.word).to.be.defined;
-      expect(res.word).to.deep.equal([null, null, null, null, null]);
-      done();
-    });
+  afterEach('Disconnect Client', function () {
+    for (var i = 0; i < 6; i++) {
+      var a = new ServerAPI(port);
+    }
   });
 
   it('should fire callback registered via onEnterRoom on connection', function (done) {
@@ -132,6 +115,23 @@ describe('ServerAPI', function () {
     apis[3].makeGuess('q');
     apis[4].makeGuess('p');
     apis[5].makeGuess('x');
+  });
+
+  it('should fire callback registered via onStartGame on when a new Game is created', function (done) {
+    var t1 = Date.now(); // Check that restart time is being honored
+    api.onStartGame(function (res) {
+      expect(res).to.be.defined;
+      expect(res.gameState.word).to.be.defined;
+      expect(res.gameState.word).to.deep.equal([null, null, null, null, null]);
+      var t2 = Date.now();
+      expect(t2 - t1).to.be.above(restartDelay);
+      done();
+    });
+    // Win game in order to trigger a startGame event
+    apis[0].makeGuess('f');
+    apis[1].makeGuess('l');
+    apis[2].makeGuess('o');
+    apis[3].makeGuess('d');
   });
 
 });
