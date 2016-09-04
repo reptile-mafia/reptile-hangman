@@ -8,7 +8,7 @@
 //                ||----w |
 //                ||     ||
 var Player = require('../models/player.js');
-var RoomController = require('../roomcontroller.js');
+var RoomController = require('./roomcontroller.js');
 var randomWords = require('random-words');
 // Simple server for socket.io on 'connection' events
 // Server will:
@@ -32,8 +32,7 @@ module.exports = function (io) {
   });
   // Initialize RoomController to restart games after a 30 second delay
   controller.setRestartDelay(30000);
-  // initialize with provided word for testing
-  controller.newGame(firstGameSolution);
+  controller.newGame();
   // Return our connection handler
   return function onConnectionHandler (socket) {
     // Treat each new connection as a new Player

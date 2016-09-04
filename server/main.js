@@ -5,6 +5,8 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+var singleRoomServer = require('./controllers/singleroomserver.js');
+
 var game = require('./models/hangmangame.js');
 var player = require('./models/player.js');
 
@@ -20,11 +22,8 @@ app.get('/bundle.js',
   })
 );
 
-io.on('connection', function (socket) {
-  console.log('Client has connected');
-  var newPlayer = player.create(socket);
-  room.join(newPlayer);
-});
+// Wire up SingleRoomServer
+io.on('connection', singleRoomServer(io) );
 
 // If not in test environment start server
 if (process.env.NODE_ENV !== 'test') {

@@ -113,10 +113,10 @@ describe("RoomController Client/Server Interaction", function () {
       client.on('enterRoom', function (data) {
         expect(data.players).to.be.an('array');
         expect(data.playerId).to.be.a('string');
-        expect(data.gamestate).to.be.an('object');
-        expect(data.gamestate.word).to.deep.equal([null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal([]);
-        expect(data.gamestate.remainingGuesses).to.deep.equal(6);
+        expect(data.gameState).to.be.an('object');
+        expect(data.gameState.word).to.deep.equal([null]);
+        expect(data.gameState.guessedLetters).to.deep.equal([]);
+        expect(data.gameState.remainingGuesses).to.deep.equal(6);
         expect(data.players.length).to.equal(1);
         done();
       });
@@ -201,14 +201,14 @@ describe("RoomController Client/Server Interaction", function () {
       client6.disconnect();
     });
 
-    it('should emit gamestate, cooldown and playerId on correct guess', function (done) {
+    it('should emit gameState, cooldown and playerId on correct guess', function (done) {
       var counter = 2;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
         expect(data.coolDown).to.be.above(Date.now());
-        expect(data.gamestate.word).to.deep.equal([null, 'o', 'o', null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal(['o']);
-        expect(data.gamestate.remainingGuesses).to.equal(6);
+        expect(data.gameState.word).to.deep.equal([null, 'o', 'o', null]);
+        expect(data.gameState.guessedLetters).to.deep.equal(['o']);
+        expect(data.gameState.remainingGuesses).to.equal(6);
         counter -= 1;
         if (counter === 0) {
           done();
@@ -219,14 +219,14 @@ describe("RoomController Client/Server Interaction", function () {
       client2.emit('guessLetter', { letter: 'o' });
     });
 
-    it('should emit gamestate, cooldown and playerId on incorrect guess', function (done) {
+    it('should emit gameState, cooldown and playerId on incorrect guess', function (done) {
       var counter = 2;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
         expect(data.coolDown).to.be.above(Date.now());
-        expect(data.gamestate.word).to.deep.equal([null, null, null, null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal(['z']);
-        expect(data.gamestate.remainingGuesses).to.equal(5);
+        expect(data.gameState.word).to.deep.equal([null, null, null, null]);
+        expect(data.gameState.guessedLetters).to.deep.equal(['z']);
+        expect(data.gameState.remainingGuesses).to.equal(5);
         counter -= 1;
         if (counter === 0) {
           done();
@@ -262,9 +262,9 @@ describe("RoomController Client/Server Interaction", function () {
       controller.setRestartDelay(0);
       client1.on('startGame', function (data) {
         expect(controller.getRoom().getGame().getSolution()).to.equal('b');
-        expect(data.gamestate.word).to.deep.equal([null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal([]);
-        expect(data.gamestate.remainingGuesses).to.equal(6);
+        expect(data.gameState.word).to.deep.equal([null]);
+        expect(data.gameState.guessedLetters).to.deep.equal([]);
+        expect(data.gameState.remainingGuesses).to.equal(6);
         done();
       });
       client1.emit('guessLetter', {letter: 'a'});
@@ -304,9 +304,9 @@ describe("RoomController Client/Server Interaction", function () {
       controller.setRestartDelay(0);
       client1.on('startGame', function (data) {
         expect(controller.getRoom().getGame().getSolution()).to.equal('b');
-        expect(data.gamestate.word).to.deep.equal([null]);
-        expect(data.gamestate.guessedLetters).to.deep.equal([]);
-        expect(data.gamestate.remainingGuesses).to.equal(6);
+        expect(data.gameState.word).to.deep.equal([null]);
+        expect(data.gameState.guessedLetters).to.deep.equal([]);
+        expect(data.gameState.remainingGuesses).to.equal(6);
         done();
       });
       client1.emit('guessLetter', {letter: 'q'});
