@@ -62,6 +62,19 @@ describe("Room", function () {
       expect(room.getGame()).to.be.an('object');
       expect(room.getGame().getWord()).to.deep.equal([null, null, null, null, null, null]);
     });
+    it("should reset all player cooldowns", function () {
+      var room = Room.create();
+      room.newGame('monday');
+      var player = Player.create();
+      room.join(player);
+      room.guessLetter(player, 'x');
+      var cooldown = room.getCooldownByPlayerId(player.getId());
+      expect(cooldown).to.be.above(Date.now());
+      room.newGame('tuesday');
+      var cooldown2 = room.getCooldownByPlayerId(player.getId());
+      expect(cooldown2).to.not.equal(cooldown);
+
+    });
   });
 
   describe("guessLetter", function () {

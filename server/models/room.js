@@ -43,6 +43,7 @@ Room.create = function () {
       return game;
     },
     newGame: function (solution) {
+      room.resetCooldowns();
       game = Game.create(solution);
     },
     guessLetter: function (player, letter) {
@@ -70,6 +71,11 @@ Room.create = function () {
         } else {
           onIncorrectGuessCallback(player, letter, cooldown);
         }
+      }
+    },
+    resetCooldowns: function () {
+      for (var playerId in cooldowns) {
+        cooldowns[playerId] = 0;
       }
     },
     getCooldownByPlayerId: function (playerId) {
