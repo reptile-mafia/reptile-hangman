@@ -6,8 +6,8 @@ export default class Outcome extends React.Component {
 		super(props);
 	}
 
-	onPlayGain(){
-		this.props.model.
+	onPlayAgain(){
+		this.props.models.playAgain();
 	}
 
 	render() {
@@ -16,8 +16,8 @@ export default class Outcome extends React.Component {
 				<div className="outcome">
 					{this.props.outcome.win?"WIN":"LOSE"}
 					<br/>
-					{this.props.outcome.player}
-					<div>Play Again?</div>
+					{this.props.outcome.player.slice(10)}
+					<div onClick = {this.onPlayAgain.bind(this)}>Play Again?</div>
 				</div>
 			< /div>
 		)

@@ -11,7 +11,7 @@ RoomController.create = function (io) {
     io.in(room.getId()).emit('correctGuess', {
       playerId: player.getId(),
       coolDown: cooldown,
-      gamestate: room.getGame().getState(),
+      gameState: room.getGame().getState(),
     });
   });
 
@@ -19,7 +19,7 @@ RoomController.create = function (io) {
     io.in(room.getId()).emit('incorrectGuess', {
       playerId: player.getId(),
       coolDown: cooldown,
-      gamestate: room.getGame().getState(),
+      gameState: room.getGame().getState(),
     });
   });
 
@@ -64,7 +64,7 @@ RoomController.create = function (io) {
       // Send initial Events
       socket.emit('enterRoom', {
         playerId: player.getId(),
-        gamestate: room.getGame().getState(),
+        gameState: room.getGame().getState(),
         players: room.getPlayers()
       });
       // socket.broadcast.to(room.getId())

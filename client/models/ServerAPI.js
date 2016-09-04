@@ -28,6 +28,12 @@ export default class ServerAPI {
     this.client.emit('guessLetter', { letter: letter })
   }
 
+  // Sends a letter to the server that represents a guess
+  playAgain() {
+    console.log("client play again")
+    this.client.emit('playAgain')
+  }
+
   // Registers a callback to be invoked on an incorrect guess
   // callback will receive object { guessedLetters: [..strings], remainingGuesses: number }
   onIncorrectGuess(callback) {

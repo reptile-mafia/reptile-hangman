@@ -88,7 +88,7 @@ export default class Room extends React.Component {
 
 		this.serverAPI.onLose((res)=>{
 			console.log("lose!", res)
-			this.outcome.win = true;
+			this.outcome.win = false;
 			this.outcome.player = res.playerId;
 			this.setGameState(res.gameState);
 		})
@@ -110,7 +110,7 @@ export default class Room extends React.Component {
 		return(
 			<div className="room">
 				{
-					(this.state.isDone)?<Outcome outcome={this.outcome} models = {this.serverAPI}/>: null
+					(this.state.isDone)?<Outcome outcome={this.outcome} models={this.serverAPI} />: null
 				}	
 				<GameBoard 
 					word={this.state.word} 
