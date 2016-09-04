@@ -13,8 +13,8 @@ export default class GameBoard extends React.Component {
 	}
 
 	render() {
-		// var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
-		// return(
+		var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
+		return(
 		// 	<div className ='gameBoard'>	
 		// 		<Gallows remainingGuesses={this.props.remainingGuesses} />
 		// 		<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
@@ -23,27 +23,31 @@ export default class GameBoard extends React.Component {
 		// 		<Alphabets guessedLetters={guessedLettersUpper} models = {this.props.models}/>	
 		// 	</div>
 		// )
+		// var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 			<div className="container">
-				<div className="row">
-					<div className="col-xs-8" id="gallows">
-						<Gallows remainingGuess={this.state.remainingGuess} />
+				<div className ='gameBoard'>
+					<div className="row">
+						<div className="col-xs-8" id="gallows">
+							<Gallows remainingGuesses={this.props.remainingGuesses} />
+						</div>
+						<div className="col-xs-4" id ="guessed">
+							<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
+							<GuessedLetters guessedLetters={guessedLettersUpper} />
+						</div>
 					</div>
-					<div className="col-xs-4" id ="guessed">
-						<RemainingGuess remainingGuess={this.state.remainingGuess} />
-						<GuessedLetters guessedLetters={this.state.guessedLetters} />
+					<div className="row">
+						<div className="col-xs-12" id="theword">
+							<Word word={this.props.word} />
+						</div>
 					</div>
-				</div>
-				<div className="row">
-					<div className="col-xs-12" id="theword">
-						<Word word={this.state.word} />
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-xs-12" id="alphabet">
-						<Alphabet guessedLetters={this.state.guessedLetters} />
+					<div className="row">
+						<div className="col-xs-12" id="alphabet">
+							<Alphabets guessedLetters={guessedLettersUpper} models={this.props.models} />
+						</div>
 					</div>
 				</div>
 			</div>
+		)
 	}
 
 }

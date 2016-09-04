@@ -15,6 +15,7 @@ export default class Room extends React.Component {
     		remainingGuesses: 6,
     		isDone: false,
 			players:[]
+
 		};
 
 		this.outcome = {

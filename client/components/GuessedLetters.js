@@ -7,7 +7,7 @@ export default class GuessedLetters extends React.Component {
 
 	render() {
 			return ( 
-				< div className = "guessedLetters" > {
+				< div className = "guessedLetters" > Guessed: {
 					this.props.guessedLetters.map(function(letter) {
 						return ( < span className = "guessedLetter" > { letter } < /span> )
 						})
