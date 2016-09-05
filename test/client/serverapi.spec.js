@@ -140,7 +140,7 @@ describe('ServerAPI', function () {
     apiNew.onEnterRoom(function (res) {
       var players = res.players;
       for (var i = 0; i < players.length; i++) {
-        expect(players[i].getId).to.be.defined;
+        expect(players[i]).to.be.a('string');
       }
       done();
     });
