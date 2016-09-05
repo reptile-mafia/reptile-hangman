@@ -46,7 +46,9 @@ RoomController.create = function (io) {
       socket.emit('enterRoom', {
         playerId: player.getId(),
         gameState: room.getGame().getState(),
-        players: room.getPlayers()
+        players: room.getPlayers().map(function (player) {
+          return player.getId();
+        })
       });
 
       socket.broadcast.to(room.getId())
