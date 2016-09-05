@@ -15,13 +15,27 @@ export default class GameBoard extends React.Component {
 	render() {
 		var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
-			<div className ='gameBoard'>	
-				<Gallows remainingGuesses={this.props.remainingGuesses} />
-				<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
-				<Word word={this.props.word} />
-				<GuessedLetters guessedLetters={guessedLettersUpper} />
-				<Alphabets guessedLetters={guessedLettersUpper} models = {this.props.models}/>	
-			</div>
+		// 	<div className ='gameBoard'>	
+		// 		<Gallows remainingGuesses={this.props.remainingGuesses} />
+		// 		<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
+		// 		<Word word={this.props.word} />
+		// 		<GuessedLetters guessedLetters={guessedLettersUpper} />
+		// 		<Alphabets guessedLetters={guessedLettersUpper} models = {this.props.models}/>	
+		// 	</div>
+		// )
+		// var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
+					<div>
+						<div id="guessed-row">
+							<GuessedLetters guessedLetters={guessedLettersUpper} />
+							<RemainingGuess remainingGuesses={this.props.remainingGuesses} />
+						</div>
+						<div id="theword-row">
+							<Word word={this.props.word} />
+						</div>
+						<div id="alphabet-row">
+							<Alphabets guessedLetters={guessedLettersUpper} serverAPI={this.props.serverAPI} />
+						</div>
+					</div>
 		)
 	}
 

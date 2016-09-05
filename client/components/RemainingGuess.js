@@ -9,7 +9,7 @@ export default class RemainingGuess extends React.Component {
 	render() {
 		return(
 			<div className="remainingGuess">
-				<span className="remainText">Guesses Left: </span>
+				<span className="remainText">Guesses Remaining: </span>
 				<span className="remainNumber">{this.props.remainingGuesses}</span>
 			</div>
 		)

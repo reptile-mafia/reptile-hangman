@@ -237,13 +237,16 @@ describe("RoomController Client/Server Interaction", function () {
       client2.emit('guessLetter', { letter: 'z' });
     });
 
-    it("should emit win event with winning playerId on victory", function (done) {
+    it("should emit win event with winning playerId, gameState, and timeUntilNextGame on victory", function (done) {
+      controller.setRestartDelay(100);
       controller.newGame('an');
       var counter = 2;
       var test = function (data) {
         expect(data.playerId).to.be.a('string');
         expect(data.gameState).to.be.defined;
         expect(data.gameState.isDone).to.equal(true);
+        expect(data.timeUntilNextGame).to.be.a('number');
+        expect(data.timeUntilNextGame).to.be.above(Date.now());
         counter -= 1;
         if (counter === 0) {
           done();
@@ -272,7 +275,8 @@ describe("RoomController Client/Server Interaction", function () {
       client1.emit('guessLetter', {letter: 'a'});
     });
 
-    it("should emit loss event with losing playerId on defeat", function (done) {
+    it("should emit loss event with losing playerId, gameState, and timeUntilNextGame on defeat", function (done) {
+      controller.setRestartDelay(100);
       controller.newGame('an');
       var counter = 6;
       var test = function (data) {
@@ -280,6 +284,9 @@ describe("RoomController Client/Server Interaction", function () {
         expect(data.gameState).to.be.defined;
         expect(data.gameState.isDone).to.equal(true);
         expect(data.gameState.remainingGuesses).to.equal(0);
+        expect(data.timeUntilNextGame).to.be.a('number');
+        expect(data.timeUntilNextGame).to.be.above(Date.now());
+
         counter -= 1;
         if (counter === 0) {
           done();
