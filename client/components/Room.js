@@ -11,6 +11,7 @@ export default class Room extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {	
+			playerId : "",
 	        word: [], // keep state immutable
     		guessedLetters: [],
     		remainingGuesses: 6,
@@ -23,34 +24,26 @@ export default class Room extends React.Component {
 			player: "",
 		}
 
-		// player = {
-		// 	playerId: null,
-		// 	guessedLetters: [],
-		// 	correctLetters: 0,
-		// 	incorrectLetters:0
-		// }
+		this.cooldown = 0;
 
-		// setup socket
+		// setup socket & initialize
 		this.serverAPI = new ServerAPI(4000);
 		this.serverAPI.connect();	
-		// enter room
 		this.serverAPI.onEnterRoom((res)=>{
 			console.log("Enter Room", res);
 			var playerList = res.players.slice();
-			console.log("XXXXX", res.players.getId)
 			playerList.push(res.playerId);
-
-			console.log("PLAYERLIST: ", res.players.playerId, playerList)
 			this.setState({
 				'players' : playerList,
 				'playerId' : res.playerId,
-		        'word':  res.gameState.word, // keep state immutable
+		        'word':  res.gameState.word,
 	    		'guessedLetters': res.gameState.guessedLetters,
 	    		'remainingGuesses': res.gameState.remainingGuesses,
 	    		'isDone': res.gameState.isDone
 			});
 		})
 
+		// Update players
 		this.serverAPI.onPlayerEnterRoom((res)=>{
 			console.log("Player enter room", res);
 			var playerList = this.state.players;
@@ -69,6 +62,7 @@ export default class Room extends React.Component {
 			})
 		});
 
+		// Game related events
 		this.serverAPI.onStartGame( (res) => {
 			console.log("Start game", res);
 			this.setGameState(res);
@@ -76,11 +70,17 @@ export default class Room extends React.Component {
 
 		this.serverAPI.onIncorrectGuess((res)=>{
 			console.log("Incorrect Guess", res);
+			// if(res.playerId == this.playerId){
+			// 	this.cooldown = res.cooldown;
+			// }
 			this.setGameState(res.gameState);
 		})
 
 		this.serverAPI.onCorrectGuess((res)=>{
 			console.log("Correct Guess", res);
+			// if(res.playerId == this.playerId){
+			// 	this.cooldown = res.cooldown;
+			// }
 			this.setGameState(res.gameState);
 		})
 
@@ -115,7 +115,7 @@ export default class Room extends React.Component {
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
 			<div className="room">
-				{ (this.state.isDone)?<Outcome gameState={this.state.gameState} />: null }
+				<Outcome show={this.state.isDone} outcome={this.outcome}/>
 				<nav className="navbar navbar-default navbar-static-top">
 				  <div className="container navcon">
 				    <h1 className="game-title">HANGMAN</h1>
@@ -131,7 +131,8 @@ export default class Room extends React.Component {
 								word={this.state.word} 
 								guessedLetters={guessedLettersUpper} 
 								remainingGuesses={this.state.remainingGuesses} 
-								serverAPI = {this.serverAPI}/>
+								serverAPI = {this.serverAPI}
+								/>
 						</div>
 						<div className="col-xs-2" id="gallows-col">
 							<Gallows remainingGuesses={this.state.remainingGuesses} />
