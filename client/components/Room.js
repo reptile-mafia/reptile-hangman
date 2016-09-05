@@ -36,7 +36,7 @@ export default class Room extends React.Component {
 		this.serverAPI.onEnterRoom((res)=>{
 			console.log("Enter Room", res);
 			var playerList = res.players.slice();
-			console.log("XXXXX", res.players[0].getId())
+			console.log("XXXXX", res)
 			playerList.push(res.playerId);
 
 			console.log("PLAYERLIST: ", res.players.playerId, playerList)
