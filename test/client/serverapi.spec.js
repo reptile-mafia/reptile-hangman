@@ -134,4 +134,16 @@ describe('ServerAPI', function () {
     apis[3].makeGuess('d');
   });
 
+  it("should report other players when enterRoom is triggered", function (done) {
+    var apiNew = new ServerAPI(port);
+    apiNew.connect();
+    apiNew.onEnterRoom(function (res) {
+      var players = res.players;
+      for (var i = 0; i < players.length; i++) {
+        expect(players[i].getId).to.be.defined;
+      }
+      done();
+    });
+  });
+
 });
