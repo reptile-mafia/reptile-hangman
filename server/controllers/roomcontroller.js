@@ -87,7 +87,7 @@ RoomController.create = function (io) {
     io.in(room.getId()).emit('win', {
       playerId: player.getId(),
       gameState: room.getGame().getState(),
-      timeUntilNextGame: restartDelay
+      timeUntilNextGame: restartDelay + Date.now()
     });
     startGameAfterRestartDelay();
   });
@@ -96,7 +96,7 @@ RoomController.create = function (io) {
     io.in(room.getId()).emit('loss', {
       playerId: player.getId(),
       gameState: room.getGame().getState(),
-      timeUntilNextGame: restartDelay
+      timeUntilNextGame: restartDelay + Date.now()
     });
     startGameAfterRestartDelay();
   })
