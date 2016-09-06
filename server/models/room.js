@@ -31,7 +31,7 @@ Room.create = function () {
     },
     leave: function (socketId) {
       for (var id in playersById) {
-        if (playersById[id].id = socketId) {
+        if (playersById[id].id === socketId) {
           delete playersById[id];
         }
       }
