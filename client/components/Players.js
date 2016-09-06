@@ -9,9 +9,14 @@ export default class Players extends React.Component {
 // className = "players"
   render() {
     return (
-      <div >
-        <span className="player-head">PLAYERS</span>
-        {this.props.players.map(player => <Player player={player} />)}
+      <div>PLAYERS
+        <div id="player-table">
+          <table id="player-head" className="table">
+            <tbody>
+              {this.props.players.map((player, index) => <Player key={index} player={player} />)}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

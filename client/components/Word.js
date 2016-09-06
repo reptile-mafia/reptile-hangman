@@ -10,12 +10,12 @@ export default class Word extends React.Component {
     return (
       <div className="wordLetters">
         {
-          this.props.word.map(elem => {
+          this.props.word.map((elem, index) => {
             let result = '_';
             if (elem !== null) {
               result = elem.toUpperCase();
             }
-            return (<span className="wordLetter"> {result} </span>);
+            return (<span key={index} className="wordLetter"> {result} </span>);
           })
         }
       </div>
