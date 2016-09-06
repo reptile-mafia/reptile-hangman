@@ -1,7 +1,7 @@
 import React from 'react';
 // import ServerAPI from '../models/ServerAPI';
 import Alphabets from './Alphabets.js';
-import Gallows from './Gallows.js';
+// import Gallows from './Gallows.js';
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';

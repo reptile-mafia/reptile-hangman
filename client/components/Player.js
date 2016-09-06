@@ -8,9 +8,11 @@ export default class Player extends React.Component {
 
   render() {
     return (
-      <div className="player">
-        {this.props.player}
-      </div>
+      <tr>
+        <td className="player">
+          {this.props.player}
+        </td>
+      </tr>
     );
   }
 }

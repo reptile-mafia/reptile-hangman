@@ -7,6 +7,7 @@ export default class Outcome extends React.Component {
     super(props);
     this.state = {
       show: false,
+      timeLeft: (this.props.timeUntilNextGame - (new Date()).getTime()) / 1000,
     };
   }
 
@@ -20,6 +21,24 @@ export default class Outcome extends React.Component {
   //    show: this.props.show
   //  })
   // }
+  countdown() {
+    setInterval(() => {
+      if (this.state.timeLeft > 0) {
+        this.setState({
+          timeLeft: Math.floor(this.state.timeLeft - 1),
+          show: true,
+        });
+      } else {
+        this.setState({
+          show: false,
+        });
+      }
+    }, 1000);
+  }
+
+  handleClose() {
+    this.hideModal();
+  }
 
   close() {
     this.setState({
@@ -33,9 +52,10 @@ export default class Outcome extends React.Component {
     //  var remaining = (this.props.timeUntilNextGame-now)/1000;
     //  setTimeout(this.updateState.bind(this, remaining), 100)
     // }
-
-    const timeLeft = (this.props.timeUntilNextGame - (new Date()).getTime()) / 1000;
-    this.state.show = this.props.show && (timeLeft > 0);
+    console.log('In Outcome', this.state.timeLeft);
+    // this.countdown();
+    // const timeLeft = (this.props.timeUntilNextGame - (new Date()).getTime()) / 1000;
+    this.state.show = this.props.show && (this.state.timeLeft > 0);
     return (
       <div className="outcome">
         <Modal show={this.state.show} onHide={this.close}>
@@ -52,7 +72,7 @@ export default class Outcome extends React.Component {
             }
             <span>
             {
-            timeLeft.toPrecision(2)
+            this.state.timeLeft.toPrecision(2)
             }
             </span>
             <span> SECS</span>
