@@ -44,7 +44,7 @@ export default class Outcome extends React.Component {
 					<Modal.Title>{this.props.outcome.win?"WIN :D":"LOSE :("}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					{this.props.outcome.win?"WINNER IS ":"LOSER IS"}
+					{this.props.outcome.win?"WINNER IS ":"LOSER IS "}
 					{this.props.outcome.player.slice(10)}
 					<br/>
 

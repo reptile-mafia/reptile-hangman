@@ -23,7 +23,7 @@ export default class Alphabet extends React.Component {
 	render() {
 		if(this.active){
 			var now = new Date();
-			var remaining = (this.props.coolDown-now)/this.props.totalCoolDown * 100;
+			var remaining = (this.props.coolDown-now)/1000;
 			if(remaining < 0){
 				this.active = false;
 				remaining = 0;	
@@ -32,9 +32,9 @@ export default class Alphabet extends React.Component {
 		}
 
 		var style = {
-			backgroundColor: this.props.color || (this.state.remaining>0)?'#888888':'#FFFFFF',
-			width: (this.state.remaining>0)?this.state.remaining:100 + '%',
-			transition: "width 200ms",
+			backgroundColor: this.props.color || (this.state.remaining>0)?'#888888':'#EEEEEE',
+			width: ((this.state.remaining>0)?this.state.remaining/3*100:100) + '%',
+			transition: "width 10ms",
 			height: this.props.height || 2+'em'
 	    };
 
@@ -44,7 +44,7 @@ export default class Alphabet extends React.Component {
 				<div className="progressbar-progress" style={style}>
 					{
 						(this.state.remaining>0)?
-						((this.state.remaining*this.props.totalCoolDown/1000).toPrecision(3)):
+						((this.state.remaining).toPrecision(3)):
 						"Guess Again!"
 					}
 				</div>
