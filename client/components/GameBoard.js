@@ -1,5 +1,5 @@
 import React from 'react';
-import ServerAPI from '../models/ServerAPI';
+// import ServerAPI from '../models/ServerAPI';
 import Alphabets from './Alphabets.js';
 import Gallows from './Gallows.js';
 import GuessedLetters from './GuessedLetters.js';
@@ -15,7 +15,7 @@ export default class GameBoard extends React.Component {
   render() {
     const guessedLettersUpper = this.props.guessedLetters.map(letter => letter.toUpperCase());
     return (
-    //  <div className ='gameBoard'> 
+    //  <div className ='gameBoard'>
     //    <Gallows remainingGuesses={this.props.remainingGuesses} />
     //    <RemainingGuess remainingGuesses={this.props.remainingGuesses} />
     //    <Word word={this.props.word} />
@@ -35,7 +35,7 @@ export default class GameBoard extends React.Component {
         <div id="alphabet-row">
           <Alphabets
             guessedLetters={guessedLettersUpper}
-            coolDown = {this.props.coolDown}
+            coolDown={this.props.coolDown}
             serverAPI={this.props.serverAPI}
           />
         </div>

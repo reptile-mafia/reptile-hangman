@@ -19,7 +19,7 @@ export default class Alphabet extends React.Component {
 
   render() {
     return (
-      < div className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
+      <div className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
         { this.props.alphabet}
       </div>
     );
