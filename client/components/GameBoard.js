@@ -33,7 +33,10 @@ export default class GameBoard extends React.Component {
 							<Word word={this.props.word} />
 						</div>
 						<div id="alphabet-row">
-							<Alphabets guessedLetters={guessedLettersUpper} models={this.props.models} />
+							<Alphabets 
+								guessedLetters={guessedLettersUpper} 
+								coolDown = {this.props.coolDown}
+								serverAPI={this.props.serverAPI} />
 						</div>
 					</div>
 		)

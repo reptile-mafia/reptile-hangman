@@ -1,0 +1,43 @@
+/*div{
+	border: solid black 1px;
+}*/
+
+/*.alphabets-cover{
+	width: 50%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    height: 100%;
+    background-color: #DDDDDD;
+}
+
+.alphabets-main{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    height: 100%;
+}*/
+
+.alphabets-inactive{
+	background: red
+}
+
+.cooldown-enter {
+  opacity: 0.01;
+}
+
+.cooldown-enter.cooldown-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.cooldown-leave {
+  opacity: 1;
+}
+
+.cooldown-leave.cooldown-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
