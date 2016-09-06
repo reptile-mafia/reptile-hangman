@@ -36,6 +36,7 @@
     "browserify-middleware": "^7.0.0",
     "eslint": "^3.4.0",
     "express": "^4.13.4",
+    "firebase": "^3.3.0",
     "nodemon": "^1.10.2",
     "random-words": "0.0.1",
     "react": "^15.1.0",
