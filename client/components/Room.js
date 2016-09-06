@@ -63,8 +63,8 @@ export default class Room extends React.Component {
 
 		// Game related events
 		this.serverAPI.onStartGame( (res) => {
-			console.log("Start game", res);
-			this.setGameState(res);
+			console.log("Start game", res.gameState);
+			this.setGameState(res.gameState);
 		});
 
 		this.serverAPI.onIncorrectGuess((res)=>{
@@ -102,9 +102,9 @@ export default class Room extends React.Component {
 	}
 
 	setGameState(gameState, coolDown){
-		console.log("setting game state: ", gameState, coolDown)
+		// console.log("setting game state: ", gameState, coolDown)
 		if(coolDown > 0){
-			console.log("updating with coolDown")
+			console.log("updating with coolDown", gameState)
 			this.setState({
 		        'word':  gameState.word, // keep state immutable
 	    		'guessedLetters': gameState.guessedLetters,
@@ -113,7 +113,7 @@ export default class Room extends React.Component {
 	    		'coolDown': coolDown
 			})
 		} else {
-			console.log("updating without coolDown")
+			console.log("updating without coolDown", gameState)
 			this.setState({
 		        'word':  gameState.word, // keep state immutable
 	    		'guessedLetters': gameState.guessedLetters,
@@ -124,7 +124,7 @@ export default class Room extends React.Component {
 	}
 
 	setEndGameState(gameState, timeUntilNextGame){
-		console.log("setting game state: ", gameState, timeUntilNextGame)
+		// console.log("setting game state END: ", gameState, timeUntilNextGame)
 			this.setState({
 		        'word':  gameState.word, // keep state immutable
 	    		'guessedLetters': gameState.guessedLetters,
@@ -136,13 +136,15 @@ export default class Room extends React.Component {
 	}
 
 	render() {
+		console.log("RENDER ROOM", this.state)
 		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
 		return(
 			<div className="room">
 				<Outcome 
 					show={this.state.isDone} 
 					outcome={this.outcome}
-					timeUntilNextGame = {this.state.timeUntilNextGame}/>
+					timeUntilNextGame = {this.state.timeUntilNextGame}
+					/>
 
 				<nav className="navbar navbar-default navbar-static-top">
 				  <div className="container navcon">

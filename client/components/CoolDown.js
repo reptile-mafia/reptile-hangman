@@ -17,7 +17,6 @@ export default class Alphabet extends React.Component {
 	}
 
 	componentWillReceiveProps(){
-		console.log("CWRP")
 		this.active = true;
 	}
 
@@ -25,7 +24,6 @@ export default class Alphabet extends React.Component {
 		if(this.active){
 			var now = new Date();
 			var remaining = (this.props.coolDown-now)/this.props.totalCoolDown * 100;
-			console.log("RENDER COOLDOWN!:", remaining, this.active)
 			if(remaining < 0){
 				this.active = false;
 				remaining = 0;	
