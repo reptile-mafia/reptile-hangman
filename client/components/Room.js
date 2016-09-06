@@ -32,7 +32,7 @@ export default class Room extends React.Component {
 			console.log("Enter Room", res);
 			this.playerId = res.playerId;
 			var playerList = res.players.slice();
-			playerList.push(res.playerId);
+			//playerList.push(res.playerId);
 			this.setState({
 				'players' : playerList,
 		        'word':  res.gameState.word,
@@ -44,8 +44,9 @@ export default class Room extends React.Component {
 
 		// Update players
 		this.serverAPI.onPlayerEnterRoom((res)=>{
-			console.log("Player enter room", res);
+			console.log("Player enter room", res, this.state);
 			var playerList = this.state.players;
+			console.log("playerlist: ", playerList)
 			playerList.push(res.playerId);
 			this.setState({
 				players: playerList
@@ -55,7 +56,9 @@ export default class Room extends React.Component {
 		this.serverAPI.onPlayerLeaveRoom((res)=>{
 			console.log("Player Leave room", res);
 			var playerList = this.state.players;
-			playerList.splice(playerList.indexOf(res.playerId), 1);
+			if(playerList.indexOf(res.playerId)>0){
+				playerList.splice(playerList.indexOf(res.playerId), 1);
+			}
 			this.setState({
 				players: playerList
 			})
