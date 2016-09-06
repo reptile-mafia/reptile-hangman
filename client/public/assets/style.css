@@ -6,6 +6,12 @@ div {
     text-align: center;
 }
 
+.coolDown{
+    boarder:black solid 1px;
+    background: #EEEEEE;
+    text-align: center;
+}
+
 .container {
     max-width: 1050px;
 }
@@ -20,10 +26,16 @@ div {
 }
 
 .players{
-
     float:right;
     width:25%;
     overflow:hidden;
+}
+
+.player{
+    border: black solid 1px;
+    border-radius: 5px;
+    padding: 4px 1px; 
+    margin: 3px; 
 }
 
 .alphabets {
@@ -35,7 +47,7 @@ div {
     text-align: center;
 	display: inline-block;
     border-radius: 5px;
-    background-color: #8888FF;
+    background-color: #CC3333;
     color: white;
     padding: 4px 1px; 
     width: 30px;
