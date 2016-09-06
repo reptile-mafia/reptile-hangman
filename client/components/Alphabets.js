@@ -1,6 +1,7 @@
 import React from 'react';
 //import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Alphabet from './alphabet'
+import CoolDown from './cooldown'
 
 export default class Alphabets extends React.Component {
 
@@ -12,6 +13,7 @@ export default class Alphabets extends React.Component {
 	render() {
 		return ( 
 			< div className = "alphabets"> 
+				<CoolDown coolDown = {this.props.coolDown} totalCoolDown = {3000} />
 				{
 					this.alphabets.map((alphabet) => {
 						var guessed = this.props.guessedLetters.includes(alphabet);
@@ -20,6 +22,7 @@ export default class Alphabets extends React.Component {
 							)
 					})
 				} 
+
 			< /div>
 		)
 	}
