@@ -104,7 +104,6 @@ export default class Room extends React.Component {
   }
 
   setGameState(gameState, coolDown) {
-    // console.log("setting game state: ", gameState, coolDown)
     if (coolDown > 0) {
       console.log('updating with coolDown', gameState);
       this.setState({

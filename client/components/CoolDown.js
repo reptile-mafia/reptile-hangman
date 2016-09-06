@@ -35,8 +35,8 @@ export default class Alphabet extends React.Component {
       backgroundColor: this.props.color || (this.state.remaining > 0) ? '#888888' : '#EEEEEE',
       width: `${((this.state.remaining > 0) ? (this.state.remaining / 3) * 100 : 100)}%`,
       transition: 'width 1 0ms',
-      height: this.props.height || 2 + 'em',
-      };
+      height: this.props.height || `${2}em`,
+    };
 
     return (
       <div className="coolDown">
