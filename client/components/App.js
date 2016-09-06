@@ -1,8 +1,8 @@
 import React from 'react';
+import firebase from 'firebase';
 // import ServerAPI from '../models/ServerAPI';
 import Room from './Room';
 import FrontLobby from './FrontLobby';
-import firebase from 'firebase';
 import firebaseConfig from '../../firebaseConfig.js';
 
 export default class App extends React.Component {
@@ -10,14 +10,14 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      play: true,
+      play: false,
     };
   }
 
   componentWillMount() {
     firebase.initializeApp(firebaseConfig);
-    let test = firebase.database().ref('test');
-    test.on('value', function(data) {
+    const test = firebase.database().ref('test');
+    test.on('value', (data) => {
       console.log('data', data.val());
     });
   }
@@ -25,7 +25,6 @@ export default class App extends React.Component {
 // showRoom()
 // handleNew()
   handleJoin() {
-    console.log('hey');
     this.setState({
       play: true,
     });
@@ -36,7 +35,7 @@ export default class App extends React.Component {
       <div className="app">
         {(this.state.play)
           ? <Room />
-          : <FrontLobby join={e => this.handleJoin(e)} />
+          : <FrontLobby joinRoom={e => this.handleJoin(e)} />
         }
       </div>
     );

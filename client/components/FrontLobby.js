@@ -9,7 +9,7 @@ export default class FrontLobby extends React.Component {
   }
 
   handleJoinRoom() {
-    this.props.join();
+    this.props.joinRoom();
   }
 
   showListOfRooms() {
