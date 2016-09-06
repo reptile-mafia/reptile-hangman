@@ -157,10 +157,10 @@ export default class Room extends React.Component {
 
 				<div className="container">
 					<div className="row">
-						<div className="col-xs-2" id="player-col">
+						<div className="col-xs-12 col-sm-2" id="player-col">
 							<Players players={this.state.players}/>
 						</div>	
-						<div className="col-xs-8" id="board-col">
+						<div className="col-xs-9 col-sm-8" id="board-col">
 							<GameBoard 
 								word={this.state.word} 
 								guessedLetters={guessedLettersUpper} 
@@ -169,7 +169,7 @@ export default class Room extends React.Component {
 								coolDown = {this.state.coolDown}
 								/>
 						</div>
-						<div className="col-xs-2" id="gallows-col">
+						<div className="col-xs-3 col-sm-2" id="gallows-col">
 							<Gallows remainingGuesses={this.state.remainingGuesses} />
 						</div>
 					</div>

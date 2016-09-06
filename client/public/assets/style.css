@@ -20,22 +20,23 @@ div {
 }
 
 .gameBoard{
-    float:left;
-    width:75%;
     overflow:hidden;
 }
 
 .players{
-    float:right;
-    width:25%;
     overflow:hidden;
+}
+
+.player-head {
+    float: left;
 }
 
 .player{
     border: black solid 1px;
     border-radius: 5px;
     padding: 4px 1px; 
-    margin: 3px; 
+    margin: 3px;
+    float: left; 
 }
 
 .alphabets {
@@ -148,13 +149,13 @@ div {
 }
 
 .navbar {
-    background-color: #666;
+    background-color: #c33;
     margin-bottom: 0px;
 }
 
 h1.game-title {
 
-    background-color: #666;
+    background-color: #c33;
     color: white;
 }
 

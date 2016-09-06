@@ -10,7 +10,7 @@ export default class Players extends React.Component {
 	render() {
 		return ( 
 			< div > 
-				PLAYERS
+				<span className="player-head">PLAYERS</span>
 				{this.props.players.map((player)=>{
 					return <Player player={player} />
 				})}
