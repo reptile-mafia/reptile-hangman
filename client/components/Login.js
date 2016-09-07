@@ -29,7 +29,7 @@ export default class Login extends React.Component {
     firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
       .then((user) => {
         console.log('user: ', user);
-        this.props.handleLogin(this.state.username);
+        this.props.handleLogin(this.createUsername(this.state.username));
         this.endState();
       })
       .catch((error) => {
@@ -45,7 +45,7 @@ export default class Login extends React.Component {
         firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
           .then((user) => {
             console.log('user: ', user);
-            this.props.handleLogin(this.state.username);
+            this.props.handleLogin(this.createUsername(this.state.username));
             this.endState();
           });
       })
@@ -82,6 +82,12 @@ export default class Login extends React.Component {
         // ...
       });
     });
+  }
+
+  createUsername(email) {
+    var atIndex = email.indexOf('@');
+    var username = email.slice(0, atIndex)
+    return username;
   }
 
   // hides both modals

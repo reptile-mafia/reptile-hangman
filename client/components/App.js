@@ -52,7 +52,7 @@ export default class App extends React.Component {
         this.setState({
           auth: true,
           username: user.uid,
-          pageToRender: <FrontLobby username={user.uid} joinRoom={e => this.handleJoin(e)} />,
+          pageToRender: <FrontLobby username={this.state.username} joinRoom={e => this.handleJoin(e)} />,
         });
       } else {
         this.setState({
