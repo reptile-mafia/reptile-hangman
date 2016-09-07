@@ -13,14 +13,14 @@ export default class Alphabets extends React.Component {
   render() {
     return (
       <div className="alphabets">
-        <CoolDown coolDown={this.props.coolDown} totalCoolDown={3000} />
+      <CoolDown coolDown={this.props.coolDown} totalCoolDown={3000} />
         {
-          this.alphabets.map((alphabet, index) => {
-            const guessed = this.props.guessedLetters.includes(alphabet);
+          this.alphabets.map((letter, index) => {
+            const guessed = this.props.guessedLetters.includes(letter);
             return (
               <Alphabet
                 key={index}
-                alphabet={alphabet}
+                letter={letter}
                 guessed={guessed}
                 serverAPI={this.props.serverAPI}
               />

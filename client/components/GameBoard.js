@@ -15,15 +15,6 @@ export default class GameBoard extends React.Component {
   render() {
     const guessedLettersUpper = this.props.guessedLetters.map(letter => letter.toUpperCase());
     return (
-    //  <div className ='gameBoard'>
-    //    <Gallows remainingGuesses={this.props.remainingGuesses} />
-    //    <RemainingGuess remainingGuesses={this.props.remainingGuesses} />
-    //    <Word word={this.props.word} />
-    //    <GuessedLetters guessedLetters={guessedLettersUpper} />
-    //    <Alphabets guessedLetters={guessedLettersUpper} models = {this.props.models}/> 
-    //  </div>
-    // )
-    // var guessedLettersUpper = this.props.guessedLetters.map((letter)=>{return letter.toUpperCase()});
       <div>
         <div id="guessed-row">
           <GuessedLetters guessedLetters={guessedLettersUpper} />
