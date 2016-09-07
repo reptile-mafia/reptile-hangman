@@ -38,6 +38,33 @@ export default class Login extends React.Component {
       });
   }
 
+  facebookLogin() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithRedirect(provider)
+    .then(function(e){
+      firebase.auth().getRedirectResult()
+      .then(function(result){
+        if (result.credential){
+          var token = result.credential.accessToken;
+          console.log("token = ", token)
+        }
+        var user = result.user;
+        console.log("user = ", user)
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+    });
+  }
+
+
   close() {
     this.setState({
       show: false,
@@ -70,6 +97,7 @@ export default class Login extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button type="submit" onClick={e => this.handleSubmit(e)}>Submit</Button>
+            <Button type="submit" onClick={e => this.facebookLogin()}>Facebook</Button>
           </Modal.Footer>
         </Modal>
       </div>
