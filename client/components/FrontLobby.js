@@ -10,6 +10,29 @@ export default class FrontLobby extends React.Component {
     };
   }
 
+  componentWillMount() {
+    const fb_games = firebase.database().ref('games');
+
+    let new_game = fb_games.push();
+
+    new_game.set({
+      active: true,
+      players: [
+        {
+          id: '0123',
+          word: 'turtle',
+        },
+      ],
+      totalPlayers: 1,
+      tries: 0,
+      winner: false,
+    });
+
+    fb_games.on('value', (data) => {
+      console.log('data', data.val());
+    });
+  }
+
   handleJoinRoom() {
     this.props.joinRoom();
   }
