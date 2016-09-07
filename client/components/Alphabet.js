@@ -7,9 +7,9 @@ export default class Alphabet extends React.Component {
   }
 
   onAlphabetClick() {
-    console.log(this.props.alphabet);
+    console.log(this.props.letter);
     if (!this.props.guessed) {
-      this.props.serverAPI.makeGuess(this.props.alphabet);
+      this.props.serverAPI.makeGuess(this.props.letter);
     }
   }
 
@@ -20,7 +20,7 @@ export default class Alphabet extends React.Component {
   render() {
     return (
       <div className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
-        {this.props.alphabet}
+        {this.props.letter}
       </div>
     );
   }

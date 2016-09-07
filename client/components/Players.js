@@ -9,7 +9,8 @@ export default class Players extends React.Component {
 // className = "players"
   render() {
     return (
-      <div>PLAYERS
+      <section className="col-xs-12 col-sm-2" id="player-col">
+        PLAYERS
         <div id="player-table">
           <table id="player-head" className="table">
             <tbody>
@@ -17,7 +18,7 @@ export default class Players extends React.Component {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     );
   }
 }

@@ -4,7 +4,8 @@ import GameBoard from './GameBoard';
 import Gallows from './Gallows.js';
 import Outcome from './Outcome.js';
 import Players from './Players';
-
+import Player1 from './Player1';
+import Player2 from './Player2';
 
 export default class Room extends React.Component {
 
@@ -170,6 +171,7 @@ export default class Room extends React.Component {
           </div>
         </div>
       </div>
+
     );
   }
 
