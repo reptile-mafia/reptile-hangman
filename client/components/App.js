@@ -29,10 +29,11 @@ export default class App extends React.Component {
     this.checkSession();
   }
 
-  handleJoin() {
+  handleJoin(roomId) {
+    console.log('roomId', roomId);
     this.setState({
       play: true,
-      pageToRender: <Room />,
+      pageToRender: <Room roomId={roomId} />,
     });
   }
 
