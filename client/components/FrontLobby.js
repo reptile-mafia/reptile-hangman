@@ -35,13 +35,13 @@ export default class FrontLobby extends React.Component {
     fbGames.on('value', (data) => {
       console.log('raw data', data.val());
       const roomObj = data.val();
-      const roomKeys = Object.keys(roomObj);
-      const roomArray = roomKeys.map(room => ({
-        id: room,
-        name: roomObj[room].name,
-        players: roomObj[room].players,
-        totalPlayers: roomObj[room].totalPlayers,
-      }));
+      const roomArray = Object.keys(data.val())
+        .map(room => ({
+          id: room,
+          name: roomObj[room].name,
+          players: roomObj[room].players,
+          totalPlayers: roomObj[room].totalPlayers,
+        }));
       console.log('processed data', roomArray);
       this.setState({
         roomsList: roomArray,
@@ -62,11 +62,11 @@ export default class FrontLobby extends React.Component {
     return (
       <ul className="room-list-item">
         {
-          this.state.roomsList.map(room => {
+          this.state.roomsList.map((room, index) => {
             const roomDataKeys = room.players;
             console.log('inside map: ', roomDataKeys);
             return (
-              <li key={room.id}>
+              <li key={index}>
                 {`id: ${room.id}`}<br />
                 {`name: ${room.name}`}<br />
                 {`# of players: ${room.players}`}<br />

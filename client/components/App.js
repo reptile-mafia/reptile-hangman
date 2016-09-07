@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from 'firebase';
-// import ServerAPI from '../models/ServerAPI';
 import Login from './Login';
 import FrontLobby from './FrontLobby';
 import Room from './Room';
@@ -12,6 +11,7 @@ export default class App extends React.Component {
     super(props);
 
     firebase.initializeApp(firebaseConfig);
+
     const test = firebase.database().ref('test');
     test.on('value', (data) => {
       console.log('data', data.val());
@@ -19,7 +19,7 @@ export default class App extends React.Component {
 
     this.state = {
       play: false,
-      // auth: false,
+      auth: false,
       username: '',
       pageToRender: null,
     };
@@ -29,41 +29,30 @@ export default class App extends React.Component {
     this.checkSession();
   }
 
-  componentWillUpdate() {
-    // this.checkSession();
-  }
-// showRoom()
-// handleNew()
   handleJoin() {
     this.setState({
       play: true,
+      pageToRender: <Room />,
     });
   }
 
-  handleLogin(username) {
+  handleLogin(userName) {
+    console.log('username: ', userName);
     this.setState({
-      username: username,
+      username: userName,
       auth: true,
     });
   }
 
   checkSession() {
-    console.log('running');
     return firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('if', user.uid);
-        if (this.state.play) {
-          this.setState({
-            pageToRender: <Room />,
-          });
-        } else {
-          this.setState({
-            username: user.uid,
-            pageToRender: <FrontLobby username={user.uid} joinRoom={e => this.handleJoin(e)} />,
-          });
-        }
+        this.setState({
+          auth: true,
+          username: user.uid,
+          pageToRender: <FrontLobby username={user.uid} joinRoom={e => this.handleJoin(e)} />,
+        });
       } else {
-        console.log('else');
         this.setState({
           pageToRender: <Login handleLogin={e => this.handleLogin(e)} />,
         });
