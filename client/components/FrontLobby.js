@@ -1,5 +1,5 @@
-import React from 'react';  
-import Login from './Login';
+import React from 'react';
+import firebase from 'firebase';
 
 export default class FrontLobby extends React.Component {
   constructor(props) {
@@ -10,7 +10,7 @@ export default class FrontLobby extends React.Component {
   }
 
   componentWillMount() {
-    const fb_games = firebase.database().ref('games');
+    const fbGames = firebase.database().ref('games');
 
 
     // create a new room / games
@@ -32,8 +32,20 @@ export default class FrontLobby extends React.Component {
     // });
 
 
-    fb_games.on('value', (data) => {
-      console.log('data', data.val());
+    fbGames.on('value', (data) => {
+      console.log('raw data', data.val());
+      const roomObj = data.val();
+      const roomKeys = Object.keys(roomObj);
+      const roomArray = roomKeys.map(room => ({
+        id: room,
+        name: roomObj[room].name,
+        players: roomObj[room].players,
+        totalPlayers: roomObj[room].totalPlayers,
+      }));
+      console.log('processed data', roomArray);
+      this.setState({
+        roomsList: roomArray,
+      });
     });
   }
 
@@ -45,10 +57,14 @@ export default class FrontLobby extends React.Component {
     return (
       <ul className="room-list-item">
         {
-          this.state.roomsList.map((room, index) => {
+          this.state.roomsList.map(room => {
+            const roomDataKeys = room.players;
+            console.log('inside map: ', roomDataKeys);
             return (
-              <li key={index}>
-                {room}
+              <li key={room.id}>
+                {`id: ${room.id}`}<br />
+                {`name: ${room.name}`}<br />
+                {`# of players: ${room.players}`}<br />
                 <button
                   className="join-button"
                   onClick={e => this.handleJoinRoom(e)}
