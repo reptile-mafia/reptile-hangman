@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import CreateGame from './CreateGame';
+import Login from './Login';
 
 export default class FrontLobby extends React.Component {
   constructor(props) {
