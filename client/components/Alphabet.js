@@ -1,15 +1,26 @@
 import React from 'react';
+import keydown from 'react-keydown';
 
-export default class Alphabet extends React.Component {
+class Alphabet extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      keypress: '',
+      alphabet: this.props.alphabet,
+    };
+  }
+
+  componentWillReceiveProps({ keydown }) {
+    if (keydown.event) {
+      this.props.serverAPI.makeGuess(keydown.event.key);
+    }
   }
 
   onAlphabetClick() {
-    console.log(this.props.letter);
+    console.log(this.props.alphabet);
     if (!this.props.guessed) {
-      this.props.serverAPI.makeGuess(this.props.letter);
+      this.props.serverAPI.makeGuess(this.state.alphabet);
     }
   }
 
@@ -19,10 +30,11 @@ export default class Alphabet extends React.Component {
 
   render() {
     return (
-      <div className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
-        {this.props.letter}
-      </div>
+      <button className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
+        {this.state.alphabet}
+      </button>
     );
   }
 }
 
+export default keydown(Alphabet);
