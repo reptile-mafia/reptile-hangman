@@ -6,6 +6,18 @@ div {
     text-align: center;
 }
 
+.room-list-item li {
+    border: 1px solid black;
+    padding: 10px 10px 15px 10px;
+    margin: 5px 0px 5px 0px;
+    list-style: none;
+    text-align: left;
+}
+
+.join-button {
+    float: right;
+}
+
 .coolDown{
     border: 1px solid black;
     background: #EEEEEE;
