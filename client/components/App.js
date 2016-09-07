@@ -1,8 +1,9 @@
 import React from 'react';
 import firebase from 'firebase';
 // import ServerAPI from '../models/ServerAPI';
-import Room from './Room';
+import Login from './Login';
 import FrontLobby from './FrontLobby';
+import Room from './Room';
 import firebaseConfig from '../../firebaseConfig.js';
 
 export default class App extends React.Component {
@@ -11,6 +12,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       play: false,
+      auth: false,
+      username: '',
     };
   }
 
@@ -30,10 +33,21 @@ export default class App extends React.Component {
     });
   }
 
+  handleLogin(username) {
+    this.setState({
+      username: username,
+      auth: true,
+    });
+  }
+
   render() {
     return (
       <div className="app">
-        {(this.state.play)
+        {!this.state.auth
+          ? <Login handleLogin={e => this.handleLogin(e)} />
+          : null
+        }
+        {this.state.play
           ? <Room />
           : <FrontLobby joinRoom={e => this.handleJoin(e)} />
         }

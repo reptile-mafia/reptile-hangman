@@ -6,7 +6,6 @@ export default class FrontLobby extends React.Component {
     super(props);
     this.state = {
       roomsList: ['default', 'get ripped', 'go home'],
-      username: '',
     };
   }
 
@@ -42,12 +41,6 @@ export default class FrontLobby extends React.Component {
     this.props.joinRoom();
   }
 
-  handleLogin(username) {
-    this.setState({
-      username: username,
-    });
-  }
-
   showListOfRooms() {
     return (
       <ul className="room-list-item">
@@ -79,7 +72,6 @@ export default class FrontLobby extends React.Component {
           </div>
           <div className="col-xs-2" />
         </div>
-        <Login handleLogin={e => this.handleLogin(e)} />
       </div>
     );
   }
