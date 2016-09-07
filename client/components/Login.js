@@ -97,7 +97,7 @@ export default class Login extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button type="submit" onClick={e => this.handleSubmit(e)}>Submit</Button>
-            <Button type="submit" onClick={e => this.facebookLogin()}>Facebook</Button>
+            <Button type="submit" onClick={e => this.facebookLogin(e)}>Facebook</Button>
           </Modal.Footer>
         </Modal>
       </div>
