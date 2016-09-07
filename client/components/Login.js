@@ -7,6 +7,7 @@ export default class Login extends React.Component {
     super(props);
     this.state = {
       show: true,
+      signupShow: false,
       username: '',
       password: '',
     };
@@ -24,14 +25,32 @@ export default class Login extends React.Component {
     });
   }
 
-  handleSubmit() {
+  handleSignIn() {
     firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
       .then((user) => {
         console.log('user: ', user);
         this.props.handleLogin(this.state.username);
-        this.close();
+        this.endState();
       })
       .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode, ': ', errorMessage);
+      });
+  }
+
+  handleSignUp() {
+    firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password)
+      .then((x) => {
+        firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
+          .then((user) => {
+            console.log('user: ', user);
+            this.props.handleLogin(this.state.username);
+            this.endState();
+          });
+      })
+      .catch((error) => {
+        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode, ': ', errorMessage);
@@ -43,18 +62,19 @@ export default class Login extends React.Component {
     firebase.auth().signInWithRedirect(provider)
     .then(function(e){
       firebase.auth().getRedirectResult()
-      .then(function(result){
-        if (result.credential){
+      .then(function(result) {
+        if (result.credential) {
           var token = result.credential.accessToken;
-          console.log("token = ", token)
+          console.log("token = ", token);
         }
         var user = result.user;
-        console.log("user = ", user)
+        console.log("user = ", user);
       })
       .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
+        console.log(errorCode, ': ', errorMessage);
         // The email of the user's account used.
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
@@ -64,6 +84,22 @@ export default class Login extends React.Component {
     });
   }
 
+  // hides both modals
+  endState() {
+    this.setState({
+      show: false,
+      signupShow: false,
+    });
+  }
+
+  // toggles between signup and signin modals
+  switchState() {
+    this.setState({
+      show: !this.state.show,
+      signupShow: !this.state.signupShow,
+    });
+    console.log('this.state.show: ', this.state.show);
+  }
 
   close() {
     this.setState({
@@ -73,33 +109,63 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <div id="login-modal">
-        <Modal show={this.state.show} onHide={this.close}>
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form id="login-information">
-              <input
-                type="text"
-                value={this.state.username}
-                placeholder="Enter name"
-                onChange={e => this.handleUserName(e)}
-              />
-              <br />
-              <input
-                type="password"
-                value={this.state.password}
-                placeholder="Enter password"
-                onChange={e => this.handlePassword(e)}
-              />
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit" onClick={e => this.handleSubmit(e)}>Submit</Button>
-            <Button type="submit" onClick={e => this.facebookLogin(e)}>Facebook</Button>
-          </Modal.Footer>
-        </Modal>
+      <div>
+        <div id="login-modal">
+          <Modal show={this.state.show} onHide={this.close}>
+            <Modal.Header closeButton>
+              <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form id="login-information">
+                <input
+                  type="text"
+                  value={this.state.username}
+                  placeholder="Enter name"
+                  onChange={e => this.handleUserName(e)}
+                />
+                <br />
+                <input
+                  type="password"
+                  value={this.state.password}
+                  placeholder="Enter password"
+                  onChange={e => this.handlePassword(e)}
+                />
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button type="submit" onClick={e => this.handleSignIn(e)}>Sign In</Button>
+              <Button type="submit" onClick={e => this.switchState(e)}>Click here to Sign Up</Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+        <div id="login-modal">
+          <Modal show={this.state.signupShow} onHide={this.close}>
+            <Modal.Header closeButton>
+              <Modal.Title>Sign Up</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form id="login-information">
+                <input
+                  type="text"
+                  value={this.state.username}
+                  placeholder="Enter name"
+                  onChange={e => this.handleUserName(e)}
+                />
+                <br />
+                <input
+                  type="password"
+                  value={this.state.password}
+                  placeholder="Enter password"
+                  onChange={e => this.handlePassword(e)}
+                />
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button type="submit" onClick={e => this.switchState(e)}>Return to Sign In</Button>
+              <Button type="submit" onClick={e => this.handleSignUp(e)}>Sign Up</Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
     );
   }

@@ -47,6 +47,7 @@ export default class App extends React.Component {
   checkSession() {
     return firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("auth", user);
         this.setState({
           auth: true,
           username: user.uid,
