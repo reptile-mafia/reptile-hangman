@@ -10,21 +10,28 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      play: false,
-      auth: false,
-      username: '',
-    };
-  }
 
-  componentWillMount() {
     firebase.initializeApp(firebaseConfig);
     const test = firebase.database().ref('test');
     test.on('value', (data) => {
       console.log('data', data.val());
     });
+
+    this.state = {
+      play: false,
+      // auth: false,
+      username: '',
+      pageToRender: null,
+    };
   }
 
+  componentWillMount() {
+    this.checkSession();
+  }
+
+  componentWillUpdate() {
+    // this.checkSession();
+  }
 // showRoom()
 // handleNew()
   handleJoin() {
@@ -40,16 +47,35 @@ export default class App extends React.Component {
     });
   }
 
+  checkSession() {
+    console.log('running');
+    return firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log('if', user.uid);
+        if (this.state.play) {
+          this.setState({
+            pageToRender: <Room />,
+          });
+        } else {
+          this.setState({
+            username: user.uid,
+            pageToRender: <FrontLobby username={user.uid} joinRoom={e => this.handleJoin(e)} />,
+          });
+        }
+      } else {
+        console.log('else');
+        this.setState({
+          pageToRender: <Login handleLogin={e => this.handleLogin(e)} />,
+        });
+      }
+    });
+  }
+
   render() {
     return (
       <div className="app">
-        {!this.state.auth
-          ? <Login handleLogin={e => this.handleLogin(e)} />
-          : null
-        }
-        {this.state.play
-          ? <Room />
-          : <FrontLobby joinRoom={e => this.handleJoin(e)} />
+        {
+          this.state.pageToRender
         }
       </div>
     );

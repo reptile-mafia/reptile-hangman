@@ -53,6 +53,11 @@ export default class FrontLobby extends React.Component {
     this.props.joinRoom();
   }
 
+  checkForUser(callback) {
+    firebase.initialize();
+    callback();
+  }
+
   showListOfRooms() {
     return (
       <ul className="room-list-item">
@@ -80,7 +85,7 @@ export default class FrontLobby extends React.Component {
   render() {
     return (
       <div>
-        <h1>Welcome to Hangman, {this.state.username}!</h1>
+        <h1>Welcome to Hangman, {this.props.username}!</h1>
         <div className="container">
           <div className="col-xs-2" />
           <div className="col-xs-8">
