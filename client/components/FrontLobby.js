@@ -30,8 +30,8 @@ export default class FrontLobby extends React.Component {
     });
   }
 
-  handleJoinRoom() {
-    this.props.joinRoom();
+  handleJoinRoom(id) {
+    this.props.joinRoom(id);
   }
 
   checkForUser(callback) {
@@ -92,7 +92,7 @@ export default class FrontLobby extends React.Component {
                 {`# of players: ${room.players}`}<br />
                 <button
                   className="join-button"
-                  onClick={e => this.handleJoinRoom(e)}
+                  onClick={() => this.handleJoinRoom(room.id)}
                 >Join</button>
               </li>
             );

@@ -19,6 +19,7 @@ export default class Room extends React.Component {
       players: [],
       coolDown: 0,
       timeUntilNextGame: 0,
+      roomName: '',
     };
     this.playerId = '';
     this.outcome = {
@@ -104,6 +105,20 @@ export default class Room extends React.Component {
     });
   }
 
+  componentWillMount() {
+    var fb_game = firebase.database().ref('/games/' + this.props.roomId);
+
+    var _this = this;
+    fb_game.on('value', (data) => {
+      let gameData = data.val();
+      console.log('game data:', gameData.name);
+
+      _this.setState({
+        roomName: gameData.name,
+      });
+    });
+  }
+
   setGameState(gameState, coolDown) {
     if (coolDown > 0) {
       console.log('updating with coolDown', gameState);
@@ -148,7 +163,7 @@ export default class Room extends React.Component {
         />
         <nav className="navbar navbar-default navbar-static-top">
           <div className="container navcon">
-            <h1 className="game-title">HANGMAN</h1>
+            <h1 className="game-title">HANGMAN: {this.state.roomName}</h1>
           </div>
         </nav>
         <div className="container-fluid">
