@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import firebase from 'firebase';
 
 export default class Login extends React.Component {
   constructor(props) {
