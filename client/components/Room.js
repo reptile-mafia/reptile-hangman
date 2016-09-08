@@ -110,6 +110,10 @@ export default class Room extends React.Component {
     var fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
 
     // player1 = /games/ + this.props.roomId + /players/ + auth().currentUser.uid;
+    // player1.set({
+    //   username: this.props.username,
+    // });
+
     // player2 = whatever is left
 
     var _this = this;
