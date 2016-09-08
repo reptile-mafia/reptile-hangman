@@ -42,9 +42,10 @@ export default class ServerAPI {
     });
   }
 
-  playAgainAgain(playerId, currentGameId) {
+  playAgain(playerId, currentGameId) {
     const newWord = randomWord();
-    this.currentGame = firebase.database().ref('/games/' + currentGameId);
+    const displayArray = newWord.split('').map(() => '_');
+    this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
     return this.currentGame.update({
       players: [
         {
@@ -53,6 +54,7 @@ export default class ServerAPI {
           tries: 0,
           remainingGuesses: 6,
           guessedLetters: [],
+          displayWord: displayArray,
         },
       ],
       isDone: false,
@@ -69,12 +71,6 @@ export default class ServerAPI {
   makeGuess(letter) {
     // console.log("client make guess", letter)
     this.client.emit('guessLetter', { letter: letter });
-  }
-
-  // Sends a letter to the server that represents a guess
-  playAgain() {
-    console.log('client play again');
-    this.client.emit('playAgain');
   }
 
   // Registers a callback to be invoked on an incorrect guess
