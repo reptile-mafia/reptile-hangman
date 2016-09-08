@@ -15,14 +15,15 @@ export default class FrontLobby extends React.Component {
   componentWillMount() {
     this.state.fbGames.on('value', (data) => {
       console.log('raw data', data.val());
-      const roomObj = data.val();
-      const roomArray = Object.keys(data.val())
-        .map(room => ({
-          id: room,
-          name: roomObj[room].name,
-          players: roomObj[room].players,
-          totalPlayers: roomObj[room].totalPlayers,
-        }));
+      const roomArray = [];
+      data.forEach(room => {
+        roomArray.push({
+          id: room.key,
+          name: room.child('name').val(),
+          players: room.child('players').val(),
+          totalPlayers: room.child('totalPlayers').val(),
+        });
+      });
       console.log('processed data', roomArray);
       this.setState({
         roomsList: roomArray,
@@ -82,21 +83,22 @@ export default class FrontLobby extends React.Component {
     return (
       <ul className="room-list-item">
         {
-          this.state.roomsList.map((room, index) => {
-            const roomDataKeys = room.players;
-            return (
-              <li key={index}>
-                {`id: ${room.id}`}<br />
-                {`name: ${room.name}`}<br />
-                {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}<br />
-                {`# of players: ${room.players}`}<br />
-                <button
-                  className="join-button"
-                  onClick={() => this.handleJoinRoom(room.id)}
-                >Join</button>
-              </li>
-            );
-          })
+          this.state.roomsList.map((room, index) =>
+            <li key={index}>
+              {`id: ${room.id}`}
+              <br />
+              {`name: ${room.name}`}
+              <br />
+              {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}
+              <br />
+              {`# of players: ${room.players.length}`}
+              <br />
+              <button
+                className="join-button"
+                onClick={() => this.handleJoinRoom(room.id)}
+              >Join</button>
+            </li>
+            )
         }
       </ul>
     );
