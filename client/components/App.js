@@ -49,10 +49,11 @@ export default class App extends React.Component {
     return firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log("auth", user);
+        var displayName = this.createUsername(user.email)
         this.setState({
           auth: true,
-          username: this.createUsername(user.email),
-          pageToRender: <FrontLobby username={this.createUsername(user.email)} joinRoom={e => this.handleJoin(e)} />,
+          username: displayName,
+          pageToRender: <FrontLobby username={displayName} joinRoom={e => this.handleJoin(e)} />,
         });
       } else {
         this.setState({

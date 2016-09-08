@@ -84,6 +84,7 @@ export default class Login extends React.Component {
     });
   }
 
+  //takes email and slices off the @example.com
   createUsername(email) {
     var atIndex = email.indexOf('@');
     var username = email.slice(0, atIndex)
