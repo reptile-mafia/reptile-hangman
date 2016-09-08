@@ -102,10 +102,6 @@ div {
 
 .guessedLetters, .remainingGuess, .navcon {
     text-align: left;
-/*    text-align: center;
-    padding: 10px; 
-    height: 20px; 
-*/
 }
 
 .outcome-outline{
@@ -170,10 +166,18 @@ div {
 .navbar {
     background-color: #c33;
     margin-bottom: 0px;
+    color: white;
+}
+
+.navbar a {
+    color: white;
+}
+
+.navbar a:hover {
+    color: #c33;
 }
 
 h1.game-title {
-
     background-color: #c33;
     color: white;
 }

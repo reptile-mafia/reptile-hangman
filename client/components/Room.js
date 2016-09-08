@@ -108,6 +108,9 @@ export default class Room extends React.Component {
   componentWillMount() {
     var fb_game = firebase.database().ref('/games/' + this.props.roomId);
 
+    // player1 = /games/ + this.props.roomId + /players/ + auth().currentUser.uid;
+    // player2 = whatever is left
+
     var _this = this;
     fb_game.on('value', (data) => {
       let gameData = data.val();
@@ -167,6 +170,7 @@ export default class Room extends React.Component {
               remainingGuesses={this.state.remainingGuesses}
               serverAPI={this.serverAPI}
               coolDown={this.state.coolDown}
+              username={this.props.username}
             />
           </div>
 
@@ -214,11 +218,7 @@ export default class Room extends React.Component {
           outcome={this.outcome}
           timeUntilNextGame={this.state.timeUntilNextGame}
         />
-        <nav className="navbar navbar-default navbar-static-top">
-          <div className="container navcon">
-            <h1 className="game-title">HANGMAN: {this.state.roomName}</h1>
-          </div>
-        </nav>
+        <h2>{this.state.roomName}</h2>
         <div className="container-fluid">
           { this.selectGameMode() }
         </div>

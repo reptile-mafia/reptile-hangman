@@ -33,7 +33,7 @@ export default class App extends React.Component {
     console.log('roomId', roomId);
     this.setState({
       play: true,
-      pageToRender: <Room roomId={roomId} />,
+      pageToRender: <Room roomId={roomId} username={this.state.username} />,
     });
   }
 
@@ -69,9 +69,32 @@ export default class App extends React.Component {
     return username;
   }
 
+  handleLobbyClick() {
+    console.log('lobby is clicked');
+    this.setState({
+      play: false,
+      pageToRender: <FrontLobby username={this.state.username} joinRoom={e => this.handleJoin(e)} />,
+    });
+
+  }
+
   render() {
     return (
       <div className="app">
+        <nav className="navbar navbar-static-top">
+          <div className="container navcon">
+            <ul className="nav navbar-header navbar-nav">
+              <li className="navbar-brand">HANGMAN</li>
+              <li><a onClick={this.handleLobbyClick.bind(this)}>Lobby</a></li>
+            </ul>
+
+            <ul className="nav navbar-nav navbar-right">
+              <li>
+                <a onClick={() => firebase.auth().signOut()}>Sign Out</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
         {
           this.state.pageToRender
         }
