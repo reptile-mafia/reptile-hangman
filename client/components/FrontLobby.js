@@ -61,7 +61,6 @@ export default class FrontLobby extends React.Component {
       return 0;
   }
 
-
   handleJoinRoom(id) {
     this.props.joinRoom(id);
   }
