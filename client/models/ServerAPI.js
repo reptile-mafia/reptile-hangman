@@ -9,6 +9,7 @@ export default class ServerAPI {
     this.port = port;
     this.client = null;
     this.fbGames = firebase.database().ref('games');
+    this.currentGame = null;
   }
 
   disconnect() {
@@ -23,19 +24,38 @@ export default class ServerAPI {
   createGame(playerId, newGameObj) {
     const newWord = randomWord();
     const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
-    const newGame = this.fbGames.push();
-    return newGame.set({
+    this.newGame = this.fbGames.push();
+    return this.newGame.set({
       name: newGameObj.name,
       active: true,
       players: [
         {
           id: playerId,
           word: newWord,
+          tries: 0,
+          remainingGuesses: 6,
+          guessedLetters: [],
         },
       ],
       totalPlayers: totalPlayerAmount,
-      tries: 0,
-      winner: false,
+      isDone: false,
+    });
+  }
+
+  playAgainAgain(playerId, currentGameId) {
+    const newWord = randomWord();
+    this.currentGame = firebase.database().ref('/games/' + currentGameId);
+    return this.currentGame.update({
+      players: [
+        {
+          id: playerId,
+          word: newWord,
+          tries: 0,
+          remainingGuesses: 6,
+          guessedLetters: [],
+        },
+      ],
+      isDone: false,
     });
   }
 
