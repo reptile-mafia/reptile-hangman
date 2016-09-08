@@ -1,7 +1,15 @@
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-     background-color: #c33;
-     font-family: Ubuntu;
+    font-family: Ubuntu;
+    background: #cc3333; /* Old browsers */
+    background: -moz-linear-gradient(top,  #cc3333 0%, #751d1d 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #cc3333 0%,#751d1d 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #cc3333 0%,#751d1d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc3333', endColorstr='#751d1d',GradientType=0 ); /* IE6-9 */
 }
 
 main {
@@ -184,13 +192,12 @@ div {
 }
 
 .navbar {
-    background-color: #c33;
     margin-bottom: 0px;
     color: white;
 }
 
 .navbar a {
-    color: white;
+    color: hsl(0, 60%, 72%);
 }
 
 .navbar a:hover {
@@ -207,7 +214,6 @@ h1.game-title {
 }
 
 footer {
-    background-color: #c33;
     text-align: left;
     padding: 20px 0;
 }
