@@ -1,6 +1,8 @@
 import React from 'react';
 import keydown from 'react-keydown';
 
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 class Alphabet extends React.Component {
 
   constructor(props) {
@@ -37,4 +39,4 @@ class Alphabet extends React.Component {
   }
 }
 
-export default keydown(Alphabet);
+export default keydown(letters)(Alphabet);
