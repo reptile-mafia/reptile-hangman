@@ -7,8 +7,10 @@ export default class FrontLobby extends React.Component {
     super(props);
     this.state = {
       roomsList: [],
+      usersList: [],
       showCreate: false,
       fbGames: firebase.database().ref('games'),
+      fbUsers: firebase.database().ref('users/'),
     };
   }
 
@@ -29,7 +31,36 @@ export default class FrontLobby extends React.Component {
         roomsList: roomArray,
       });
     });
+
+    this.state.fbUsers.on('value', (data) => {
+      console.log('fbUsers data = ', data.val());
+      const usersArray = [];
+      data.forEach(user => {
+        usersArray.push({
+          id: user.key,
+          name: user.child('username').val(),
+          winCount: user.child('winCount').val(),
+        });
+      });
+      usersArray.sort(this.userCompare);
+      console.log("usersArray = ", usersArray);
+      this.setState({
+        usersList: usersArray,
+      });
+    });
   }
+
+  userCompare(a, b) {
+      if (a.winCount > b.winCount) { //is less than b by some ordering criterion)
+        return -1;
+      }
+      if (a.winCount < b.winCount) { //is greater than b by the ordering criterion) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+  }
+
 
   handleJoinRoom(id) {
     this.props.joinRoom(id);
@@ -90,6 +121,22 @@ export default class FrontLobby extends React.Component {
     );
   }
 
+  showUserScoreboard(){
+    return (
+      <ul className="user-list-item">
+        {
+          this.state.usersList.map((user,index) =>
+            <li key={index} >
+              {`user: ${user.username}`}
+              {`wins: ${user.winCount}`}
+              <br />
+            </li>
+            )
+       }
+      </ul>
+      ); // end return
+  } // end userScoreboard
+
   handleCreate() {
     this.setState({
       showCreate: true,
@@ -106,6 +153,9 @@ export default class FrontLobby extends React.Component {
             <div className="col-xs-2" />
             <div className="col-xs-8">
               {this.showListOfRooms()}
+            </div>
+             <div className="col-xs-8">
+              {this.showUserScoreboard()}
             </div>
             <div className="col-xs-2">
               <button
