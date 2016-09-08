@@ -1,15 +1,47 @@
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+     background-color: #c33;
+     font-family: Ubuntu;
+}
+
+main {
+    background-color: white;
+    padding: 25px 0 50px;
 }
 
 div {
     text-align: center;
 }
 
+.room-list-item li {
+    border: 1px solid black;
+    padding: 10px 10px 15px 10px;
+    margin: 5px 0px 5px 0px;
+    list-style: none;
+    text-align: left;
+}
+
+.user-list-item li {
+   /* border: 1px solid black;*/
+    padding: 5px 5px 5px 5px;
+    margin: 5px 0px 5px 0px;
+    list-style: none;
+    text-align: left;
+}
+
+.join-button {
+    float: right;
+}
+
 .coolDown{
-    boarder:black solid 1px;
+    border: 1px solid black;
     background: #EEEEEE;
     text-align: center;
+    margin-bottom: 10px;
+}
+
+#cooldown-text {
+    height: 20px;
 }
 
 .container {
@@ -27,8 +59,10 @@ div {
     overflow:hidden;
 }
 
-.player-head {
+#player-table {
     float: left;
+    height: 400px;
+    overflow: scroll;
 }
 
 .player{
@@ -53,7 +87,7 @@ div {
     padding: 4px 1px; 
     width: 30px;
     height: 30px;
-    margin: 3px; 
+    margin: 3px;
 }
 
 .alphabet-guessed{
@@ -83,10 +117,6 @@ div {
 
 .guessedLetters, .remainingGuess, .navcon {
     text-align: left;
-/*    text-align: center;
-    padding: 10px; 
-    height: 20px; 
-*/
 }
 
 .outcome-outline{
@@ -151,14 +181,32 @@ div {
 .navbar {
     background-color: #c33;
     margin-bottom: 0px;
+    color: white;
+}
+
+.navbar a {
+    color: white;
+}
+
+.navbar a:hover {
+    color: #c33;
 }
 
 h1.game-title {
-
     background-color: #c33;
     color: white;
 }
 
 #player-col, #board-col {
     padding-top: 25px;
+}
+
+footer {
+    background-color: #c33;
+    text-align: left;
+    padding: 20px 0;
+}
+
+footer img {
+    width: 100px;
 }

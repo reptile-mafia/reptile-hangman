@@ -1,181 +1,151 @@
 import React from 'react';
-import ServerAPI from '../models/ServerAPI';
-import GameBoard from './GameBoard';
-import Gallows from './Gallows.js';
+import firebase from 'firebase';
 import Outcome from './Outcome.js';
 import Players from './Players';
+import Player1 from './Player1';
+import Player2 from './Player2';
 
 
 export default class Room extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {	
-	        word: [], // keep state immutable
-    		guessedLetters: [],
-    		remainingGuesses: 6,
-    		isDone: false,
-			players:[],
-			coolDown:0,
-			timeUntilNextGame: 0
-		};
-		this.playerId = ""
-		this.outcome = {
-			win: true,
-			player: "",
-		}
+  constructor(props) {
+    super(props);
+    this.state = {
+      word: [], // keep state immutable
+      guessedLetters: [],
+      remainingGuesses: 6,
+      isDone: false,
+      players: [],
+      coolDown: 0,
+      timeUntilNextGame: 0,
+      roomName: '',
+    };
+    this.playerId = '';
+    this.outcome = {
+      win: true,
+      player: '',
+    };
+  }
 
-		// setup socket & initialize
-		this.serverAPI = new ServerAPI(4000);
-		this.serverAPI.connect();	
-		this.serverAPI.onEnterRoom((res)=>{
-			console.log("Enter Room", res);
-			this.playerId = res.playerId;
-			var playerList = res.players.slice();
-			//playerList.push(res.playerId);
-			this.setState({
-				'players' : playerList,
-		        'word':  res.gameState.word,
-	    		'guessedLetters': res.gameState.guessedLetters,
-	    		'remainingGuesses': res.gameState.remainingGuesses,
-	    		'isDone': res.gameState.isDone
-			});
-		})
+  componentWillMount() {
+    var fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
 
-		// Update players
-		this.serverAPI.onPlayerEnterRoom((res)=>{
-			console.log("Player enter room", res, this.state);
-			var playerList = this.state.players;
-			console.log("playerlist: ", playerList)
-			playerList.push(res.playerId);
-			this.setState({
-				players: playerList
-			})
-		});
+    var _this = this;
+    fbGame.on('value', (gameData) => {
+      console.log('game data:', gameData.val());
+      _this.setState({
+        word: gameData.child('/players/0/word').val(),
+        displayWord: gameData.child('/players/0/displayWord').val(),
+        roomName: gameData.child('name').val(),
+        totalPlayers: gameData.child('totalPlayers').val(),
+        guessedLetters: gameData.child('/players/0/guessedLetters').val() || [],
+        remainingGuesses: gameData.child('players/0/remainingGuesses').val(),
+        isDone: gameData.child('isDone').val(),
+      });
+    });
+  }
 
-		this.serverAPI.onPlayerLeaveRoom((res)=>{
-			console.log("Player Leave room", res);
-			var playerList = this.state.players;
-			if(playerList.indexOf(res.playerId)>0){
-				playerList.splice(playerList.indexOf(res.playerId), 1);
-			}
-			this.setState({
-				players: playerList
-			})
-		});
+  componentDidUpdate() {
+    if (this.state.word.join('') === this.state.displayWord.join('')) {
+      alert('You\'re a Winner!!!');
+      return;
+    }
+    if (this.state.remainingGuesses === 0) {
+      alert('You Lost');
+      return;
+    }
+  }
 
-		// Game related events
-		this.serverAPI.onStartGame( (res) => {
-			console.log("Start game", res.gameState);
-			this.setGameState(res.gameState);
-		});
+  playAgain() {
+    const currentUserId = firebase.auth().currentUser.uid;
+    this.props.serverAPI.playAgain(currentUserId, this.props.roomId)
+    .then((data) => {
+      console.log('After playAgain: ', data);
+    });
+  }
 
-		this.serverAPI.onIncorrectGuess((res)=>{
-			console.log("Incorrect Guess", res);
-			if(res.playerId === this.playerId){
-				this.setGameState(res.gameState, res.coolDown);
-			} else{
-				this.setGameState(res.gameState);
-			}
-		})
+  makeGuess(letter) {
+    let correct = false;
+    if (this.state.remainingGuesses > 0) {
+      correct = this.props.serverAPI.makeGuess(letter, this.state.word, this.state.displayWord, this.props.roomId);
+    }
+  }
 
-		this.serverAPI.onCorrectGuess((res)=>{
-			console.log("Correct Guess", res, res.playerId, this.playerId);
-			if(res.playerId === this.playerId){
-				this.setGameState(res.gameState, res.coolDown);
-			} else{
-				this.setGameState(res.gameState );
-			}
-		})
+  selectGameMode() {
+    const guessedLettersUpper = this.state.guessedLetters !== null ? this.state.guessedLetters.map(letter => letter.toUpperCase()) : [];
 
-		this.serverAPI.onWin((res)=>{
-			console.log("win!", res)
-			this.outcome.win = true;
-			this.outcome.player = res.playerId;
-			this.setEndGameState(res.gameState, res.timeUntilNextGame)
-		})
+    console.log('total players', this.state.totalPlayers);
+    if (this.state.totalPlayers === 1) {
+      return (
+        <div className="row">
 
-		this.serverAPI.onLose((res)=>{
-			console.log("lose!", res)
-			this.outcome.win = false;
-			this.outcome.player = res.playerId;
-			this.setEndGameState(res.gameState, res.timeUntilNextGame)
+          <div className="col-sm-12">
+            <Player1
+              word={this.state.displayWord}
+              guessedLetters={guessedLettersUpper}
+              remainingGuesses={this.state.remainingGuesses}
+              serverAPI={this.props.serverAPI}
+              coolDown={this.state.coolDown}
+              username={this.props.username}
+              makeGuess={e => this.makeGuess(e)}
+            />
+          </div>
 
-		})
-	}
+          <div className="col-xs-12 col-sm-2" id="player-col">
+            <Players players={this.state.players} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="row">
 
-	setGameState(gameState, coolDown){
-		// console.log("setting game state: ", gameState, coolDown)
-		if(coolDown > 0){
-			console.log("updating with coolDown", gameState)
-			this.setState({
-		        'word':  gameState.word, // keep state immutable
-	    		'guessedLetters': gameState.guessedLetters,
-	    		'remainingGuesses': gameState.remainingGuesses,
-	    		'isDone': gameState.isDone,
-	    		'coolDown': coolDown
-			})
-		} else {
-			console.log("updating without coolDown", gameState)
-			this.setState({
-		        'word':  gameState.word, // keep state immutable
-	    		'guessedLetters': gameState.guessedLetters,
-	    		'remainingGuesses': gameState.remainingGuesses,
-	    		'isDone': gameState.isDone
-			})		
-		}
-	}
+          <div className="col-sm-6">
+            <Player1
+              word={this.state.word}
+              guessedLetters={guessedLettersUpper}
+              remainingGuesses={this.state.remainingGuesses}
+              serverAPI={this.props.serverAPI}
+              coolDown={this.state.coolDown}
+              makeGuess={e => this.makeGuess(e)}
+            />
+          </div>
 
-	setEndGameState(gameState, timeUntilNextGame){
-		// console.log("setting game state END: ", gameState, timeUntilNextGame)
-			this.setState({
-		        'word':  gameState.word, // keep state immutable
-	    		'guessedLetters': gameState.guessedLetters,
-	    		'remainingGuesses': gameState.remainingGuesses,
-	    		'isDone': gameState.isDone,
-	    		'timeUntilNextGame': timeUntilNextGame
-			})		
-		
-	}
+          <div className="col-sm-6">
+            <Player2
+              word={this.state.word}
+              guessedLetters={guessedLettersUpper}
+              remainingGuesses={this.state.remainingGuesses}
+            />
+          </div>
 
-	render() {
-		console.log("RENDER ROOM", this.state)
-		var guessedLettersUpper = this.state.guessedLetters.map((letter)=>{return letter.toUpperCase()});
-		return(
-			<div className="room">
-				<Outcome 
-					show={this.state.isDone} 
-					outcome={this.outcome}
-					timeUntilNextGame = {this.state.timeUntilNextGame}
-					/>
+          <div className="col-xs-12 col-sm-2" id="player-col">
+            <Players players={this.state.players} />
+          </div>
+        </div>
+      );
+    }
+  }
+/*
+        <Outcome
+          show={this.state.isDone}
+          outcome={this.outcome}
+          timeUntilNextGame={this.state.timeUntilNextGame}
+        />
+*/
 
-				<nav className="navbar navbar-default navbar-static-top">
-				  <div className="container navcon">
-				    <h1 className="game-title">HANGMAN</h1>
-				  </div>
-				</nav>
+  render() {
+    console.log('RENDER ROOM', this.state);
+    return (
+      <div className="room">
+        <button id="play-again" onClick={e => this.playAgain(e)}>Play Again</button>
+        <h2>{this.state.roomName}</h2>
+        <div className="container-fluid">
+          { this.selectGameMode() }
+        </div>
+      </div>
 
-				<div className="container">
-					<div className="row">
-						<div className="col-xs-12 col-sm-2" id="player-col">
-							<Players players={this.state.players}/>
-						</div>	
-						<div className="col-xs-9 col-sm-8" id="board-col">
-							<GameBoard 
-								word={this.state.word} 
-								guessedLetters={guessedLettersUpper} 
-								remainingGuesses={this.state.remainingGuesses} 
-								serverAPI = {this.serverAPI}
-								coolDown = {this.state.coolDown}
-								/>
-						</div>
-						<div className="col-xs-3 col-sm-2" id="gallows-col">
-							<Gallows remainingGuesses={this.state.remainingGuesses} />
-						</div>
-					</div>
-				</div>
-			</div>
-		)
-	}
+    );
+  }
 
 }
