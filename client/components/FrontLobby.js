@@ -151,7 +151,7 @@ export default class FrontLobby extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-3">
-              <h4>Leader Board</h4>
+              <h4>Leaderboard</h4>
               {this.showUserScoreboard()}
             </div>
             <div className="col-xs-6">
