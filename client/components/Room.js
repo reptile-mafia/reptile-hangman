@@ -115,6 +115,7 @@ export default class Room extends React.Component {
 
       _this.setState({
         roomName: gameData.name,
+        totalPlayers: gameData.totalPlayers,
       });
     });
   }
@@ -151,9 +152,61 @@ export default class Room extends React.Component {
     });
   }
 
+  selectGameMode() {
+    const guessedLettersUpper = this.state.guessedLetters.map(letter => letter.toUpperCase());
+
+    console.log('total players', this.state.totalPlayers);
+    if (this.state.totalPlayers === 1) {
+      return (
+        <div className="row">
+
+          <div className="col-sm-12">
+            <Player1
+              word={this.state.word}
+              guessedLetters={guessedLettersUpper}
+              remainingGuesses={this.state.remainingGuesses}
+              serverAPI={this.serverAPI}
+              coolDown={this.state.coolDown}
+            />
+          </div>
+
+          <div className="col-xs-12 col-sm-2" id="player-col">
+            <Players players={this.state.players} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="row">
+
+          <div className="col-sm-6">
+            <Player1
+              word={this.state.word}
+              guessedLetters={guessedLettersUpper}
+              remainingGuesses={this.state.remainingGuesses}
+              serverAPI={this.serverAPI}
+              coolDown={this.state.coolDown}
+            />
+          </div>
+
+          <div className="col-sm-6">
+            <Player2
+              word={this.state.word}
+              guessedLetters={guessedLettersUpper}
+              remainingGuesses={this.state.remainingGuesses}
+            />
+          </div>
+
+          <div className="col-xs-12 col-sm-2" id="player-col">
+            <Players players={this.state.players} />
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
     console.log('RENDER ROOM', this.state);
-    const guessedLettersUpper = this.state.guessedLetters.map(letter => letter.toUpperCase());
     return (
       <div className="room">
         <Outcome
@@ -167,30 +220,7 @@ export default class Room extends React.Component {
           </div>
         </nav>
         <div className="container-fluid">
-          <div className="row">
-
-            <div className="col-sm-6">
-              <Player1
-                word={this.state.word}
-                guessedLetters={guessedLettersUpper}
-                remainingGuesses={this.state.remainingGuesses}
-                serverAPI={this.serverAPI}
-                coolDown={this.state.coolDown}
-              />
-            </div>
-
-            <div className="col-sm-6">
-              <Player2
-                word={this.state.word}
-                guessedLetters={guessedLettersUpper}
-                remainingGuesses={this.state.remainingGuesses}
-              />
-            </div>
-
-            <div className="col-xs-12 col-sm-2" id="player-col">
-              <Players players={this.state.players} />
-            </div>
-          </div>
+          { this.selectGameMode() }
         </div>
       </div>
 

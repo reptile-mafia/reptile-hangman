@@ -25,7 +25,7 @@ class Alphabet extends React.Component {
   }
 
   isActive() {
-    return `alphabet ${((this.props.guessed) ? 'alphabet-guessed' : 'alphabet-active')}`;
+    return `alphabet btn ${((this.props.guessed) ? 'alphabet-guessed' : 'alphabet-active')}`;
   }
 
   render() {
