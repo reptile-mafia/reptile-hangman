@@ -45,8 +45,12 @@ export default class Login extends React.Component {
         firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password)
           .then((user) => {
             console.log('user: ', user);
-            this.props.handleLogin(this.createUsername(this.state.username));
-            this.endState();
+            let displayName = this.createUsername(this.state.username);
+            this.writeUserData(user.uid, displayName)
+              .then(() => {
+                this.props.handleLogin(displayName);
+                this.endState();
+              });
           });
       })
       .catch((error) => {
@@ -81,6 +85,13 @@ export default class Login extends React.Component {
         var credential = error.credential;
         // ...
       });
+    });
+  }
+
+  writeUserData(uid, username) {
+    return firebase.database().ref('users/' + uid).set({
+      username,
+      winCount: 0,
     });
   }
 
