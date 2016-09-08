@@ -121,13 +121,13 @@ export default class FrontLobby extends React.Component {
     );
   }
 
-  showUserScoreboard(){
+  showUserScoreboard() {
     return (
       <ul className="user-list-item">
         {
           this.state.usersList.map((user, index) =>
             <li key={index} >
-              {`${user.name}`}
+              {`${user.name}   `}
               {`wins: ${user.winCount}`}
               <br />
             </li>
@@ -150,14 +150,14 @@ export default class FrontLobby extends React.Component {
         <h1>Welcome to Hangman, {this.props.username}!</h1>
         <div className="container">
           <div className="row">
-            <div className="col-xs-2">
-              <h4>Leader Board</h4>
+            <div className="col-xs-3">
+              <h4>Leaderboard</h4>
               {this.showUserScoreboard()}
             </div>
-            <div className="col-xs-8">
+            <div className="col-xs-6">
               {this.showListOfRooms()}
             </div>
-            <div className="col-xs-2">
+            <div className="col-xs-3">
               <button
                 id="new-game"
                 className="btn join-button"
