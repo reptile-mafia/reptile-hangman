@@ -33,7 +33,7 @@ export default class Player1 extends React.Component {
     const guessedLettersUpper = this.props.guessedLetters.map(letter => letter.toUpperCase());
     return (
       <section id="player1" className="row">
-        <h1>Player 1</h1>
+        <h1>Player 1: {this.props.username}</h1>
 
 
         <div className="col-xs-3 col-sm-2" id="gallows-col">
