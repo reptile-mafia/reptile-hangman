@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import ServerAPI from '../models/ServerAPI';
 import GameBoard from './GameBoard';
 import Gallows from './Gallows.js';
@@ -6,6 +7,7 @@ import Outcome from './Outcome.js';
 import Players from './Players';
 import Player1 from './Player1';
 import Player2 from './Player2';
+
 
 export default class Room extends React.Component {
 
@@ -105,19 +107,31 @@ export default class Room extends React.Component {
   }
 
   componentWillMount() {
-    var fb_game = firebase.database().ref('/games/' + this.props.roomId);
+    var fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
 
     // player1 = /games/ + this.props.roomId + /players/ + auth().currentUser.uid;
     // player2 = whatever is left
 
     var _this = this;
-    fb_game.on('value', (data) => {
-      let gameData = data.val();
-      console.log('game data:', gameData.name);
-
-      _this.setState({
-        roomName: gameData.name,
-        totalPlayers: gameData.totalPlayers,
+    fbGame.on('value', (gameData) => {
+      console.log('game data:', gameData.val());
+      Promise.all([
+        gameData.child('/players/0/word').val(),
+        gameData.child('/players/0/guessedLetters').val(),
+      ])
+      .then(array => {
+        console.log('In promise.all: ', array);
+        _this.setState({
+          word: array[0].split(''),
+          roomName: gameData.child('name').val(),
+          totalPlayers: gameData.child('totalPlayers').val(),
+          guessedLetters: array[1] || [],
+          remainingGuesses: gameData.child('players/0/remainingGuesses').val(),
+          isDone: gameData.child('isDone').val(),
+        });
+      })
+      .then(() => {
+        console.log("After setState: ", this.state.remainingGuesses);
       });
     });
   }
@@ -154,8 +168,16 @@ export default class Room extends React.Component {
     });
   }
 
+  playAgain() {
+    const currentUserId = firebase.auth().currentUser.uid;
+    this.props.serverAPI.playAgainAgain(currentUserId, this.props.roomId)
+    .then((data) => {
+      console.log('After playAgainAgain: ', data);
+    });
+  }
+
   selectGameMode() {
-    const guessedLettersUpper = this.state.guessedLetters.map(letter => letter.toUpperCase());
+    const guessedLettersUpper = this.state.guessedLetters !== null ? this.state.guessedLetters.map(letter => letter.toUpperCase()) : [];
 
     console.log('total players', this.state.totalPlayers);
     if (this.state.totalPlayers === 1) {
@@ -207,16 +229,19 @@ export default class Room extends React.Component {
       );
     }
   }
-
-  render() {
-    console.log('RENDER ROOM', this.state);
-    return (
-      <div className="room">
+/*
         <Outcome
           show={this.state.isDone}
           outcome={this.outcome}
           timeUntilNextGame={this.state.timeUntilNextGame}
         />
+*/
+
+  render() {
+    console.log('RENDER ROOM', this.state);
+    return (
+      <div className="room">
+        <button id="play-again" onClick={e => this.playAgain(e)}>Play Again</button>
         <h2>{this.state.roomName}</h2>
         <div className="container-fluid">
           { this.selectGameMode() }
