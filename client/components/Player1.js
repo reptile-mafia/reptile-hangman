@@ -54,6 +54,7 @@ export default class Player1 extends React.Component {
               guessedLetters={guessedLettersUpper}
               coolDown={this.props.coolDown}
               serverAPI={this.props.serverAPI}
+              makeGuess={this.props.makeGuess}
             />
           </div>
         </div>

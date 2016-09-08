@@ -22,7 +22,7 @@ class Alphabet extends React.Component {
   onAlphabetClick() {
     console.log(this.props.letter);
     if (!this.props.guessed) {
-      this.props.serverAPI.makeGuess(this.state.letter);
+      this.props.makeGuess(this.state.letter);
     }
   }
 
