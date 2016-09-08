@@ -1,4 +1,6 @@
 import io from 'socket.io-client';
+import firebase from 'firebase';
+import randomWord from 'random-words';
 
 export default class ServerAPI {
 
@@ -6,6 +8,7 @@ export default class ServerAPI {
   constructor(port) {
     this.port = port;
     this.client = null;
+    this.fbGames = firebase.database().ref('games');
   }
 
   disconnect() {
@@ -15,6 +18,25 @@ export default class ServerAPI {
   connect() {
     console.log('Connecting...');
     this.client = io.connect(`http://localhost:${this.port}`);
+  }
+
+  createGame(playerId, newGameObj) {
+    const newWord = randomWord();
+    const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
+    const newGame = this.fbGames.push();
+    return newGame.set({
+      name: newGameObj.name,
+      active: true,
+      players: [
+        {
+          id: playerId,
+          word: newWord,
+        },
+      ],
+      totalPlayers: totalPlayerAmount,
+      tries: 0,
+      winner: false,
+    });
   }
 
   // Registers a callback to be invoked when game begins
