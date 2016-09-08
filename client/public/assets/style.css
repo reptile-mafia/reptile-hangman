@@ -1,5 +1,11 @@
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+     background-color: #c33;
+}
+
+main {
+    background-color: white;
+    padding: 25px 0 50px;
 }
 
 div {
@@ -184,4 +190,14 @@ h1.game-title {
 
 #player-col, #board-col {
     padding-top: 25px;
+}
+
+footer {
+    background-color: #c33;
+    text-align: left;
+    padding: 20px 0;
+}
+
+footer img {
+    width: 100px;
 }
