@@ -36,13 +36,13 @@ export default class Room extends React.Component {
       this.playerId = res.playerId;
       const playerList = res.players.slice();
       // playerList.push(res.playerId);
-      this.setState({
-        players: playerList,
-        word: res.gameState.word,
-        guessedLetters: res.gameState.guessedLetters,
-        remainingGuesses: res.gameState.remainingGuesses,
-        isDone: res.gameState.isDone,
-      });
+      // this.setState({
+      //   players: playerList,
+      //   word: res.gameState.word,
+      //   guessedLetters: res.gameState.guessedLetters,
+      //   remainingGuesses: res.gameState.remainingGuesses,
+      //   isDone: res.gameState.isDone,
+      // });
     });
 
     // Update players
@@ -110,13 +110,18 @@ export default class Room extends React.Component {
     var fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
 
     // player1 = /games/ + this.props.roomId + /players/ + auth().currentUser.uid;
+    // player1.set({
+    //   username: this.props.username,
+    // });
+
     // player2 = whatever is left
 
     var _this = this;
     fbGame.on('value', (gameData) => {
       console.log('game data:', gameData.val());
       _this.setState({
-        word: gameData.child('/players/0/word').val().split(''),
+        word: gameData.child('/players/0/word').val(),
+        displayWord: gameData.child('/players/0/displayWord').val(),
         roomName: gameData.child('name').val(),
         totalPlayers: gameData.child('totalPlayers').val(),
         guessedLetters: gameData.child('/players/0/guessedLetters').val() || [],
@@ -129,33 +134,33 @@ export default class Room extends React.Component {
   setGameState(gameState, coolDown) {
     if (coolDown > 0) {
       console.log('updating with coolDown', gameState);
-      this.setState({
-        word: gameState.word, // keep state immutable
-        guessedLetters: gameState.guessedLetters,
-        remainingGuesses: gameState.remainingGuesses,
-        isDone: gameState.isDone,
-        coolDown: coolDown,
-      });
+      // this.setState({
+      //   word: gameState.word, // keep state immutable
+      //   guessedLetters: gameState.guessedLetters,
+      //   remainingGuesses: gameState.remainingGuesses,
+      //   isDone: gameState.isDone,
+      //   coolDown: coolDown,
+      // });
     } else {
       console.log('updating without coolDown', gameState);
-      this.setState({
-        word: gameState.word, // keep state immutable
-        guessedLetters: gameState.guessedLetters,
-        remainingGuesses: gameState.remainingGuesses,
-        isDone: gameState.isDone,
-      });
+      // this.setState({
+      //   word: gameState.word, // keep state immutable
+      //   guessedLetters: gameState.guessedLetters,
+      //   remainingGuesses: gameState.remainingGuesses,
+      //   isDone: gameState.isDone,
+      // });
     }
   }
 
   setEndGameState(gameState, timeUntilNextGame){
     // console.log("setting game state END: ", gameState, timeUntilNextGame)
-    this.setState({
-      word: gameState.word, // keep state immutable
-      guessedLetters: gameState.guessedLetters,
-      remainingGuesses: gameState.remainingGuesses,
-      isDone: gameState.isDone,
-      timeUntilNextGame: timeUntilNextGame,
-    });
+    // this.setState({
+    //   word: gameState.word, // keep state immutable
+    //   guessedLetters: gameState.guessedLetters,
+    //   remainingGuesses: gameState.remainingGuesses,
+    //   isDone: gameState.isDone,
+    //   timeUntilNextGame: timeUntilNextGame,
+    // });
   }
 
   playAgain() {
@@ -164,6 +169,12 @@ export default class Room extends React.Component {
     .then((data) => {
       console.log('After playAgain: ', data);
     });
+  }
+
+  makeGuess(letter) {
+    if (this.state.remainingGuesses > 0) {
+      this.props.serverAPI.makeGuess(letter, this.state.word, this.state.displayWord, this.props.roomId);
+    }
   }
 
   selectGameMode() {
@@ -176,12 +187,13 @@ export default class Room extends React.Component {
 
           <div className="col-sm-12">
             <Player1
-              word={this.state.word}
+              word={this.state.displayWord}
               guessedLetters={guessedLettersUpper}
               remainingGuesses={this.state.remainingGuesses}
               serverAPI={this.props.serverAPI}
               coolDown={this.state.coolDown}
               username={this.props.username}
+              makeGuess={e => this.makeGuess(e)}
             />
           </div>
 
@@ -201,6 +213,7 @@ export default class Room extends React.Component {
               remainingGuesses={this.state.remainingGuesses}
               serverAPI={this.props.serverAPI}
               coolDown={this.state.coolDown}
+              makeGuess={e => this.makeGuess(e)}
             />
           </div>
 

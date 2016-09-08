@@ -80,7 +80,7 @@ export default class FrontLobby extends React.Component {
               {`# of players: ${room.players.length}`}
               <br />
               <button
-                className="join-button"
+                className="btn join-button"
                 onClick={() => this.handleJoinRoom(room.id)}
               >Join</button>
             </li>
@@ -110,7 +110,7 @@ export default class FrontLobby extends React.Component {
             <div className="col-xs-2">
               <button
                 id="new-game"
-                className="join-button"
+                className="btn join-button"
                 onClick={e => this.handleCreate(e)}
               >
                 Create Game

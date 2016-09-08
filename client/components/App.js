@@ -96,9 +96,16 @@ export default class App extends React.Component {
             </ul>
           </div>
         </nav>
+        <main>
         {
           this.state.pageToRender
         }
+        </main>
+        <footer>
+          <div className="container">
+            <img src="assets/duck.svg" />
+          </div>
+        </footer>
       </div>
     );
   }

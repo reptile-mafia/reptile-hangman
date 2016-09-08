@@ -22,7 +22,7 @@ export default class ServerAPI {
   }
 
   createGame(playerId, newGameObj) {
-    const newWord = randomWord();
+    const newWord = randomWord().toUpperCase();
     const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
     this.newGame = this.fbGames.push();
     return this.newGame.set({
@@ -31,7 +31,7 @@ export default class ServerAPI {
       players: [
         {
           id: playerId,
-          word: newWord,
+          word: newWord.split(''),
           tries: 0,
           remainingGuesses: 6,
           guessedLetters: [],
@@ -43,14 +43,14 @@ export default class ServerAPI {
   }
 
   playAgain(playerId, currentGameId) {
-    const newWord = randomWord();
+    const newWord = randomWord().toUpperCase();
     const displayArray = newWord.split('').map(() => '_');
     this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
     return this.currentGame.update({
       players: [
         {
           id: playerId,
-          word: newWord,
+          word: newWord.split(''),
           tries: 0,
           remainingGuesses: 6,
           guessedLetters: [],
@@ -68,9 +68,37 @@ export default class ServerAPI {
   }
 
   // Sends a letter to the server that represents a guess
-  makeGuess(letter) {
-    // console.log("client make guess", letter)
-    this.client.emit('guessLetter', { letter: letter });
+  // makeGuess(letter) {
+  //   // console.log("client make guess", letter)
+  //   this.client.emit('guessLetter', { letter: letter });
+  // }
+
+  makeGuess(guess, word, displayWord, currentGameId) {
+    let correct = false;
+    word.forEach((letter, index) => {
+      if (guess === letter) {
+        // correct = true;
+        displayWord[index] = letter;
+      }
+    });
+
+    const currentPlayer = firebase.database().ref(`/games/${currentGameId}/players/0`);
+
+    currentPlayer.once('value', (playerData) => {
+      let letters = [];
+      if (playerData.child('guessedLetters').exists()) {
+        letters = playerData.child('guessedLetters').val();
+      }
+
+      letters.push(guess);
+
+      currentPlayer.update({
+        tries: playerData.child('tries').val() + 1,
+        remainingGuesses: playerData.child('remainingGuesses').val() - 1,
+        guessedLetters: letters,
+        displayWord,
+      });
+    });
   }
 
   // Registers a callback to be invoked on an incorrect guess

@@ -23,6 +23,7 @@ export default class Alphabets extends React.Component {
                 letter={letter}
                 guessed={guessed}
                 serverAPI={this.props.serverAPI}
+                makeGuess={this.props.makeGuess}
               />
             );
           })
