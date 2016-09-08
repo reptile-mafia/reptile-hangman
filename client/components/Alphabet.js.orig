@@ -7,7 +7,7 @@ class Alphabet extends React.Component {
     super(props);
     this.state = {
       keypress: '',
-      letter: this.props.letter,
+      alphabet: this.props.alphabet,
     };
   }
 
@@ -20,7 +20,11 @@ class Alphabet extends React.Component {
   onAlphabetClick() {
     console.log(this.props.letter);
     if (!this.props.guessed) {
-      this.props.serverAPI.makeGuess(this.state.letter);
+<<<<<<< 6c75085da70f529ebd2632abd0dccd7cecffeb82
+      this.props.serverAPI.makeGuess(this.props.letter);
+=======
+      this.props.serverAPI.makeGuess(this.state.alphabet);
+>>>>>>> Implements keyboard input for gameboard.
     }
   }
 
@@ -30,9 +34,15 @@ class Alphabet extends React.Component {
 
   render() {
     return (
+<<<<<<< 6c75085da70f529ebd2632abd0dccd7cecffeb82
+      <div className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
+        {this.props.letter}
+      </div>
+=======
       <button className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
-        {this.state.letter}
+        {this.state.alphabet}
       </button>
+>>>>>>> Implements keyboard input for gameboard.
     );
   }
 }
