@@ -115,23 +115,13 @@ export default class Room extends React.Component {
     var _this = this;
     fbGame.on('value', (gameData) => {
       console.log('game data:', gameData.val());
-      Promise.all([
-        gameData.child('/players/0/word').val(),
-        gameData.child('/players/0/guessedLetters').val(),
-      ])
-      .then(array => {
-        console.log('In promise.all: ', array);
-        _this.setState({
-          word: array[0].split(''),
-          roomName: gameData.child('name').val(),
-          totalPlayers: gameData.child('totalPlayers').val(),
-          guessedLetters: array[1] || [],
-          remainingGuesses: gameData.child('players/0/remainingGuesses').val(),
-          isDone: gameData.child('isDone').val(),
-        });
-      })
-      .then(() => {
-        console.log("After setState: ", this.state.remainingGuesses);
+      _this.setState({
+        word: gameData.child('/players/0/word').val().split(''),
+        roomName: gameData.child('name').val(),
+        totalPlayers: gameData.child('totalPlayers').val(),
+        guessedLetters: gameData.child('/players/0/guessedLetters').val() || [],
+        remainingGuesses: gameData.child('players/0/remainingGuesses').val(),
+        isDone: gameData.child('isDone').val(),
       });
     });
   }
@@ -170,9 +160,9 @@ export default class Room extends React.Component {
 
   playAgain() {
     const currentUserId = firebase.auth().currentUser.uid;
-    this.props.serverAPI.playAgainAgain(currentUserId, this.props.roomId)
+    this.props.serverAPI.playAgain(currentUserId, this.props.roomId)
     .then((data) => {
-      console.log('After playAgainAgain: ', data);
+      console.log('After playAgain: ', data);
     });
   }
 
