@@ -1,24 +1,11 @@
-import io from 'socket.io-client';
 import firebase from 'firebase';
 import randomWord from 'random-words';
 
 export default class ServerAPI {
 
-  // creates a socket.io-client connection
-  constructor(port) {
-    this.port = port;
-    this.client = null;
+  constructor() {
     this.fbGames = firebase.database().ref('games');
     this.currentGame = null;
-  }
-
-  disconnect() {
-    this.client.disconnect();
-  }
-
-  connect() {
-    console.log('Connecting...');
-    this.client = io.connect(`http://localhost:${this.port}`);
   }
 
   createGame(playerId, newGameObj) {
@@ -61,23 +48,11 @@ export default class ServerAPI {
     });
   }
 
-  // Registers a callback to be invoked when game begins
-  // callback will receive object { word: [ ..array of nulls or strings ] }
-  onStartGame(callback) {
-    this.client.on('startGame', callback);
-  }
-
-  // Sends a letter to the server that represents a guess
-  // makeGuess(letter) {
-  //   // console.log("client make guess", letter)
-  //   this.client.emit('guessLetter', { letter: letter });
-  // }
-
   makeGuess(guess, word, displayWord, currentGameId) {
     let correct = false;
     word.forEach((letter, index) => {
       if (guess === letter) {
-        // correct = true;
+        correct = true;
         displayWord[index] = letter;
       }
     });
@@ -91,48 +66,15 @@ export default class ServerAPI {
       }
 
       letters.push(guess);
+      const remaining = playerData.child('remainingGuesses').val();
 
       currentPlayer.update({
         tries: playerData.child('tries').val() + 1,
-        remainingGuesses: playerData.child('remainingGuesses').val() - 1,
+        remainingGuesses: correct ? remaining : remaining - 1,
         guessedLetters: letters,
         displayWord,
       });
     });
+    return correct;
   }
-
-  // Registers a callback to be invoked on an incorrect guess
-  // callback will receive object { guessedLetters: [..strings], remainingGuesses: number }
-  onIncorrectGuess(callback) {
-    this.client.on('incorrectGuess', callback);
-  }
-
-  // Registers a callback to be invoked on a correct guess
-  // callback will receive object { guessedLetters: [..strings], remainingGuesses: number }
-  onCorrectGuess(callback) {
-    this.client.on('correctGuess', callback);
-  }
-
-  // Registers a callback to be invoked when a game is won
-  onWin(callback) {
-    this.client.on('win', callback);
-  }
-
-  // Registers a callback to be invoked when a game is lost
-  onLose(callback) {
-    this.client.on('loss', callback);
-  }
-
-  onPlayerLeaveRoom(callback) {
-    this.client.on('playerLeaveRoom', callback);
-  }
-
-  onPlayerEnterRoom(callback) {
-    this.client.on('playerEnterRoom', callback);
-  }
-
-  onEnterRoom(callback) {
-    this.client.on('enterRoom', callback);
-  }
-
 }

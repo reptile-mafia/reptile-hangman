@@ -1,14 +1,10 @@
 import React from 'react';
-import ServerAPI from '../models/ServerAPI';
-import GameBoard from './GameBoard';
 import Gallows from './Gallows.js';
 import Outcome from './Outcome.js';
-import Players from './Players';
 import Alphabets from './Alphabets.js';
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
 import Word from './Word.js';
-import CoolDown from './CoolDown';
 
 
 export default class Player1 extends React.Component {

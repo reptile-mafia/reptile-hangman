@@ -24,7 +24,7 @@ export default class App extends React.Component {
       username: '',
       pageToRender: null,
     };
-    this.serverAPI = new ServerAPI(4000);
+    this.serverAPI = new ServerAPI();
   }
 
   componentWillMount() {
@@ -86,7 +86,7 @@ export default class App extends React.Component {
           <div className="container navcon">
             <ul className="nav navbar-header navbar-nav">
               <li className="navbar-brand">HANGMAN</li>
-              <li><a onClick={this.handleLobbyClick.bind(this)}>Lobby</a></li>
+              <li><a onClick={e => this.handleLobbyClick(e)}>Lobby</a></li>
             </ul>
 
             <ul className="nav navbar-nav navbar-right">
