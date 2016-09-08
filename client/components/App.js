@@ -51,8 +51,8 @@ export default class App extends React.Component {
         console.log("auth", user);
         this.setState({
           auth: true,
-          username: user.uid,
-          pageToRender: <FrontLobby username={this.state.username} joinRoom={e => this.handleJoin(e)} />,
+          username: this.createUsername(user.email),
+          pageToRender: <FrontLobby username={this.createUsername(user.email)} joinRoom={e => this.handleJoin(e)} />,
         });
       } else {
         this.setState({
@@ -60,6 +60,12 @@ export default class App extends React.Component {
         });
       }
     });
+  }
+
+  createUsername(email) {
+    var atIndex = email.indexOf('@');
+    var username = email.slice(0, atIndex)
+    return username;
   }
 
   render() {
