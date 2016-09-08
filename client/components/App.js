@@ -4,6 +4,7 @@ import Login from './Login';
 import FrontLobby from './FrontLobby';
 import Room from './Room';
 import firebaseConfig from '../../firebaseConfig.js';
+import ServerAPI from '../models/ServerAPI';
 
 export default class App extends React.Component {
 
@@ -23,6 +24,7 @@ export default class App extends React.Component {
       username: '',
       pageToRender: null,
     };
+    this.serverAPI = new ServerAPI(4000);
   }
 
   componentWillMount() {
@@ -33,7 +35,7 @@ export default class App extends React.Component {
     console.log('roomId', roomId);
     this.setState({
       play: true,
-      pageToRender: <Room roomId={roomId} username={this.state.username} />,
+      pageToRender: <Room serverAPI={this.serverAPI} roomId={roomId} username={this.state.username} />,
     });
   }
 
@@ -53,7 +55,7 @@ export default class App extends React.Component {
         this.setState({
           auth: true,
           username: displayName,
-          pageToRender: <FrontLobby username={displayName} joinRoom={e => this.handleJoin(e)} />,
+          pageToRender: <FrontLobby serverAPI={this.serverAPI} username={displayName} joinRoom={e => this.handleJoin(e)} />,
         });
       } else {
         this.setState({
@@ -65,7 +67,7 @@ export default class App extends React.Component {
 
   createUsername(email) {
     var atIndex = email.indexOf('@');
-    var username = email.slice(0, atIndex)
+    var username = email.slice(0, atIndex);
     return username;
   }
 
@@ -73,9 +75,8 @@ export default class App extends React.Component {
     console.log('lobby is clicked');
     this.setState({
       play: false,
-      pageToRender: <FrontLobby username={this.state.username} joinRoom={e => this.handleJoin(e)} />,
+      pageToRender: <FrontLobby serverAPI={this.serverAPI} username={this.state.username} joinRoom={e => this.handleJoin(e)} />,
     });
-
   }
 
   render() {

@@ -28,9 +28,8 @@ export default class Room extends React.Component {
     };
 
     // setup socket & initialize
-    this.serverAPI = new ServerAPI(4000);
-    this.serverAPI.connect();
-    this.serverAPI.onEnterRoom(res => {
+    this.props.serverAPI.connect();
+    this.props.serverAPI.onEnterRoom(res => {
       console.log('Enter Room', res);
       this.playerId = res.playerId;
       const playerList = res.players.slice();
@@ -45,7 +44,7 @@ export default class Room extends React.Component {
     });
 
     // Update players
-    this.serverAPI.onPlayerEnterRoom(res => {
+    this.props.serverAPI.onPlayerEnterRoom(res => {
       console.log('Player enter room', res, this.state);
       const playerList = this.state.players;
       console.log('playerlist: ', playerList);
@@ -55,7 +54,7 @@ export default class Room extends React.Component {
       });
     });
 
-    this.serverAPI.onPlayerLeaveRoom(res => {
+    this.props.serverAPI.onPlayerLeaveRoom(res => {
       console.log('Player Leave room', res);
       const playerList = this.state.players;
       if (playerList.indexOf(res.playerId) > 0) {
@@ -67,12 +66,12 @@ export default class Room extends React.Component {
     });
 
     // Game related events
-    this.serverAPI.onStartGame(res => {
+    this.props.serverAPI.onStartGame(res => {
       console.log('Start game', res.gameState);
       this.setGameState(res.gameState);
     });
 
-    this.serverAPI.onIncorrectGuess(res => {
+    this.props.serverAPI.onIncorrectGuess(res => {
       console.log('Incorrect Guess', res);
       if (res.playerId === this.playerId) {
         this.setGameState(res.gameState, res.coolDown);
@@ -81,7 +80,7 @@ export default class Room extends React.Component {
       }
     });
 
-    this.serverAPI.onCorrectGuess(res => {
+    this.props.serverAPI.onCorrectGuess(res => {
       console.log('Correct Guess', res, res.playerId, this.playerId);
       if (res.playerId === this.playerId) {
         this.setGameState(res.gameState, res.coolDown);
@@ -90,14 +89,14 @@ export default class Room extends React.Component {
       }
     });
 
-    this.serverAPI.onWin(res => {
+    this.props.serverAPI.onWin(res => {
       console.log('win!', res);
       this.outcome.win = true;
       this.outcome.player = res.playerId;
       this.setEndGameState(res.gameState, res.timeUntilNextGame);
     });
 
-    this.serverAPI.onLose(res => {
+    this.props.serverAPI.onLose(res => {
       console.log('lose!', res);
       this.outcome.win = false;
       this.outcome.player = res.playerId;
@@ -168,7 +167,7 @@ export default class Room extends React.Component {
               word={this.state.word}
               guessedLetters={guessedLettersUpper}
               remainingGuesses={this.state.remainingGuesses}
-              serverAPI={this.serverAPI}
+              serverAPI={this.props.serverAPI}
               coolDown={this.state.coolDown}
               username={this.props.username}
             />
@@ -188,7 +187,7 @@ export default class Room extends React.Component {
               word={this.state.word}
               guessedLetters={guessedLettersUpper}
               remainingGuesses={this.state.remainingGuesses}
-              serverAPI={this.serverAPI}
+              serverAPI={this.props.serverAPI}
               coolDown={this.state.coolDown}
             />
           </div>

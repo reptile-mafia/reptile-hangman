@@ -47,21 +47,7 @@ export default class FrontLobby extends React.Component {
   }
 
   createGame(newGameObj) {
-    const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
-    const newGame = this.state.fbGames.push();
-    newGame.set({
-      name: newGameObj.name,
-      active: true,
-      players: [
-        {
-          id: '0123',
-          word: 'turtle',
-        },
-      ],
-      totalPlayers: totalPlayerAmount,
-      tries: 0,
-      winner: false,
-    })
+    this.props.serverAPI.createGame(firebase.auth().currentUser.uid, newGameObj)
     .then(() => {
       this.setState({
         showCreate: false,
