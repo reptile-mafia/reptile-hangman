@@ -84,11 +84,11 @@ export default class FrontLobby extends React.Component {
         {
           this.state.roomsList.map((room, index) => {
             const roomDataKeys = room.players;
-            console.log('inside map: ', roomDataKeys);
             return (
               <li key={index}>
                 {`id: ${room.id}`}<br />
                 {`name: ${room.name}`}<br />
+                {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}<br />
                 {`# of players: ${room.players}`}<br />
                 <button
                   className="join-button"
