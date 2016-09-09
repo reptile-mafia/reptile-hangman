@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
-import { Modal, Button } from 'react-bootstrap';
+// import { Modal, Button } from 'react-bootstrap';
 import Outcome from './Outcome.js';
 import Players from './Players';
 import Player1 from './Player1';
@@ -26,6 +26,7 @@ export default class Room extends React.Component {
     };
     this.outcome = {
       win: true,
+      player: this.props.username,
     };
     this.fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
   }
@@ -46,7 +47,6 @@ export default class Room extends React.Component {
         timeToContinue: done ? 10 : 0,
         show: done || false,
       });
-      console.log(' ', 'displayWord comparision', this.state.displayWord.join('') === this.state.word.join(''));
     });
   }
 
@@ -77,6 +77,15 @@ export default class Room extends React.Component {
     .then((data) => {
       console.log('After playAgain: ', data);
       this.close();
+    });
+  }
+
+  endGame() {
+    console.log("ROOM ID: ", this.props.roomId);
+    this.props.serverAPI.endGame(this.props.roomId)
+    .then(() => {
+      console.log('Game Removed!');
+      this.props.returnToLobby();
     });
   }
 
@@ -160,26 +169,38 @@ export default class Room extends React.Component {
       );
     }
   }
+        // <div className="outcome">
+        //   <Modal show={this.state.isDone} onHide={this.close}>
+        //     <Modal.Header closeButton>
+        //       <Modal.Title>
+        //         {this.outcome.win ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
+        //       </Modal.Title>
+        //     </Modal.Header>
+        //     <Modal.Body>
+        //       {`${this.outcome.win ? 'WINNER IS ' : 'LOSER IS '} ${this.state.player}`}
+        //     </Modal.Body>
+        //     <Modal.Footer>
+        //       <Button onClick={e => this.playAgain(e)}>Play Again</Button>
+        //     </Modal.Footer>
+        //   </Modal>
+        // </div>
+        // <button id="play-again" onClick={e => this.playAgain(e)}>Play Again</button>
 
   render() {
     console.log('RENDER ROOM', this.state);
     return (
       <div className="room">
-        <div className="outcome">
-          <Modal show={this.state.isDone} onHide={this.close}>
-            <Modal.Header closeButton>
-              <Modal.Title>
-                {this.outcome.win ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {`${this.outcome.win ? 'WINNER IS ' : 'LOSER IS '} ${this.state.player}`}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={e => this.playAgain(e)}>Play Again</Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
+        { this.state.isDone
+          ? <Outcome
+            show={this.state.isDone}
+            outcome={this.outcome}
+            timeToContinue={this.state.timeToContinue}
+            playAgain={e => this.playAgain(e)}
+            endGame={e => this.endGame(e)}
+          />
+          : null
+        }
+        <h2>{this.state.roomName}</h2>
         <div className="container-fluid">
           { this.selectGameMode() }
         </div>
