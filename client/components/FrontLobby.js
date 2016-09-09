@@ -123,21 +123,30 @@ export default class FrontLobby extends React.Component {
 
   showUserScoreboard() {
     return (
-      <ul className="user-list-item">
-        {
-          this.state.usersList.map((user, index) =>
-            <li key={index} >
-              <div className="col-xs-6">
-                {`${user.name}`}
-              </div>
-              <div className="col-xs-6">  
-                {`wins: ${user.winCount}`}
-              </div>
-              <br />
-            </li>
-            )
-       }
-      </ul>
+      <div className="col-s-12">
+          <h1>Leaderboard</h1>
+          <div className="col-xs-6">
+               <h4>Users</h4>
+          </div>
+          <div className="col-xs-6">
+               <h4>Wins</h4>
+          </div>
+          <ul className="user-list-item">
+            {
+              this.state.usersList.map((user, index) =>
+                <li key={index} >
+                  <div className="col-xs-6">
+                    {`${user.name}`}
+                  </div>
+                  <div className="col-xs-6">  
+                    {`${user.winCount}`}
+                  </div>
+                  <br />
+                </li>
+                )
+           }
+          </ul>
+      </div>
       ); // end return
   } // end userScoreboard
 
@@ -155,7 +164,6 @@ export default class FrontLobby extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-3">
-              <h4>Leaderboard</h4>
               {this.showUserScoreboard()}
             </div>
             <div className="col-xs-6">
