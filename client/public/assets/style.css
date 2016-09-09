@@ -5,7 +5,7 @@ html, body {
 body {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-family: Ubuntu;
-    background: #cc3333; /* Old browsers */
+    background: #751d1d; /* Old browsers */
     background: -moz-linear-gradient(top,  #cc3333 0%, #751d1d 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  #cc3333 0%,#751d1d 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom,  #cc3333 0%,#751d1d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */

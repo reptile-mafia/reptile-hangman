@@ -180,8 +180,6 @@ export default class Room extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-        <button id="play-again" onClick={e => this.playAgain(e)}>Play Again</button>
-        <h2>{this.state.roomName}</h2>
         <div className="container-fluid">
           { this.selectGameMode() }
         </div>
