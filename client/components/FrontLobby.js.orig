@@ -125,6 +125,32 @@ export default class FrontLobby extends React.Component {
 
   showUserScoreboard() {
     return (
+<<<<<<< 4e885af7ec479c36882512a26422ec1802f0e89c
+      <div className="col-s-12">
+          <h1>Leaderboard</h1>
+          <div className="col-xs-6">
+               <h4>Users</h4>
+          </div>
+          <div className="col-xs-6">
+               <h4>Wins</h4>
+          </div>
+          <ul className="user-list-item">
+            {
+              this.state.usersList.map((user, index) =>
+                <li key={index} >
+                  <div className="col-xs-6">
+                    {`${user.name}`}
+                  </div>
+                  <div className="col-xs-6">  
+                    {`${user.winCount}`}
+                  </div>
+                  <br />
+                </li>
+                )
+           }
+          </ul>
+      </div>
+=======
       <ol className="user-list-item">
         {
           this.state.usersList.map((user, index) =>
@@ -137,6 +163,7 @@ export default class FrontLobby extends React.Component {
             )
        }
       </ol>
+>>>>>>> ui updates
       ); // end return
   } // end userScoreboard
 
@@ -153,6 +180,9 @@ export default class FrontLobby extends React.Component {
         <div className="container">
           <h1 className="welcome">Welcome to Hangman, {this.props.username}!</h1>
           <div className="row">
+<<<<<<< 4e885af7ec479c36882512a26422ec1802f0e89c
+            <div className="col-xs-3">
+=======
             <div className="col-sm-3">
               <div>
                 <button
@@ -164,6 +194,7 @@ export default class FrontLobby extends React.Component {
                 </button>
               </div>
               <h4>Leaderboard</h4>
+>>>>>>> ui updates
               {this.showUserScoreboard()}
             </div>
             <div className="col-sm-9">
