@@ -22,21 +22,20 @@ export default class Player2 extends React.Component {
     const guessedLettersUpper = this.props.guessedLetters.map(letter => letter.toUpperCase());
     return (
       <section id="player2" className="row">
-        <h1>Player 2</h1>
-
-        <div className="col-xs-3 col-sm-2" id="gallows-col">
-          <Gallows remainingGuesses={this.props.remainingGuesses} />
+        <div className="col-sm-8">
+          <div className="panel panel-default board-col">
+            <h1>Player 2</h1>
+            <div id="guessed-row">
+              <GuessedLetters guessedLetters={guessedLettersUpper} />
+              <RemainingGuess remainingGuesses={this.props.remainingGuesses} />
+            </div>
+            <div id="theword-row">
+              <Word word={this.props.word} />
+            </div>
+          </div>
         </div>
-
-        <div className="col-xs-9 col-sm-8" id="board-col">
-          <div id="guessed-row">
-            <GuessedLetters guessedLetters={guessedLettersUpper} />
-            <RemainingGuess remainingGuesses={this.props.remainingGuesses} />
-          </div>
-
-          <div id="theword-row">
-            <Word word={this.props.word} />
-          </div>
+        <div className="col-sm-4 gallows-col">
+          <Gallows remainingGuesses={this.props.remainingGuesses} />
         </div>
       </section>
     );

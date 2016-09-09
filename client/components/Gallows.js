@@ -9,7 +9,7 @@ export default class Gallows extends React.Component {
   render() {
     return (
       <div className="gallows">
-        <svg width="200" height="500" >
+        <svg width="100%" viewBox="0 0 200 500">
           <g id="gallowRope">
             <line x1="100" y1="0" x2="100" y2="165" />
             <circle cx="100" cy="175" r="16" />
