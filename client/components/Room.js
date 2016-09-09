@@ -104,6 +104,14 @@ export default class Room extends React.Component {
   //   : null;
   // }
 
+  recordWin() {
+    var winCountRef = firebase.database().ref('users/cH74Wy1ASje2tx7TKrnUFvJNrxe2/winCount');
+    winCountRef.transaction((currentRank) => {
+      // If users/ada/rank has never been set, currentRank will be `null`.
+      return currentRank + 1;
+    });
+  }
+
   selectGameMode() {
     const guessedLettersUpper = this.state.guessedLetters !== null ? this.state.guessedLetters.map(letter => letter.toUpperCase()) : [];
 
@@ -161,6 +169,11 @@ export default class Room extends React.Component {
   }
 
   render() {
+    if (this.state.isDone && this.outcome.win) {
+      // this.recordWin();
+      console.log(this.state.players);
+    }
+
     console.log('RENDER ROOM', this.state);
     return (
       <div className="room">
