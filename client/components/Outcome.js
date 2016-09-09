@@ -94,7 +94,7 @@ export default class Outcome extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {`WINNER IS ${this.state.show}`}
+            {this.props.singlePlayer ? '' : `WINNER IS ${this.state.show}`}
             <br />
             <br />
             <span>{`Next game in: ${this.state.timeToContinue} ${this.state.timeToContinue > 1 ? 'seconds' : 'second'}`}</span>
