@@ -14,7 +14,6 @@ export default class ServerAPI {
     const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
     this.newGame = this.fbGames.push();
     const gameObj = {
-      // id: playerId,
       word: newWord.split(''),
       tries: 0,
       remainingGuesses: 6,

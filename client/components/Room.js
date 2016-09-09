@@ -74,7 +74,7 @@ export default class Room extends React.Component {
       console.log('LOSS');
       if (this.state.totalPlayers === 1) {
         this.fbGame.update({
-          isDone: firebase.auth().currentUser.uid,
+          isDone: true,
           remainingGuesses: null,
         });
       } else {
@@ -214,6 +214,7 @@ export default class Room extends React.Component {
             timeToContinue={this.state.timeToContinue}
             playAgain={e => this.playAgain(e)}
             endGame={e => this.endGame(e)}
+            singlePlayer={this.state.totalPlayers === 1}
           />
           : null
         }
