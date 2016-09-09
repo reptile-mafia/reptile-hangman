@@ -42,26 +42,56 @@ h2 {
 }
 
 .welcome {
-    text-align: center;
+    text-align: left;
     padding-top: 30px;
     margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .room-list-item li {
     background: white;
     border: 1px solid black;
-    padding: 10px 10px 15px 10px;
+    padding: 15px 5px;
     margin: 5px 0px 5px 0px;
     list-style: none;
     text-align: left;
 }
 
+.user-list-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: mycounter;
+}
+
 .user-list-item li {
-   /* border: 1px solid black;*/
     padding: 5px 5px 5px 5px;
     margin: 5px 0px 5px 0px;
-    list-style: none;
     text-align: left;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items:stretch;
+}
+
+.leaderboard-item:before {
+    content: counter(mycounter);
+    counter-increment: mycounter;
+}
+
+.leaderboard-name {
+    display: block;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.leaderboard-score {
+    display: block;
+    text-align: right;
+    flex-grow: 1;
+    text-align: right;
 }
 
 .users {
@@ -69,8 +99,18 @@ h2 {
 }
 
 
+.createGame-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.join-game {
+    text-align: right;
+}
+
 .join-button {
-    float: right;
+
 }
 
 .coolDown{
