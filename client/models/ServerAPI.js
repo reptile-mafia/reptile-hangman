@@ -35,19 +35,16 @@ export default class ServerAPI {
     const newWord = randomWord().toUpperCase();
     const displayArray = newWord.split('').map(() => '_');
     this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
-    return this.currentGame.update({
-      players: [
-        {
-          id: playerId,
-          word: newWord.split(''),
-          tries: 0,
-          remainingGuesses: 6,
-          guessedLetters: [],
-          displayWord: displayArray,
-        },
-      ],
+    return this.currentGame.child(`players/${playerId}`).update({
+      word: newWord.split(''),
+      tries: 0,
+      remainingGuesses: 6,
+      guessedLetters: [],
+      displayWord: displayArray,
+    })
+    .then(() => this.currentGame.update({
       isDone: false,
-    });
+    }));
   }
 
   endGame(currentGameId) {
@@ -57,6 +54,7 @@ export default class ServerAPI {
 
   makeGuess(guess, word, displayWord, currentGameId) {
     let correct = false;
+    const currentUserId = firebase.auth().currentUser.uid;
     word.forEach((letter, index) => {
       if (guess === letter) {
         correct = true;
@@ -64,7 +62,7 @@ export default class ServerAPI {
       }
     });
 
-    const currentPlayer = firebase.database().ref(`/games/${currentGameId}/players/0`);
+    const currentPlayer = firebase.database().ref(`/games/${currentGameId}/players/${currentUserId}`);
 
     currentPlayer.once('value', (playerData) => {
       let letters = [];

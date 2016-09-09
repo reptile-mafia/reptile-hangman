@@ -12,9 +12,7 @@ export default class Player2 extends React.Component {
       guessedLetters: [],
       remainingGuesses: 6,
       isDone: false,
-      players: [],
-      coolDown: 0,
-      timeUntilNextGame: 0,
+      displayWord: [],
     };
   }
 
