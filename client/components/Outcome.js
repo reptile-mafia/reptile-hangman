@@ -55,7 +55,7 @@ export default class Outcome extends React.Component {
       if (this.state.timeToContinue > 0) {
         this.setState({
           timeToContinue: Math.floor(this.state.timeToContinue - 1),
-          show: true,
+          show: this.props.show,
         });
       } else {
         this.onQuit();
