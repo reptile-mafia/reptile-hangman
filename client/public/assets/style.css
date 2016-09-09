@@ -1,15 +1,162 @@
-body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+html, body {
+    height: 100%;
 }
 
-div {
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: Ubuntu;
+    background: #751d1d; /* Old browsers */
+    background: -moz-linear-gradient(top,  #cc3333 0%, #751d1d 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #cc3333 0%,#751d1d 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #cc3333 0%,#751d1d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc3333', endColorstr='#751d1d',GradientType=0 ); /* IE6-9 */
+}
+
+main {
+    background: #fcfcfc; /* Old browsers */
+    background: linear-gradient(to bottom,  #fcfcfc 0%,#d1d1d1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    padding: 0 0 50px;
+}
+
+/*div {
     text-align: center;
+}*/
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+.panel {
+    padding: 30px;
+}
+
+.panel h1, .panel h2 {
+    margin-top: 2px;
+    padding-bottom: 10px;
+    /*border-bottom: 1px solid #ccc;*/
+}
+
+.welcome {
+    text-align: left;
+    padding-top: 30px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.room-list-item li {
+    background: white;
+    border: 1px solid black;
+    padding: 15px 5px;
+    margin: 5px 0px 5px 0px;
+    list-style: none;
+    text-align: left;
+}
+
+.user-list-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: mycounter;
+}
+
+.user-list-item li {
+    padding: 5px 5px 5px 5px;
+    margin: 5px 0px 5px 0px;
+    text-align: left;
+    border-bottom: 1px dashed rgba(0,0,0,0.3);
+}
+
+.leaderboard-header {
+    display:flex;
+    justify-content: space-between;
+}
+
+.leaderboard-header-name {
+    display: inline-block;
+    padding-left: 17px;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items:stretch;
+}
+
+.leaderboard-item:before {
+    content: counter(mycounter);
+    counter-increment: mycounter;
+}
+
+.leaderboard-name {
+    display: block;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.leaderboard-score {
+    display: block;
+    text-align: right;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items:stretch;
+}
+
+.leaderboard-item:before {
+    content: counter(mycounter);
+    counter-increment: mycounter;
+}
+
+.leaderboard-name {
+    display: block;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.leaderboard-score {
+    display: block;
+    text-align: right;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.users {
+    font-style:bold;
+}
+
+
+.createGame-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.join-game {
+    text-align: right;
+}
+
+.join-button {
+
 }
 
 .coolDown{
-    boarder:black solid 1px;
+    border: 1px solid black;
     background: #EEEEEE;
     text-align: center;
+    margin-bottom: 10px;
+}
+
+#cooldown-text {
+    height: 20px;
 }
 
 .container {
@@ -27,8 +174,10 @@ div {
     overflow:hidden;
 }
 
-.player-head {
+#player-table {
     float: left;
+    height: 400px;
+    overflow: scroll;
 }
 
 .player{
@@ -37,6 +186,27 @@ div {
     padding: 4px 1px; 
     margin: 3px;
     float: left; 
+}
+
+.remainingGuess {
+    font-size: 24px;
+
+}
+
+.remainText {
+    font-size: 24px;
+}
+
+.remainNumber {
+    font-size: 24px;
+}
+
+.wordLetters {
+    font-size: 24px;
+}
+
+.wordLetter {
+    font-size: 24px;
 }
 
 .alphabets {
@@ -53,7 +223,7 @@ div {
     padding: 4px 1px; 
     width: 30px;
     height: 30px;
-    margin: 3px; 
+    margin: 3px;
 }
 
 .alphabet-guessed{
@@ -67,7 +237,7 @@ div {
 
 #guessed-row {
     text-align: left;
-    margin-left: 30%;
+    margin-left: 20%;
 }
 
 .wordLetters{
@@ -76,17 +246,18 @@ div {
 
 .wordLetter{
 	display: inline-block;
-    font-size: 300%;
+    font-size: 100%;
     width: 1em;
     margin: 0px;
 }
 
 .guessedLetters, .remainingGuess, .navcon {
     text-align: left;
-/*    text-align: center;
-    padding: 10px; 
-    height: 20px; 
-*/
+    font-size: 24px;
+}
+
+.guessedLetter {
+    color: red;
 }
 
 .outcome-outline{
@@ -114,7 +285,6 @@ div {
 }
 
 .gallows{
-    height: 500px;
 }
 
 #gallowStructure {
@@ -149,16 +319,36 @@ div {
 }
 
 .navbar {
-    background-color: #c33;
     margin-bottom: 0px;
+    color: white;
+}
+
+.navbar a {
+    color: hsl(0, 60%, 72%);
+}
+
+.navbar a:hover {
+    color: #c33;
 }
 
 h1.game-title {
-
     background-color: #c33;
     color: white;
 }
 
 #player-col, #board-col {
     padding-top: 25px;
+}
+
+.board-col {
+    margin-top: 25px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+}
+
+footer img {
+    width: 100px;
 }

@@ -1,2 +1,7 @@
 /node_modules
 npm-debug.log
+firebaseConfig.js
+.DS_Store
+client/.DS_Store
+client/public/.DS_Store
+client/public/assets/.DS_Store
