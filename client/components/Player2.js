@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import Gallows from './Gallows.js';
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';
@@ -14,7 +15,6 @@ export default class Player2 extends React.Component {
       isDone: false,
       displayWord: [],
     };
-
     this.fbGame = firebase.database().ref(`/games/${this.props.roomId}/players/${this.props.playerId}`);
   }
 
@@ -32,38 +32,25 @@ export default class Player2 extends React.Component {
   }
 
   render() {
-    // PLAYER 2 READY
-    if (this.props.playerId) {
-      const guessedLettersUpper = this.state.guessedLetters.map(letter => letter.toUpperCase());
+  // PLAYER 2 READY
+    const guessedLettersUpper = this.state.guessedLetters.map(letter => letter.toUpperCase());
 
-      return (
-        <section id="player2" className="row">
-          <div className="col-sm-8">
-            <div className="panel panel-default board-col">
-              <h1>Player 2</h1>
-              <div id="guessed-row">
-                <GuessedLetters guessedLetters={guessedLettersUpper} />
-                <RemainingGuess remainingGuesses={this.state.remainingGuesses} />
-              </div>
-              <div id="theword-row">
-                <Word word={this.state.word} />
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-4 gallows-col">
-            <Gallows remainingGuesses={this.state.remainingGuesses} />
-          </div>
-        </section>
-      );
-    }
-
-    // WAITING FOR PLAYER 2
     return (
       <section id="player2" className="row">
         <div className="col-sm-8">
           <div className="panel panel-default board-col">
-            <h1>Waiting for Player 2</h1>
+            <h1>Player 2</h1>
+            <div id="guessed-row">
+              <GuessedLetters guessedLetters={guessedLettersUpper} />
+              <RemainingGuess remainingGuesses={this.state.remainingGuesses} />
+            </div>
+            <div id="theword-row">
+              <Word word={this.state.word} />
+            </div>
           </div>
+        </div>
+        <div className="col-sm-4 gallows-col">
+          <Gallows remainingGuesses={this.state.remainingGuesses} />
         </div>
       </section>
     );

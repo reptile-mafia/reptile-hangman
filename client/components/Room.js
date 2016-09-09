@@ -17,16 +17,17 @@ export default class Room extends React.Component {
       guessedLetters: [],
       remainingGuesses: 6,
       isDone: false,
-      player2: '',
+      player2: null,
       coolDown: 0,
       timeToContinue: 0,
       roomName: '',
       show: false,
       player: '',
+      totalPlayers: null,
     };
     this.outcome = {
-      win: true,
-      player: this.props.username,
+      win: false,
+      player: '',
     };
 
     this.fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
@@ -40,8 +41,8 @@ export default class Room extends React.Component {
       const done = gameData.child('isDone').val();
       console.log('game data:', gameData.val());
 
-      let player2 = Object.keys(gameData.child('players').val());
-      player2.splice(player2.indexOf(currentUserId), 1);
+      const players = Object.keys(gameData.child('players').val());
+      const player1 = players.splice(players.indexOf(currentUserId), 1);
 
       _this.setState({
         word: gameData.child(`/players/${currentUserId}/word`).val(),
@@ -53,7 +54,7 @@ export default class Room extends React.Component {
         isDone: done,
         timeToContinue: done ? 10 : 0,
         show: done || false,
-        player2: player2.pop(),
+        player2: players.length ? players[0] : null,
       });
     });
   }
@@ -63,7 +64,7 @@ export default class Room extends React.Component {
       this.outcome.win = true;
       console.log('WIN');
       this.fbGame.update({
-        isDone: true,
+        isDone: firebase.auth().currentUser.uid,
         displayWord: ['_'],
       });
       return;
@@ -71,10 +72,17 @@ export default class Room extends React.Component {
     if (this.state.remainingGuesses === 0) {
       this.outcome.win = false;
       console.log('LOSS');
-      this.fbGame.update({
-        isDone: true,
-        remainingGuesses: null,
-      });
+      if (this.state.totalPlayers === 1) {
+        this.fbGame.update({
+          isDone: firebase.auth().currentUser.uid,
+          remainingGuesses: null,
+        });
+      } else {
+        this.fbGame.update({
+          isDone: this.state.player2,
+          remainingGuesses: null,
+        });
+      }
       return;
     }
   }
@@ -159,10 +167,19 @@ export default class Room extends React.Component {
             </div>
 
             <div className="col-sm-6">
-              <Player2
-                roomId={this.props.roomId}
-                playerId={this.state.player2}
-              />
+              { this.state.player2
+                ? <Player2
+                  roomId={this.props.roomId}
+                  playerId={this.state.player2}
+                />
+                : <section id="player2" className="row">
+                  <div className="col-sm-8">
+                    <div className="panel panel-default board-col">
+                      <h1>Waiting for Player 2</h1>
+                    </div>
+                  </div>
+                </section>
+              }
             </div>
           </div>
         </div>

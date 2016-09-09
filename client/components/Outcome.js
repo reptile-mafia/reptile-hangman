@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import { Modal, Button } from 'react-bootstrap';
 
 export default class Outcome extends React.Component {
@@ -9,6 +10,7 @@ export default class Outcome extends React.Component {
       show: false,
       timeToContinue: 10,
       runOnce: false,
+      playerName: '',
     };
     this.timerId = null;
   }
@@ -54,7 +56,7 @@ export default class Outcome extends React.Component {
       if (this.state.timeToContinue > 0) {
         this.setState({
           timeToContinue: Math.floor(this.state.timeToContinue - 1),
-          show: true,
+          show: this.props.show,
         });
       } else {
         this.onQuit();
@@ -88,11 +90,11 @@ export default class Outcome extends React.Component {
         <Modal show={this.state.show} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>
-              {this.props.outcome.win ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
+              {this.state.show === firebase.auth().currentUser.uid ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {`${this.props.outcome.win ? 'WINNER IS ' : 'LOSER IS '} ${this.props.outcome.player}`}
+            {`WINNER IS ${this.state.show}`}
             <br />
             <br />
             <span>{`Next game in: ${this.state.timeToContinue} ${this.state.timeToContinue > 1 ? 'seconds' : 'second'}`}</span>
