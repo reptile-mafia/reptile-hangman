@@ -7,20 +7,33 @@ export default class Outcome extends React.Component {
     super(props);
     this.state = {
       show: false,
-      timeLeft: (this.props.timeUntilNextGame - (new Date()).getTime()) / 1000,
     };
   }
 
-  onPlayAgain() {
-    this.props.models.playAgain();
+  componentWillMount() {
+    this.setState({
+      show: this.props.show,
+    });
   }
 
-  // componentWillReceiveProps(){
-  //  console.log("OUTCOME RECEIVEPROPS", this.props);
-  //  this.setState({
-  //    show: this.props.show
-  //  })
+  // componentWillReceiveProps({ show }) {
+  //   this.setState({
+  //     show: true,
+  //   });
   // }
+
+  onPlayAgain() {
+    this.props.playAgain();
+    this.close();
+  }
+
+  close() {
+    this.setState({
+      show: false,
+      timeLeft: 0,
+    });
+  }
+
   countdown() {
     setInterval(() => {
       if (this.state.timeLeft > 0) {
@@ -35,50 +48,26 @@ export default class Outcome extends React.Component {
       }
     }, 1000);
   }
-
-  handleClose() {
-    this.hideModal();
-  }
-
-  close() {
-    this.setState({
-      show: false,
-    });
-  }
+            // <br />
+            // <br />
+            // <span>{`Next game in: ${this.state.timeLeft} ${this.state.timeLeft > 1 ? 'seconds' : 'second'}`}</span>
 
   render() {
-    // if(this.state.show){
-    //  var now = new Date();
-    //  var remaining = (this.props.timeUntilNextGame-now)/1000;
-    //  setTimeout(this.updateState.bind(this, remaining), 100)
-    // }
-    console.log('In Outcome', this.state.timeLeft);
-    // this.countdown();
-    // const timeLeft = (this.props.timeUntilNextGame - (new Date()).getTime()) / 1000;
-    this.state.show = this.props.show && (this.state.timeLeft > 0);
+    // console.log('In Outcome', this.state.timeLeft);
+    // this.state.show = this.props.show && (this.state.timeLeft > 0);
     return (
       <div className="outcome">
         <Modal show={this.state.show} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>{this.props.outcome.win ? 'WIN :D' : 'LOSE :('}</Modal.Title>
+            <Modal.Title>
+              {this.props.outcome.win ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.props.outcome.win ? 'WINNER IS ' : 'LOSER IS '}
-            {this.props.outcome.player.slice(10)}
-            <br />
-            <span> NEXT GAME IN:</span>
-            {
-              // <p>The word was <strong>#######</strong></p>
-            }
-            <span>
-            {
-            this.state.timeLeft.toPrecision(2)
-            }
-            </span>
-            <span> SECS</span>
+            {`${this.props.outcome.win ? 'WINNER IS ' : 'LOSER IS '} ${this.props.outcome.player}`}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.close.bind(this)}>Play Again</Button>
+            <Button onClick={e => this.onPlayAgain(e)}>Play Again</Button>
           </Modal.Footer>
         </Modal>
       </div>

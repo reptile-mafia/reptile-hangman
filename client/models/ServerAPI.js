@@ -77,4 +77,11 @@ export default class ServerAPI {
     });
     return correct;
   }
+
+  endGame(currentGameId) {
+    this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
+    return this.currentGame.update({
+      isDone: true,
+    });
+  }
 }
