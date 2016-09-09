@@ -36,22 +36,21 @@ export default class App extends React.Component {
     const currentUserId = firebase.auth().currentUser.uid;
     firebase.database().ref(`games/${roomId}`).once('value', gameData => {
       const totalPlayers = gameData.child('totalPlayers').val();
-      if (totalPlayers < 2) {
+      const playerList = Object.keys(gameData.child('players').val());
+      console.log('Player list', playerList);
+      if (totalPlayers < 2 || playerList.includes(currentUserId)) {
         this.setState({
           play: true,
           pageToRender: <Room returnToLobby={e => this.handleLobbyClick(e)} serverAPI={this.serverAPI} roomId={roomId} username={this.state.username} />,
         });
-      } else {
-        const playerList = Object.keys(gameData.child('players').val());
-        if ((playerList.length < 2 && !playerList.includes(currentUserId)) || (playerList.length === 2 && playerList.includes(currentUserId))) {
-          this.serverAPI.playAgain(currentUserId, roomId)
-          .then(() => {
-            this.setState({
-              play: true,
-              pageToRender: <Room returnToLobby={e => this.handleLobbyClick(e)} serverAPI={this.serverAPI} roomId={roomId} username={this.state.username} />,
-            });
+      } else if (totalPlayers === 2 && playerList.length < 2 && !playerList.includes(currentUserId)) {
+        this.serverAPI.addPlayer(currentUserId, roomId)
+        .then(() => {
+          this.setState({
+            play: true,
+            pageToRender: <Room returnToLobby={e => this.handleLobbyClick(e)} serverAPI={this.serverAPI} roomId={roomId} username={this.state.username} />,
           });
-        }
+        });
       }
     });
   }

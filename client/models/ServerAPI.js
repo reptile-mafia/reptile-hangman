@@ -51,7 +51,7 @@ export default class ServerAPI {
     const newWord = randomWord().toUpperCase();
     const displayArray = newWord.split('').map(() => '_');
     this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
-    return this.currentGame.child(`players/${playerId}`).update({
+    return this.currentGame.child(`players/${playerId}`).set({
       word: newWord.split(''),
       tries: 0,
       remainingGuesses: 6,
