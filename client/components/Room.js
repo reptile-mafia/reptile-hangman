@@ -40,8 +40,8 @@ export default class Room extends React.Component {
       const done = gameData.child('isDone').val();
       console.log('game data:', gameData.val());
 
-      let player2 = Object.keys(gameData.child('players').val());
-      player2.splice(player2.indexOf(currentUserId), 1);
+      const players = Object.keys(gameData.child('players').val());
+      const player1 = players.splice(players.indexOf(currentUserId), 1);
 
       _this.setState({
         word: gameData.child(`/players/${currentUserId}/word`).val(),
@@ -53,7 +53,7 @@ export default class Room extends React.Component {
         isDone: done,
         timeToContinue: done ? 10 : 0,
         show: done || false,
-        player2: player2.pop(),
+        player2: players.length ? players[0] : null,
       });
     });
   }
