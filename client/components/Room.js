@@ -17,7 +17,7 @@ export default class Room extends React.Component {
       guessedLetters: [],
       remainingGuesses: 6,
       isDone: false,
-      players: [],
+      player2: '',
       coolDown: 0,
       timeToContinue: 0,
       roomName: '',
@@ -28,6 +28,7 @@ export default class Room extends React.Component {
       win: true,
       player: this.props.username,
     };
+
     this.fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
   }
 
@@ -37,6 +38,10 @@ export default class Room extends React.Component {
       const currentUserId = firebase.auth().currentUser.uid;
       const done = gameData.child('isDone').val();
       console.log('game data:', gameData.val());
+
+      let player2 = Object.keys(gameData.child('players').val());
+      player2.splice(player2.indexOf(currentUserId), 1);
+
       _this.setState({
         word: gameData.child(`/players/${currentUserId}/word`).val(),
         displayWord: gameData.child(`/players/${currentUserId}/displayWord`).val(),
@@ -47,6 +52,7 @@ export default class Room extends React.Component {
         isDone: done,
         timeToContinue: done ? 10 : 0,
         show: done || false,
+        player2: player2.pop(),
       });
     });
   }
@@ -153,13 +159,8 @@ export default class Room extends React.Component {
 
             <div className="col-sm-6">
               <Player2
-                word={this.state.displayWord}
-                guessedLetters={guessedLettersUpper}
-                remainingGuesses={this.state.remainingGuesses}
-                serverAPI={this.props.serverAPI}
-                username={this.props.username}
-                makeGuess={e => this.makeGuess(e)}
-                roomName={this.state.roomName}
+                roomId={this.props.roomId}
+                playerId={this.state.player2}
               />
             </div>
           </div>
