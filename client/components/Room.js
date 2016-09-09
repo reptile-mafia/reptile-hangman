@@ -33,6 +33,7 @@ export default class Room extends React.Component {
   }
 
   componentWillMount() {
+    console.log('props: ', this.props);
     var _this = this;
     this.fbGame.on('value', (gameData) => {
       const currentUserId = firebase.auth().currentUser.uid;
@@ -186,11 +187,6 @@ export default class Room extends React.Component {
         // <button id="play-again" onClick={e => this.playAgain(e)}>Play Again</button>
 
   render() {
-    if (this.state.isDone && this.outcome.win) {
-      // this.recordWin();
-      console.log(this.state.players);
-    }
-
     console.log('RENDER ROOM', this.state);
     return (
       <div className="room">

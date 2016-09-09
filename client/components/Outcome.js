@@ -8,6 +8,7 @@ export default class Outcome extends React.Component {
     this.state = {
       show: false,
       timeToContinue: 10,
+      runOnce: false,
     };
     this.timerId = null;
   }
@@ -65,7 +66,22 @@ export default class Outcome extends React.Component {
     clearInterval(this.timerId);
   }
 
+  recordWin(uid) {
+    var winCountRef = firebase.database().ref('users/' + uid + '/winCount');
+    winCountRef.transaction((currentRank) => {
+      // If users/ada/rank has never been set, currentRank will be `null`.
+      return currentRank + 1;
+    });
+    this.setState({ runOnce: true });
+  }
+
   render() {
+    console.log('user: ', firebase.auth().currentUser.uid);
+
+    if (this.props.outcome.win && !this.state.runOnce) {
+      let user = firebase.auth().currentUser.uid;
+      this.recordWin(user);
+    }
     console.log('In Outcome', this.state.timeToContinue);
     return (
       <div className="outcome">
