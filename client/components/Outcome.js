@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 import { Modal, Button } from 'react-bootstrap';
 
 export default class Outcome extends React.Component {
@@ -73,7 +74,7 @@ export default class Outcome extends React.Component {
         <Modal show={this.state.show} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>
-              {this.props.outcome.win ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
+              {this.state.show === firebase.auth().currentUser.uid ? 'YOU\'RE A WINNER!!' : 'NOPE, TRY AGAIN'}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>

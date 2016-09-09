@@ -23,7 +23,7 @@ export default class Room extends React.Component {
       roomName: '',
       show: false,
       player: '',
-      playerTwoInRoom: false,
+      totalPlayers: null,
     };
     this.outcome = {
       win: false,
@@ -71,10 +71,17 @@ export default class Room extends React.Component {
     if (this.state.remainingGuesses === 0) {
       this.outcome.win = false;
       console.log('LOSS');
-      this.fbGame.update({
-        isDone: this.state.player2,
-        remainingGuesses: null,
-      });
+      if (this.state.totalPlayers === 1) {
+        this.fbGame.update({
+          isDone: firebase.auth().currentUser.uid,
+          remainingGuesses: null,
+        });
+      } else {
+        this.fbGame.update({
+          isDone: this.state.player2,
+          remainingGuesses: null,
+        });
+      }
       return;
     }
   }
@@ -115,12 +122,6 @@ export default class Room extends React.Component {
     winCountRef.transaction((currentRank) => {
       // If users/ada/rank has never been set, currentRank will be `null`.
       return currentRank + 1;
-    });
-  }
-
-  p2EntersRoom() {
-    this.setState({
-      playerTwoInRoom: true,
     });
   }
 
@@ -169,7 +170,6 @@ export default class Room extends React.Component {
                 ? <Player2
                   roomId={this.props.roomId}
                   playerId={this.state.player2}
-                  playerTwoEntersRoom={e => this.p2EntersRoom(e)}
                 />
                 : <section id="player2" className="row">
                   <div className="col-sm-8">
