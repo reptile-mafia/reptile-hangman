@@ -6,6 +6,10 @@ export default class Word extends React.Component {
     super(props);
   }
 
+  componentWillMount() {
+    console.log('word', this.props.word);
+  }
+
   render() {
     return (
       <div className="wordLetters">
