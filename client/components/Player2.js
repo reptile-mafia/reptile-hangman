@@ -45,7 +45,7 @@ export default class Player2 extends React.Component {
               <RemainingGuess remainingGuesses={this.state.remainingGuesses} />
             </div>
             <div id="theword-row">
-              <Word word={this.state.word} />
+              <Word word={this.state.displayWord} />
             </div>
           </div>
         </div>

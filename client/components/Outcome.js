@@ -101,7 +101,7 @@ export default class Outcome extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={e => this.onQuit(e)}>Quit</Button>
-            <Button onClick={e => this.onPlayAgain(e)}>Play Again</Button>
+            {this.props.singlePlayer ? <Button onClick={e => this.onPlayAgain(e)}>Play Again</Button> : null}
           </Modal.Footer>
         </Modal>
       </div>
