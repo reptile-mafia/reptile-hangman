@@ -127,8 +127,12 @@ export default class FrontLobby extends React.Component {
         {
           this.state.usersList.map((user, index) =>
             <li key={index} >
-              {`${user.name}   `}
-              {`wins: ${user.winCount}`}
+              <div className="col-xs-6">
+                {`${user.name}`}
+              </div>
+              <div className="col-xs-6">  
+                {`wins: ${user.winCount}`}
+              </div>
               <br />
             </li>
             )

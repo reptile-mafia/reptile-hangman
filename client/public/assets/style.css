@@ -29,6 +29,11 @@ div {
     text-align: left;
 }
 
+.users {
+    font-style:bold;
+}
+
+
 .join-button {
     float: right;
 }
