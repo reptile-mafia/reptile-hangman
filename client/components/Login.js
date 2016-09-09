@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import firebase from 'firebase';
 
 export default class Login extends React.Component {
@@ -130,6 +130,36 @@ export default class Login extends React.Component {
     });
   }
 
+              // <form id="login-information">
+              //   <input
+              //     type="text"
+              //     value={this.state.username}
+              //     placeholder="Enter name"
+              //     onChange={e => this.handleUserName(e)}
+              //   />
+              //   <br />
+              //   <input
+              //     type="password"
+              //     value={this.state.password}
+              //     placeholder="Enter password"
+              //     onChange={e => this.handlePassword(e)}
+              //   />
+              // </form>
+              // <form id="login-information">
+              //   <input
+              //     type="text"
+              //     value={this.state.username}
+              //     placeholder="Enter name"
+              //     onChange={e => this.handleUserName(e)}
+              //   />
+              //   <br />
+              //   <input
+              //     type="password"
+              //     value={this.state.password}
+              //     placeholder="Enter password"
+              //     onChange={e => this.handlePassword(e)}
+              //   />
+              // </form>
   render() {
     return (
       <div>
@@ -139,24 +169,27 @@ export default class Login extends React.Component {
               <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form id="login-information">
-                <input
-                  type="text"
+              <FormGroup controlId="formControlsEmail">
+                <ControlLabel>Email</ControlLabel>
+                <FormControl
+                  type="email"
                   value={this.state.username}
-                  placeholder="Enter name"
+                  placeholder="Enter email"
                   onChange={e => this.handleUserName(e)}
                 />
-                <br />
-                <input
+              </FormGroup>
+              <FormGroup controlId="formControlsPassword">
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
                   type="password"
                   value={this.state.password}
                   placeholder="Enter password"
                   onChange={e => this.handlePassword(e)}
                 />
-              </form>
+              </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button type="submit" onClick={e => this.switchState(e)}>Click to Sign Up</Button>              
+              <Button type="submit" onClick={e => this.switchState(e)}>Click to Sign Up</Button>
               <Button type="submit" onClick={e => this.handleSignIn(e)}>Login</Button>
             </Modal.Footer>
           </Modal>
@@ -167,21 +200,24 @@ export default class Login extends React.Component {
               <Modal.Title>Sign Up</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form id="login-information">
-                <input
-                  type="text"
+              <FormGroup controlId="formControlsEmail">
+                <ControlLabel>Email</ControlLabel>
+                <FormControl
+                  type="email"
                   value={this.state.username}
-                  placeholder="Enter name"
+                  placeholder="Enter email"
                   onChange={e => this.handleUserName(e)}
                 />
-                <br />
-                <input
+              </FormGroup>
+              <FormGroup controlId="formControlsPassword">
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
                   type="password"
                   value={this.state.password}
                   placeholder="Enter password"
                   onChange={e => this.handlePassword(e)}
                 />
-              </form>
+              </FormGroup>
             </Modal.Body>
             <Modal.Footer>
               <Button type="submit" onClick={e => this.switchState(e)}>Return to Login</Button>
