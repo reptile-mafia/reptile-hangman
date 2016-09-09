@@ -100,19 +100,22 @@ export default class FrontLobby extends React.Component {
       <ul className="room-list-item">
         {
           this.state.roomsList.map((room, index) =>
-            <li key={index}>
-              {`id: ${room.id}`}
-              <br />
-              {`name: ${room.name}`}
-              <br />
-              {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}
-              <br />
-              {`# of players: ${room.players.length}`}
-              <br />
-              <button
-                className="btn join-button"
-                onClick={() => this.handleJoinRoom(room.id)}
-              >Join</button>
+            <li key={index} className="row">
+              <div className="col-sm-8">
+                {`id: ${room.id}`}
+                <br />
+                {`name: ${room.name}`}
+                <br />
+                {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}
+                <br />
+                {`# of players: ${room.players.length}`}
+                <br />
+              </div>
+              <div className="col-sm-4">
+                <button className="btn join-button" onClick={() => this.handleJoinRoom(room.id)} >
+                  Join
+                </button>
+              </div>
             </li>
             )
         }
@@ -159,7 +162,7 @@ export default class FrontLobby extends React.Component {
     return (
       <div>
         { this.showCreateGame() }
-        <h1>Welcome to Hangman, {this.props.username}!</h1>
+        <h1 className="welcome">Welcome to Hangman, {this.props.username}!</h1>
         <div className="container">
           <div className="row">
             <div className="col-xs-3">

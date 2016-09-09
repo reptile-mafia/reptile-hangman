@@ -10,6 +10,7 @@ export default class ServerAPI {
 
   createGame(playerId, newGameObj) {
     const newWord = randomWord().toUpperCase();
+    const displayArray = newWord.split('').map(() => '_');
     const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
     this.newGame = this.fbGames.push();
     return this.newGame.set({
@@ -22,6 +23,7 @@ export default class ServerAPI {
           tries: 0,
           remainingGuesses: 6,
           guessedLetters: [],
+          displayWord: displayArray,
         },
       ],
       totalPlayers: totalPlayerAmount,

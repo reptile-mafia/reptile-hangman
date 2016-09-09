@@ -13,15 +13,42 @@ body {
 }
 
 main {
-    background-color: white;
-    padding: 25px 0 50px;
+    background: #fcfcfc; /* Old browsers */
+    background: linear-gradient(to bottom,  #fcfcfc 0%,#d1d1d1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+    padding: 0 0 50px;
 }
 
-div {
+/*div {
     text-align: center;
+}*/
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+.panel {
+    padding: 30px;
+}
+
+.panel h1, .panel h2 {
+    margin-top: 2px;
+    padding-bottom: 10px;
+    /*border-bottom: 1px solid #ccc;*/
+}
+
+.welcome {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 0;
 }
 
 .room-list-item li {
+    background: white;
     border: 1px solid black;
     padding: 10px 10px 15px 10px;
     margin: 5px 0px 5px 0px;
@@ -157,7 +184,6 @@ div {
 }
 
 .gallows{
-    height: 500px;
 }
 
 #gallowStructure {
@@ -213,8 +239,12 @@ h1.game-title {
     padding-top: 25px;
 }
 
+.board-col {
+    margin-top: 25px;
+}
+
 footer {
-    text-align: left;
+    text-align: center;
     padding: 20px 0;
 }
 

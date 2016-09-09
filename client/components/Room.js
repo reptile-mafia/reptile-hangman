@@ -110,50 +110,51 @@ export default class Room extends React.Component {
     console.log('total players', this.state.totalPlayers);
     if (this.state.totalPlayers === 1) {
       return (
-        <div className="row">
-
-          <div className="col-sm-12">
-            <Player1
-              word={this.state.displayWord}
-              guessedLetters={guessedLettersUpper}
-              remainingGuesses={this.state.remainingGuesses}
-              serverAPI={this.props.serverAPI}
-              coolDown={this.state.coolDown}
-              username={this.props.username}
-              makeGuess={e => this.makeGuess(e)}
-            />
-          </div>
-
-          <div className="col-xs-12 col-sm-2" id="player-col">
-            <Players players={this.state.players} />
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
+              <Player1
+                word={this.state.displayWord}
+                guessedLetters={guessedLettersUpper}
+                remainingGuesses={this.state.remainingGuesses}
+                serverAPI={this.props.serverAPI}
+                coolDown={this.state.coolDown}
+                username={this.props.username}
+                makeGuess={e => this.makeGuess(e)}
+                roomName={this.state.roomName}
+              />
+            </div>
           </div>
         </div>
       );
     } else {
       return (
-        <div className="row">
+        <div className="container-fluid">
+          <div className="row">
 
-          <div className="col-sm-6">
-            <Player1
-              word={this.state.word}
-              guessedLetters={guessedLettersUpper}
-              remainingGuesses={this.state.remainingGuesses}
-              serverAPI={this.props.serverAPI}
-              coolDown={this.state.coolDown}
-              makeGuess={e => this.makeGuess(e)}
-            />
-          </div>
+            <div className="col-sm-6">
+              <Player1
+                word={this.state.displayWord}
+                guessedLetters={guessedLettersUpper}
+                remainingGuesses={this.state.remainingGuesses}
+                serverAPI={this.props.serverAPI}
+                username={this.props.username}
+                makeGuess={e => this.makeGuess(e)}
+                roomName={this.state.roomName}
+              />
+            </div>
 
-          <div className="col-sm-6">
-            <Player2
-              word={this.state.word}
-              guessedLetters={guessedLettersUpper}
-              remainingGuesses={this.state.remainingGuesses}
-            />
-          </div>
-
-          <div className="col-xs-12 col-sm-2" id="player-col">
-            <Players players={this.state.players} />
+            <div className="col-sm-6">
+              <Player2
+                word={this.state.displayWord}
+                guessedLetters={guessedLettersUpper}
+                remainingGuesses={this.state.remainingGuesses}
+                serverAPI={this.props.serverAPI}
+                username={this.props.username}
+                makeGuess={e => this.makeGuess(e)}
+                roomName={this.state.roomName}
+              />
+            </div>
           </div>
         </div>
       );
