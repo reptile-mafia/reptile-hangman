@@ -14,7 +14,7 @@ export default class ServerAPI {
     const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
     this.newGame = this.fbGames.push();
     const gameObj = {
-      id: playerId,
+      // id: playerId,
       word: newWord.split(''),
       tries: 0,
       remainingGuesses: 6,
@@ -32,6 +32,22 @@ export default class ServerAPI {
   }
 
   playAgain(playerId, currentGameId) {
+    const newWord = randomWord().toUpperCase();
+    const displayArray = newWord.split('').map(() => '_');
+    this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
+    return this.currentGame.child(`players/${playerId}`).update({
+      word: newWord.split(''),
+      tries: 0,
+      remainingGuesses: 6,
+      guessedLetters: [],
+      displayWord: displayArray,
+    })
+    .then(() => this.currentGame.update({
+      isDone: false,
+    }));
+  }
+
+  addPlayer(playerId, currentGameId) {
     const newWord = randomWord().toUpperCase();
     const displayArray = newWord.split('').map(() => '_');
     this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
