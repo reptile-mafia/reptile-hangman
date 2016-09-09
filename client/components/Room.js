@@ -25,8 +25,8 @@ export default class Room extends React.Component {
       player: '',
     };
     this.outcome = {
-      win: true,
-      player: this.props.username,
+      win: false,
+      player: '',
     };
 
     this.fbGame = firebase.database().ref(`/games/${this.props.roomId}`);
@@ -61,9 +61,10 @@ export default class Room extends React.Component {
   componentDidUpdate() {
     if (this.state.word.join('') === this.state.displayWord.join('')) {
       this.outcome.win = true;
+      this.outcome.
       console.log('WIN');
       this.fbGame.update({
-        isDone: true,
+        isDone: firebase.auth().currentUser.uid,
         displayWord: ['_'],
       });
       return;
@@ -72,7 +73,7 @@ export default class Room extends React.Component {
       this.outcome.win = false;
       console.log('LOSS');
       this.fbGame.update({
-        isDone: true,
+        isDone: this.state.player2,
         remainingGuesses: null,
       });
       return;

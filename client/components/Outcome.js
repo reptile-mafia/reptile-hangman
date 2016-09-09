@@ -9,6 +9,7 @@ export default class Outcome extends React.Component {
       show: false,
       timeToContinue: 10,
       runOnce: false,
+      playerName: '',
     };
     this.timerId = null;
   }
@@ -92,7 +93,7 @@ export default class Outcome extends React.Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {`${this.props.outcome.win ? 'WINNER IS ' : 'LOSER IS '} ${this.props.outcome.player}`}
+            {`WINNER IS ${this.state.show}`}
             <br />
             <br />
             <span>{`Next game in: ${this.state.timeToContinue} ${this.state.timeToContinue > 1 ? 'seconds' : 'second'}`}</span>
