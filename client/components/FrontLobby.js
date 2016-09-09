@@ -111,7 +111,7 @@ export default class FrontLobby extends React.Component {
                 <br />
                 {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}
                 <br />
-                {`# of players: ${room.players.length === undefined ? 0 : room.players.length}`}
+                {`# of players: ${Object.keys(room.players).length}`}
                 <br />
               </div>
               <div className="col-sm-4 join-game">
