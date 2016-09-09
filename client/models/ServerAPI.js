@@ -13,19 +13,19 @@ export default class ServerAPI {
     const displayArray = newWord.split('').map(() => '_');
     const totalPlayerAmount = newGameObj.type === 'singlePlayer' ? 1 : 2;
     this.newGame = this.fbGames.push();
-    return this.newGame.set({
+    const gameObj = {
+      id: playerId,
+      word: newWord.split(''),
+      tries: 0,
+      remainingGuesses: 6,
+      guessedLetters: [],
+      displayWord: displayArray,
+    };
+
+    this.newGame.child('players/' + playerId).set(gameObj);
+    return this.newGame.update({
       name: newGameObj.name,
       active: true,
-      players: [
-        {
-          id: playerId,
-          word: newWord.split(''),
-          tries: 0,
-          remainingGuesses: 6,
-          guessedLetters: [],
-          displayWord: displayArray,
-        },
-      ],
       totalPlayers: totalPlayerAmount,
       isDone: false,
     });
