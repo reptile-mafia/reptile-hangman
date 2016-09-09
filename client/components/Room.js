@@ -203,7 +203,6 @@ export default class Room extends React.Component {
           />
           : null
         }
-        <h2>{this.state.roomName}</h2>
         <div className="container-fluid">
           { this.selectGameMode() }
         </div>
