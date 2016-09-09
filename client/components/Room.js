@@ -17,12 +17,13 @@ export default class Room extends React.Component {
       guessedLetters: [],
       remainingGuesses: 6,
       isDone: false,
-      player2: '',
+      player2: null,
       coolDown: 0,
       timeToContinue: 0,
       roomName: '',
       show: false,
       player: '',
+      playerTwoInRoom: false,
     };
     this.outcome = {
       win: false,
@@ -118,6 +119,12 @@ export default class Room extends React.Component {
     });
   }
 
+  p2EntersRoom() {
+    this.setState({
+      playerTwoInRoom: true,
+    });
+  }
+
   selectGameMode() {
     const guessedLettersUpper = this.state.guessedLetters !== null ? this.state.guessedLetters.map(letter => letter.toUpperCase()) : [];
 
@@ -159,10 +166,20 @@ export default class Room extends React.Component {
             </div>
 
             <div className="col-sm-6">
-              <Player2
-                roomId={this.props.roomId}
-                playerId={this.state.player2}
-              />
+              { this.state.player2
+                ? <Player2
+                  roomId={this.props.roomId}
+                  playerId={this.state.player2}
+                  playerTwoEntersRoom={e => this.p2EntersRoom(e)}
+                />
+                : <section id="player2" className="row">
+                  <div className="col-sm-8">
+                    <div className="panel panel-default board-col">
+                      <h1>Waiting for Player 2</h1>
+                    </div>
+                  </div>
+                </section>
+              }
             </div>
           </div>
         </div>
