@@ -35,7 +35,7 @@ export default class App extends React.Component {
     console.log('roomId', roomId);
     this.setState({
       play: true,
-      pageToRender: <Room serverAPI={this.serverAPI} roomId={roomId} username={this.state.username} />,
+      pageToRender: <Room returnToLobby={e => this.handleLobbyClick(e)} serverAPI={this.serverAPI} roomId={roomId} username={this.state.username} />,
     });
   }
 

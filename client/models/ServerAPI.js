@@ -50,6 +50,11 @@ export default class ServerAPI {
     });
   }
 
+  endGame(currentGameId) {
+    this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
+    return this.currentGame.set(null);
+  }
+
   makeGuess(guess, word, displayWord, currentGameId) {
     let correct = false;
     word.forEach((letter, index) => {
@@ -80,10 +85,10 @@ export default class ServerAPI {
     return correct;
   }
 
-  endGame(currentGameId) {
-    this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
-    return this.currentGame.update({
-      isDone: true,
-    });
-  }
+  // endGame(currentGameId) {
+  //   this.currentGame = firebase.database().ref(`/games/${currentGameId}`);
+  //   return this.currentGame.update({
+  //     isDone: true,
+  //   });
+  // }
 }

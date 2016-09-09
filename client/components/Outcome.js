@@ -7,20 +7,34 @@ export default class Outcome extends React.Component {
     super(props);
     this.state = {
       show: false,
+      timeToContinue: 10,
     };
+    this.timerId = null;
   }
 
   componentWillMount() {
     this.setState({
       show: this.props.show,
+      timeToContinue: this.props.timeToContinue,
     });
   }
 
-  // componentWillReceiveProps({ show }) {
-  //   this.setState({
-  //     show: true,
-  //   });
-  // }
+  componentDidMount() {
+    if (this.state.timeToContinue > 0) {
+      this.startCountdown();
+    }
+  }
+
+  componentDidUpdate() {
+    // if (this.state.timeToContinue < 1) {
+    //   this.endCountdown();
+    // }
+  }
+
+  onQuit() {
+    this.props.endGame();
+    this.close();
+  }
 
   onPlayAgain() {
     this.props.playAgain();
@@ -28,33 +42,31 @@ export default class Outcome extends React.Component {
   }
 
   close() {
+    this.endCountdown();
     this.setState({
       show: false,
-      timeLeft: 0,
     });
   }
 
-  countdown() {
-    setInterval(() => {
-      if (this.state.timeLeft > 0) {
+  startCountdown() {
+    this.timerId = setInterval(() => {
+      if (this.state.timeToContinue > 0) {
         this.setState({
-          timeLeft: Math.floor(this.state.timeLeft - 1),
+          timeToContinue: Math.floor(this.state.timeToContinue - 1),
           show: true,
         });
       } else {
-        this.setState({
-          show: false,
-        });
+        this.onQuit();
       }
     }, 1000);
   }
-            // <br />
-            // <br />
-            // <span>{`Next game in: ${this.state.timeLeft} ${this.state.timeLeft > 1 ? 'seconds' : 'second'}`}</span>
+
+  endCountdown() {
+    clearInterval(this.timerId);
+  }
 
   render() {
-    // console.log('In Outcome', this.state.timeLeft);
-    // this.state.show = this.props.show && (this.state.timeLeft > 0);
+    console.log('In Outcome', this.state.timeToContinue);
     return (
       <div className="outcome">
         <Modal show={this.state.show} onHide={this.close}>
@@ -65,8 +77,12 @@ export default class Outcome extends React.Component {
           </Modal.Header>
           <Modal.Body>
             {`${this.props.outcome.win ? 'WINNER IS ' : 'LOSER IS '} ${this.props.outcome.player}`}
+            <br />
+            <br />
+            <span>{`Next game in: ${this.state.timeToContinue} ${this.state.timeToContinue > 1 ? 'seconds' : 'second'}`}</span>
           </Modal.Body>
           <Modal.Footer>
+            <Button onClick={e => this.onQuit(e)}>Quit</Button>
             <Button onClick={e => this.onPlayAgain(e)}>Play Again</Button>
           </Modal.Footer>
         </Modal>
