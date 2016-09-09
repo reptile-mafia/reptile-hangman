@@ -105,6 +105,30 @@ h2 {
     text-align: right;
 }
 
+.leaderboard-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items:stretch;
+}
+
+.leaderboard-item:before {
+    content: counter(mycounter);
+    counter-increment: mycounter;
+}
+
+.leaderboard-name {
+    display: block;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.leaderboard-score {
+    display: block;
+    text-align: right;
+    flex-grow: 1;
+    text-align: right;
+}
+
 .users {
     font-style:bold;
 }
