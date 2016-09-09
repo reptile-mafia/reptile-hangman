@@ -188,6 +188,27 @@ h2 {
     float: left; 
 }
 
+.remainingGuess {
+    font-size: 24px;
+
+}
+
+.remainText {
+    font-size: 24px;
+}
+
+.remainNumber {
+    font-size: 24px;
+}
+
+.wordLetters {
+    font-size: 24px;
+}
+
+.wordLetter {
+    font-size: 24px;
+}
+
 .alphabets {
     max-width: 330px;
     margin: 40px auto;
@@ -216,7 +237,7 @@ h2 {
 
 #guessed-row {
     text-align: left;
-    margin-left: 30%;
+    margin-left: 20%;
 }
 
 .wordLetters{
@@ -232,6 +253,11 @@ h2 {
 
 .guessedLetters, .remainingGuess, .navcon {
     text-align: left;
+    font-size: 24px;
+}
+
+.guessedLetter {
+    color: red;
 }
 
 .outcome-outline{

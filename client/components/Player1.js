@@ -29,8 +29,8 @@ export default class Player1 extends React.Component {
         </div>
         <div className="col-sm-8">
           <div className="panel panel-default board-col">
-            <h1>Player 1: {this.props.username}</h1>
-            <h2>Game: {this.props.roomName}</h2>
+            <h1>Player 1:  {this.props.username}</h1>
+            <h2>Game:  {this.props.roomName}</h2>
             <div id="guessed-row">
               <GuessedLetters guessedLetters={guessedLettersUpper} />
               <RemainingGuess remainingGuesses={this.props.remainingGuesses} />
