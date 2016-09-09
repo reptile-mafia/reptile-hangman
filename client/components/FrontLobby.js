@@ -126,12 +126,18 @@ export default class FrontLobby extends React.Component {
   showUserScoreboard() {
     return (
       <ol className="user-list-item">
+        <li>
+        <div className="leaderboard-header">
+          <span className="leaderboard-header-name">Name</span>
+          <span className="leaderboard-header-win">Wins</span>
+        </div>
+        </li>
         {
           this.state.usersList.map((user, index) =>
             <li key={index}>
               <div className="leaderboard-item">
-                <span className="leaderboard-name">{`${user.name}`}</span>
-                <span className="leaderboard-score">{`wins: ${user.winCount}`}</span>
+                <span className="leaderboard-name">{user.name}</span>
+                <span className="leaderboard-score">{user.winCount}</span>
               </div>
             </li>
             )
