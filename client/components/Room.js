@@ -60,7 +60,6 @@ export default class Room extends React.Component {
   componentDidUpdate() {
     if (this.state.word.join('') === this.state.displayWord.join('')) {
       this.outcome.win = true;
-      this.outcome.
       console.log('WIN');
       this.fbGame.update({
         isDone: firebase.auth().currentUser.uid,
