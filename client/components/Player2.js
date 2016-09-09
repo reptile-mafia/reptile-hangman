@@ -31,11 +31,6 @@ export default class Player2 extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    console.log('UPDATING...');
-    this.props.p2EntersRoom();
-  }
-
   render() {
   // PLAYER 2 READY
     const guessedLettersUpper = this.state.guessedLetters.map(letter => letter.toUpperCase());
