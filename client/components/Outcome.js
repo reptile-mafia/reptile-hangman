@@ -11,6 +11,7 @@ export default class Outcome extends React.Component {
       timeToContinue: 10,
       runOnce: false,
       playerName: '',
+      solution: '',
     };
     this.timerId = null;
   }
@@ -19,6 +20,7 @@ export default class Outcome extends React.Component {
     this.setState({
       show: this.props.show,
       timeToContinue: this.props.timeToContinue,
+      solution: this.props.solution,
     });
   }
 
@@ -96,6 +98,7 @@ export default class Outcome extends React.Component {
           <Modal.Body>
             {this.props.singlePlayer ? '' : `WINNER IS ${this.state.show}`}
             <br />
+            {`The word was: ${this.state.solution}`}
             <br />
             <span>{`Next game in: ${this.state.timeToContinue} ${this.state.timeToContinue > 1 ? 'seconds' : 'second'}`}</span>
           </Modal.Body>

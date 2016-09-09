@@ -215,6 +215,7 @@ export default class Room extends React.Component {
             playAgain={e => this.playAgain(e)}
             endGame={e => this.endGame(e)}
             singlePlayer={this.state.totalPlayers === 1}
+            solution={this.state.word.join('')}
           />
           : null
         }
