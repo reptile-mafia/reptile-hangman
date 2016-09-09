@@ -106,13 +106,11 @@ export default class FrontLobby extends React.Component {
           this.state.roomsList.map((room, index) =>
             <li key={index} className="row">
               <div className="col-sm-8">
-                {`id: ${room.id}`}
-                <br />
-                {`name: ${room.name}`}
+                {`room: ${room.name}`}
                 <br />
                 {`type: ${room.totalPlayers === 1 ? 'Single Player' : 'Head To Head'}`}
                 <br />
-                {`# of players: ${room.players.length}`}
+                {`# of players: ${room.players.length === undefined ? 0 : room.players.length}`}
                 <br />
               </div>
               <div className="col-sm-4 join-game">
