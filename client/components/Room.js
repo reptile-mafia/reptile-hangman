@@ -34,15 +34,16 @@ export default class Room extends React.Component {
   componentWillMount() {
     var _this = this;
     this.fbGame.on('value', (gameData) => {
+      const currentUserId = firebase.auth().currentUser.uid;
       const done = gameData.child('isDone').val();
       console.log('game data:', gameData.val());
       _this.setState({
-        word: gameData.child('/players/0/word').val(),
-        displayWord: gameData.child('/players/0/displayWord').val(),
+        word: gameData.child(`/players/${currentUserId}/word`).val(),
+        displayWord: gameData.child(`/players/${currentUserId}/displayWord`).val(),
         roomName: gameData.child('name').val(),
         totalPlayers: gameData.child('totalPlayers').val(),
-        guessedLetters: gameData.child('/players/0/guessedLetters').val() || [],
-        remainingGuesses: gameData.child('players/0/remainingGuesses').val(),
+        guessedLetters: gameData.child(`/players/${currentUserId}/guessedLetters`).val() || [],
+        remainingGuesses: gameData.child(`/players/${currentUserId}/remainingGuesses`).val(),
         isDone: done,
         timeToContinue: done ? 10 : 0,
         show: done || false,
@@ -101,17 +102,6 @@ export default class Room extends React.Component {
       show: false,
     });
   }
-
-  // showOutcome() {
-  //   return this.state.isDone
-  //   ? <Outcome
-  //     show={this.state.isDone}
-  //     playAgain={e => this.playAgain(e)}
-  //     outcome={this.outcome}
-  //     word={this.state.word.join('')}
-  //   />
-  //   : null;
-  // }
 
   recordWin() {
     var winCountRef = firebase.database().ref('users/cH74Wy1ASje2tx7TKrnUFvJNrxe2/winCount');
@@ -218,7 +208,6 @@ export default class Room extends React.Component {
           { this.selectGameMode() }
         </div>
       </div>
-
     );
   }
 

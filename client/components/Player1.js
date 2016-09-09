@@ -1,6 +1,5 @@
 import React from 'react';
 import Gallows from './Gallows.js';
-import Outcome from './Outcome.js';
 import Alphabets from './Alphabets.js';
 import GuessedLetters from './GuessedLetters.js';
 import RemainingGuess from './RemainingGuess.js';

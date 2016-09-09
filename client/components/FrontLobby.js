@@ -10,7 +10,8 @@ export default class FrontLobby extends React.Component {
       usersList: [],
       showCreate: false,
       fbGames: firebase.database().ref('games'),
-      fbUsers: firebase.database().ref('users/'),
+      fbUsers: firebase.database().ref('users'),
+      currentUserId: firebase.auth().currentUser.uid,
     };
   }
 
@@ -19,12 +20,15 @@ export default class FrontLobby extends React.Component {
       console.log('raw data', data.val());
       const roomArray = [];
       data.forEach(room => {
-        roomArray.push({
-          id: room.key,
-          name: room.child('name').val(),
-          players: room.child('players').val(),
-          totalPlayers: room.child('totalPlayers').val(),
-        });
+        const playerKeys = Object.keys(room.child('players').val());
+        if (playerKeys.includes(this.state.currentUserId) || playerKeys.length < room.child('totalPlayers').val()) {
+          roomArray.push({
+            id: room.key,
+            name: room.child('name').val(),
+            players: room.child('players').val(),
+            totalPlayers: room.child('totalPlayers').val(),
+          });
+        }
       }); // end data.forEach
       console.log('processed data', roomArray);
 
@@ -51,14 +55,14 @@ export default class FrontLobby extends React.Component {
 
 
   userCompare(a, b) {
-      if (a.winCount > b.winCount) { //is less than b by some ordering criterion)
-        return -1;
-      }
-      if (a.winCount < b.winCount) { //is greater than b by the ordering criterion) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
+    if (a.winCount > b.winCount) { // is less than b by some ordering criterion)
+      return -1;
+    }
+    if (a.winCount < b.winCount) { // is greater than b by the ordering criterion) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
   }
 
   handleJoinRoom(id) {
