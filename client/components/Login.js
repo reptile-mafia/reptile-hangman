@@ -36,6 +36,7 @@ export default class Login extends React.Component {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode, ': ', errorMessage);
+        alert ('Error: ' + errorMessage);
       });
   }
 
@@ -54,39 +55,43 @@ export default class Login extends React.Component {
           });
       })
       .catch((error) => {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode, ': ', errorMessage);
+        alert ('Error: ' + errorMessage);
       });
   }
 
+  /* Abandoned Facebook Login 
   facebookLogin() {
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithRedirect(provider)
-    .then(function(e){
+    .then(function(e) {
       firebase.auth().getRedirectResult()
-      .then(function(result) {
+      .then(function (result) {
         if (result.credential) {
           var token = result.credential.accessToken;
-          console.log("token = ", token);
+          console.log('token = ', token);
         }
         var user = result.user;
-        console.log("user = ", user);
+        console.log('user = ', user);
       })
-      .catch(function(error) {
-        // Handle Errors here.
+      .catch(function (error) {
+        console.log("Error on facebookLogin = ", error);
         var errorCode = error.code;
         var errorMessage = error.message;
+
         console.log(errorCode, ': ', errorMessage);
+        alert ('Error: ' + errorMessage + '\n' + 'Code: ' + errorCode);
+
         // The email of the user's account used.
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        // ...
       });
     });
   }
+  */
 
   writeUserData(uid, username) {
     return firebase.database().ref('users/' + uid).set({
@@ -151,8 +156,8 @@ export default class Login extends React.Component {
               </form>
             </Modal.Body>
             <Modal.Footer>
-              <Button type="submit" onClick={e => this.handleSignIn(e)}>Sign In</Button>
-              <Button type="submit" onClick={e => this.switchState(e)}>Click here to Sign Up</Button>
+              <Button type="submit" onClick={e => this.switchState(e)}>Click to Sign Up</Button>              
+              <Button type="submit" onClick={e => this.handleSignIn(e)}>Login</Button>
             </Modal.Footer>
           </Modal>
         </div>
@@ -179,7 +184,7 @@ export default class Login extends React.Component {
               </form>
             </Modal.Body>
             <Modal.Footer>
-              <Button type="submit" onClick={e => this.switchState(e)}>Return to Sign In</Button>
+              <Button type="submit" onClick={e => this.switchState(e)}>Return to Login</Button>
               <Button type="submit" onClick={e => this.handleSignUp(e)}>Sign Up</Button>
             </Modal.Footer>
           </Modal>
