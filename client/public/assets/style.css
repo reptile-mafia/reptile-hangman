@@ -246,7 +246,7 @@ h2 {
 
 .wordLetter{
 	display: inline-block;
-    font-size: 300%;
+    font-size: 100%;
     width: 1em;
     margin: 0px;
 }
