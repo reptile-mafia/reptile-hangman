@@ -43,6 +43,7 @@ export default class FrontLobby extends React.Component {
           }); // end .push
         }); // end data.forEach
         usersArray.sort(this.userCompare);
+        usersArray.splice(10);
         console.log("usersArray = ", usersArray);
 
         this.setState({
