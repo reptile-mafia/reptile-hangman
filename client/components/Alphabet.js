@@ -1,27 +1,42 @@
 import React from 'react';
+import keydown from 'react-keydown';
 
-export default class Alphabet extends React.Component {
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-	constructor(props) {
-		super(props);
-	}
+class Alphabet extends React.Component {
 
-	isActive(){
-		return 'alphabet '+ ((this.props.guessed) ? 'alphabet-guessed':'alphabet-active');
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      keypress: '',
+      letter: this.props.letter,
+    };
+  }
 
-	onAlphabetClick(e){
-		console.log(this.props.alphabet);
-		if(!this.props.guessed){
-			this.props.serverAPI.makeGuess(this.props.alphabet);
-		}
-	}
+  componentWillReceiveProps({ keydown }) {
+    if (keydown.event) {
+      this.props.serverAPI.makeGuess(keydown.event.key);
+    }
+  }
 
-	render() {
-		return ( 
-			< div className = {this.isActive()} onClick = {(e)=>{this.onAlphabetClick(e)}}> 
-				{ this.props.alphabet} 
-			< /div>
-		)
-	}
+  onAlphabetClick() {
+    console.log(this.props.letter);
+    if (!this.props.guessed) {
+      this.props.makeGuess(this.state.letter);
+    }
+  }
+
+  isActive() {
+    return `alphabet btn ${((this.props.guessed) ? 'alphabet-guessed' : 'alphabet-active')}`;
+  }
+
+  render() {
+    return (
+      <button className={this.isActive()} onClick={(e) => { this.onAlphabetClick(e); }}>
+        {this.state.letter}
+      </button>
+    );
+  }
 }
+
+export default keydown(letters)(Alphabet);
