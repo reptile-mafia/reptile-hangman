@@ -43,15 +43,15 @@ export default class Player2 extends React.Component {
               <h1>Player 2</h1>
               <div id="guessed-row">
                 <GuessedLetters guessedLetters={guessedLettersUpper} />
-                <RemainingGuess remainingGuesses={this.props.remainingGuesses} />
+                <RemainingGuess remainingGuesses={this.state.remainingGuesses} />
               </div>
               <div id="theword-row">
-                <Word word={this.props.word} />
+                <Word word={this.state.word} />
               </div>
             </div>
           </div>
           <div className="col-sm-4 gallows-col">
-            <Gallows remainingGuesses={this.props.remainingGuesses} />
+            <Gallows remainingGuesses={this.state.remainingGuesses} />
           </div>
         </section>
       );
